@@ -3,13 +3,13 @@ package com.filiera.facile.utils;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public final class ValidationUtils {
+public final class UtilsValidazione {
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"
     );
 
-    private  ValidationUtils(){}
+    private UtilsValidazione(){}
 
     public static String validateEmail(String email) {
         Objects.requireNonNull(email, "Email non può essere null");

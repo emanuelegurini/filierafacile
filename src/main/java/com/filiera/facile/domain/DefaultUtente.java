@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.filiera.facile.utils.ValidationUtils.validateEmail;
+import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 
 public class DefaultUtente {
     private final UUID id;
