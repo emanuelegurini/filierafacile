@@ -1,0 +1,32 @@
+package com.filiera.facile.repository;
+
+import com.filiera.facile.domain.DefaultAzienda;
+import com.filiera.facile.model.interfaces.AziendaRepository;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class DefaultAziendaRepository implements AziendaRepository {
+
+    private final Map<UUID, DefaultAzienda> database = new ConcurrentHashMap<>();
+
+    @Override
+    public void save (DefaultAzienda defaultAzienda) {
+        System.out.println("INFO: Salvataggio del azienda '" + defaultAzienda.getRagioneSociale() + "' in memoria.");
+        database.put(defaultAzienda.getId(), defaultAzienda);
+    }
+
+    @Override
+    public Optional<DefaultAzienda> findById(UUID id) {
+        return Optional.ofNullable(database.get(id));
+    }
+
+    @Override
+    public Optional<DefaultAzienda> findByPartitaIva(String partitaIva) {
+        return database.values().stream()
+                .filter(azienda -> azienda.getPartitaIva().equalsIgnoreCase(partitaIva))
+                .findFirst();
+    }
+}
