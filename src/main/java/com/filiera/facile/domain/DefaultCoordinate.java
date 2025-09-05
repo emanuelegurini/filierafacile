@@ -10,8 +10,8 @@ public class DefaultCoordinate implements Coordinate {
     private Float longitude;
 
     public DefaultCoordinate(Float latitude, Float longitude) {
-        this.latitude = Objects.requireNonNull(latitude,"Latitude cannot be null");
-        this.longitude = Objects.requireNonNull(longitude,"Longitude cannot be null");
+        this.latitude = Objects.requireNonNull(latitude,"La latitudine non può essere lasciata vuota");
+        this.longitude = Objects.requireNonNull(longitude,"La longitudine non può essere lasciata vuota ");
     }
 
     @Override
@@ -26,11 +26,11 @@ public class DefaultCoordinate implements Coordinate {
 
     @Override
     public void setLat(Float lat) {
-        this.latitude = Objects.requireNonNull(lat,"Latitude cannot be null");
+        this.latitude = Objects.requireNonNull(lat,"La latitudine non può essere lasciata vuota");
     }
 
     @Override
     public void setLng(Float lng) {
-        this.longitude = Objects.requireNonNull(lng,"Longitude cannot be null");
+        this.longitude = Objects.requireNonNull(lng,"La longitudine non può essere lasciata vuota ");
     }
 }
