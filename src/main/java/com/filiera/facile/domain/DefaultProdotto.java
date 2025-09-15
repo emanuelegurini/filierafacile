@@ -107,6 +107,11 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
         return this.stato;
     }
 
+    @Override
+    public void sottomettiPerValidazione() {
+        System.out.println("Metodo sottomettiPerValidazione() non implementato.");
+    }
+
     /**
      * Aggiunge un ingrediente a questo prodotto, utile per i prodotti trasformati.
      * @param ingrediente Il prodotto da aggiungere come ingrediente.
