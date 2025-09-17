@@ -1,8 +1,6 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.application.dto.CreazioneEventoDTO;
 import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultCoordinate;
 import com.filiera.facile.domain.DefaultEvento;
 import com.filiera.facile.domain.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloPiattaforma;
@@ -27,29 +25,16 @@ public class DefaultEventoService implements EventoService {
     }
 
     @Override
-    public DefaultEvento creaNuovoEvento(UUID organizzatoreId, CreazioneEventoDTO dati) {
+    public DefaultEvento creaNuovoEvento(UUID organizzatoreId, DefaultEvento evento) {
         DefaultUtente organizzatore = utenteRepository.findById(organizzatoreId)
                 .orElseThrow(() -> new RuntimeException("Utente organizzatore non trovato."));
 
-        DefaultEvento nuovoEvento = getDefaultEvento(dati, organizzatore);
-
-        nuovoEvento.setPostiDisponibili(dati.postiDisponibili());
-        nuovoEvento.setCostoPartecipazione(dati.costoPartecipazione());
-
-        eventoRepository.save(nuovoEvento);
-        return nuovoEvento;
-    }
-
-    private static DefaultEvento getDefaultEvento(CreazioneEventoDTO dati, DefaultUtente organizzatore) {
         if (!organizzatore.getRuoli().contains(RuoloPiattaforma.ANIMATORE_FILIERA)) {
             throw new SecurityException("L'utente non ha i permessi per creare un evento.");
         }
 
-        DefaultCoordinate coordinate = new DefaultCoordinate(dati.coordinate().latitude(), dati.coordinate().longitude());
-
-        return new DefaultEvento(
-                dati.nome(), dati.descrizione(), dati.dataOraInizio(), dati.dataOraFine(), organizzatore, dati.indirizzo(), coordinate
-        );
+        eventoRepository.save(evento);
+        return evento;
     }
 
     @Override

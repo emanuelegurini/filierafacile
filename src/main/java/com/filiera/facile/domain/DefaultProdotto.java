@@ -1,32 +1,18 @@
 package com.filiera.facile.domain;
 
 import com.filiera.facile.model.enums.*;
-import com.filiera.facile.model.interfaces.ArticoloVendibile;
-import com.filiera.facile.model.interfaces.Validabile;
+import com.filiera.facile.model.interfaces.ArticoloCatalogo;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DefaultProdotto implements ArticoloVendibile, Validabile {
-
-    private final UUID id;
-    private String nome;
-    private String descrizione;
-    private double prezzoUnitario;
+public class DefaultProdotto extends ArticoloCatalogo {
     private UnitaMisura unitaDiMisura;
-    private double quantitaDisponibile;
     private CategoriaProdotto categoriaProdotto;
     private List<String> certificazioni;
-
-    private final DefaultAzienda defaultAziendaProduttrice;
-    private final List<DefaultProdotto> ingredienti;
-
-    private StatoValidazione stato;
-
+    private final List<ArticoloCatalogo> ingredienti; // <<< MODIFICA APPLICATA
     private final TipoProdotto tipoProdotto;
-
     private MetodoColtivazione metodoColtivazione;
-
     private String metodoTrasformazione;
 
     public DefaultProdotto(
@@ -38,34 +24,17 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
             TipoProdotto tipoProdotto,
             CategoriaProdotto categoriaProdotto
     ) {
-        this.id = UUID.randomUUID();
-        this.nome = Objects.requireNonNull(nome, "Il nome non può essere nullo");
-        this.descrizione = descrizione;
-        this.prezzoUnitario = prezzoUnitario;
+        super(nome, descrizione, prezzoUnitario, defaultAziendaProduttrice);
         this.unitaDiMisura = unitaDiMisura;
-        this.defaultAziendaProduttrice = Objects.requireNonNull(defaultAziendaProduttrice, "L'azienda produttrice non può essere nulla");
         this.tipoProdotto = Objects.requireNonNull(tipoProdotto, "Il tipo di prodotto non può essere nullo");
-
         this.ingredienti = new ArrayList<>();
         this.certificazioni = new ArrayList<>();
-        this.stato = StatoValidazione.IN_ATTESA_DI_APPROVAZIONE;
-        this.quantitaDisponibile = 0;
         this.categoriaProdotto = Objects.requireNonNull(categoriaProdotto, "La categoria non può essere nulla");
     }
 
     @Override
     public double getPrezzoVendita() {
-        return this.prezzoUnitario;
-    }
-
-    @Override
-    public String getNomeArticolo() {
-        return this.nome;
-    }
-
-    @Override
-    public String getDescrizioneArticolo() {
-        return this.descrizione;
+        return this.getPrezzoUnitario();
     }
 
     @Override
@@ -74,7 +43,7 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
 
         dati.put("ID Prodotto", this.id.toString());
         dati.put("Nome Prodotto", this.nome);
-        dati.put("Azienda", this.defaultAziendaProduttrice.getRagioneSociale());
+        dati.put("Azienda", this.aziendaDiRiferimento.getRagioneSociale());
         dati.put("Categoria", this.categoriaProdotto.toString());
         dati.put("Tipo Prodotto", this.tipoProdotto.toString());
 
@@ -86,37 +55,23 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
             String listaIngredienti = this.ingredienti.isEmpty()
                     ? "Nessuno specificato"
                     : this.ingredienti.stream()
-                    .map(DefaultProdotto::getNome)
+                    .map(ArticoloCatalogo::getNomeArticolo) // Usa il metodo dell'astrazione
                     .collect(Collectors.joining(", "));
             dati.put("Ingredienti", listaIngredienti);
         }
 
         dati.put("Descrizione", this.descrizione);
-        dati.put("Prezzo", String.format("%.2f € / %s", this.prezzoUnitario, this.unitaDiMisura));
+        dati.put("Prezzo", String.format("%.2f € / %s", this.getPrezzoUnitario(), this.unitaDiMisura));
 
         return dati;
     }
 
-    @Override
-    public void setStatoValidazione(StatoValidazione stato) {
-        this.stato = stato;
-    }
-
-    @Override
-    public StatoValidazione getStatoValidazione() {
-        return this.stato;
-    }
-
-    @Override
-    public void sottomettiPerValidazione() {
-        System.out.println("Metodo sottomettiPerValidazione() non implementato.");
-    }
-
     /**
-     * Aggiunge un ingrediente a questo prodotto, utile per i prodotti trasformati.
-     * @param ingrediente Il prodotto da aggiungere come ingrediente.
+     * Aggiunge un ingrediente a questo prodotto. Può essere qualsiasi {@link ArticoloCatalogo},
+     * permettendo una tracciabilità complessa.
+     * @param ingrediente L'articolo da aggiungere come ingrediente.
      */
-    public void aggiungiIngrediente(DefaultProdotto ingrediente) {
+    public void aggiungiIngrediente(ArticoloCatalogo ingrediente) { // <<< MODIFICA APPLICATA
         if (this.tipoProdotto == TipoProdotto.MATERIA_PRIMA) {
             throw new IllegalStateException("Non è possibile aggiungere ingredienti a una materia prima.");
         }
@@ -125,32 +80,8 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
         }
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public double getPrezzoUnitario() {
-        return prezzoUnitario;
-    }
-
-    public void setPrezzoUnitario(double prezzoUnitario) {
-        this.prezzoUnitario = prezzoUnitario;
+    public List<ArticoloCatalogo> getIngredienti() { // <<< MODIFICA APPLICATA
+        return Collections.unmodifiableList(this.ingredienti);
     }
 
     public UnitaMisura getUnitaDiMisura() {
@@ -159,14 +90,6 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
 
     public void setUnitaDiMisura(UnitaMisura unitaDiMisura) {
         this.unitaDiMisura = unitaDiMisura;
-    }
-
-    public double getQuantitaDisponibile() {
-        return quantitaDisponibile;
-    }
-
-    public void setQuantitaDisponibile(double quantitaDisponibile) {
-        this.quantitaDisponibile = quantitaDisponibile;
     }
 
     public CategoriaProdotto getCategoriaProdotto() {
@@ -186,11 +109,7 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
     }
 
     public DefaultAzienda getAziendaProduttrice() {
-        return this.defaultAziendaProduttrice;
-    }
-
-    public List<DefaultProdotto> getIngredienti() {
-        return Collections.unmodifiableList(this.ingredienti);
+        return this.aziendaDiRiferimento;
     }
 
     public TipoProdotto getTipoProdotto() {
@@ -198,7 +117,7 @@ public class DefaultProdotto implements ArticoloVendibile, Validabile {
     }
 
     public MetodoColtivazione getMetodoColtivazione() {
-        return this.metodoColtivazione;
+        return metodoColtivazione;
     }
 
     public void setMetodoColtivazione(MetodoColtivazione metodoColtivazione) {

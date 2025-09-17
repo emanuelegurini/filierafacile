@@ -1,6 +1,5 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.application.dto.RegistrazioneUtenteDTO;
 import com.filiera.facile.domain.DefaultAffiliazione;
 import com.filiera.facile.domain.DefaultAzienda;
 import com.filiera.facile.domain.DefaultUtente;
@@ -22,33 +21,21 @@ public class DefaultUtenteService implements UserService {
     }
 
     @Override
-    public DefaultUtente registraNuovoUtente(RegistrazioneUtenteDTO dati) {
+    public DefaultUtente registraNuovoUtente(DefaultUtente utente) {
 
         /*
          * Come prima cosa, prima di registrare un nuovo utente,
          * il metodo controlla che esista già un utente registrato
          * con la medesima email.
          */
-        utenteRepository.findByEmail(dati.email()).ifPresent(u -> {
+        utenteRepository.findByEmail(utente.getEmail()).ifPresent(u -> {
             throw new IllegalArgumentException("Email già registrata.");
         });
 
-        /*
-         * Crea un nuovo utente, passando al costruttore i dati del DTO.
-         */
-        DefaultUtente nuovoUtente = new DefaultUtente(
-                dati.nome(),
-                dati.cognome(),
-                dati.email(),
-                dati.indirizzo(),
-                dati.telefono(),
-                dati.password()
-        );
+        utenteRepository.save(utente);
+        System.out.println("INFO: Nuovo utente registrato con ID: " + utente.getId() + ": " + utente.getNome());
 
-        utenteRepository.save(nuovoUtente);
-        System.out.println("INFO: Nuovo utente registrato con ID: " + nuovoUtente.getId() + ": " + nuovoUtente.getNome());
-
-        return nuovoUtente;
+        return utente;
     }
 
     @Override

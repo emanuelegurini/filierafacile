@@ -1,17 +1,14 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.application.dto.CreazioneProdottoDTO;
 import com.filiera.facile.domain.DefaultAzienda;
 import com.filiera.facile.domain.DefaultProdotto;
 import com.filiera.facile.domain.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
-import com.filiera.facile.model.enums.TipoProdotto;
 import com.filiera.facile.model.interfaces.AziendaRepository;
 import com.filiera.facile.model.interfaces.ProdottoRepository;
 import com.filiera.facile.model.interfaces.ProdottoService;
 import com.filiera.facile.model.interfaces.UtenteRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 public class DefaultProdottoService implements ProdottoService {
@@ -33,58 +30,18 @@ public class DefaultProdottoService implements ProdottoService {
     public DefaultProdotto creaNuovoProdotto(
             UUID idUtente,
             UUID idAzienda,
-            CreazioneProdottoDTO dati
+            DefaultProdotto prodotto
     ) {
-
-        validaInputProdotto(dati);
 
         DefaultUtente utente = utenteRepository.findById(idUtente).orElseThrow(() -> new RuntimeException("Utente non trovato"));
         DefaultAzienda azienda = aziendaRepository.findById(idAzienda).orElseThrow(() -> new RuntimeException("Azienda non trovata"));
         verificaPermessoCreazione(utente, azienda);
 
-        DefaultProdotto nuovoProdotto = new DefaultProdotto(
-                dati.nome(), dati.descrizione(), dati.prezzoUnitario(),
-                dati.unitaDiMisura(), azienda, dati.tipoProdotto(), dati.categoria()
-        );
-
-        configuraProdottoPerTipo(nuovoProdotto, dati);
-
-        prodottoRepository.save(nuovoProdotto);
-        System.out.println("INFO: Creato nuovo prodotto '" + nuovoProdotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
-        return nuovoProdotto;
+        prodottoRepository.save(prodotto);
+        System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
+        return prodotto;
     }
 
-    private void validaInputProdotto(CreazioneProdottoDTO dati) {
-        if (dati.tipoProdotto() == TipoProdotto.MATERIA_PRIMA && dati.ingredientiIds() != null && !dati.ingredientiIds().isEmpty()) {
-            throw new IllegalArgumentException("Una materia prima non può avere ingredienti.");
-        }
-    }
-
-    /*
-     * Nonostante la classe DefaultProdotto implementi dei controlli sul tipo di prodotto (MATERIA_PRIMA o TRASFORMATO),
-     * in quanto la classe è essa stessa responsabile di proteggere la propria coerenza,
-     * il servizio implementa comunque degli ulteriori controlli:
-     * - se il prodotto è una materia prima, allora non ha ingredienti. Ma specifichiamo il metodo di coltivazione
-     * - se il prodotto è un trasformato, allora specifichiamo la lista degli ingredienti, ossia altri prodotti
-     *   che possono essere sia materie prime che traformati
-     */
-    private void configuraProdottoPerTipo(DefaultProdotto prodotto, CreazioneProdottoDTO dati) {
-        if (prodotto.getTipoProdotto() == TipoProdotto.MATERIA_PRIMA) {
-            prodotto.setMetodoColtivazione(dati.metodoColtivazione());
-        } else if (prodotto.getTipoProdotto() == TipoProdotto.TRASFORMATO) {
-            prodotto.setMetodoTrasformazione(dati.metodoTrasformazione());
-            aggiungiIngredientiSePresenti(prodotto, dati.ingredientiIds());
-        }
-    }
-
-    private void aggiungiIngredientiSePresenti(DefaultProdotto prodotto, List<UUID> ingredientiIds) {
-        if (ingredientiIds != null && !ingredientiIds.isEmpty()) {
-            ingredientiIds.stream()
-                    .map(ingId -> prodottoRepository.findById(ingId)
-                            .orElseThrow(() -> new RuntimeException("Ingrediente non trovato con ID: " + ingId)))
-                    .forEach(prodotto::aggiungiIngrediente);
-        }
-    }
 
     /*
      * Questa funzione verifica se l'utente ha effettivamente i permessi per creare un prodotto.

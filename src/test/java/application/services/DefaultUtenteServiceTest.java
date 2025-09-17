@@ -1,6 +1,5 @@
 package application.services;
 
-import com.filiera.facile.application.dto.RegistrazioneUtenteDTO;
 import com.filiera.facile.application.services.DefaultUtenteService;
 import com.filiera.facile.domain.DefaultAffiliazione;
 import com.filiera.facile.domain.DefaultAzienda;
@@ -52,10 +51,10 @@ public class DefaultUtenteServiceTest {
     @Test
     void registraNuovoUtente_conEmailDuplicata_lanciaIllegalArgumentException() {
 
-        var datiUtente2 = new RegistrazioneUtenteDTO("Test", "User", "test@user.it", "Addr", "123", "pass");
+        var utente2 = new DefaultUtente("Test", "User", "test@user.it", "Addr", "123", "pass");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            utenteService.registraNuovoUtente(datiUtente2);
+            utenteService.registraNuovoUtente(utente2);
         });
     }
 

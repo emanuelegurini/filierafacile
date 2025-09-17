@@ -3,10 +3,7 @@ package com.filiera.facile.domain;
 import com.filiera.facile.model.enums.TipoAzienda;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 
@@ -20,6 +17,8 @@ public class DefaultAzienda {
     protected String sitoWeb;
     protected LocalDateTime registrationDate;
     protected DefaultCoordinate coordinate;
+    private final Map<DefaultProdotto, Integer> magazzino;
+
 
     /**
      * Insieme dei ruoli che l'azienda ricopre nella filiera.
@@ -45,7 +44,7 @@ public class DefaultAzienda {
         this.sitoWeb = Objects.requireNonNull(sitoWeb,   "Sito web cannot be null");
         this.coordinate = Objects.requireNonNull(coordinate, "Coordinates cannot be null");
         this.tipiAzienda = new HashSet<>();
-
+        this.magazzino = new HashMap<>();
     }
 
     public UUID getId() {
@@ -118,5 +117,35 @@ public class DefaultAzienda {
 
     public Set<TipoAzienda> getTipoAzienda() {
         return this.tipiAzienda;
+    }
+
+    public void aggiungiScorte(DefaultProdotto prodotto, int quantita) {
+        if (prodotto == null || quantita <= 0) {
+            return;
+        }
+        this.magazzino.merge(prodotto, quantita, Integer::sum);
+    }
+
+
+
+    public void rimuoviScorte(DefaultProdotto prodotto, int quantita) {
+        if (prodotto == null || quantita <= 0) {
+            return;
+        }
+
+        int disponibilitaAttuale = getDisponibilita(prodotto);
+
+        if (disponibilitaAttuale >= quantita) {
+
+            if (disponibilitaAttuale == quantita) {
+                this.magazzino.remove(prodotto);
+            } else {
+                this.magazzino.merge(prodotto, -quantita, Integer::sum);
+            }
+        }
+    }
+
+    public int getDisponibilita(DefaultProdotto prodotto) {
+        return this.magazzino.getOrDefault(prodotto, 0);
     }
 }

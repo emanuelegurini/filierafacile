@@ -1,8 +1,6 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.application.dto.CreazioneAziendaDTO;
 import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultCoordinate;
 import com.filiera.facile.model.enums.TipoAzienda;
 import com.filiera.facile.model.interfaces.AziendaRepository;
 import com.filiera.facile.model.interfaces.AziendaService;
@@ -18,36 +16,16 @@ public class DefaultAziendaService implements AziendaService {
     }
 
     @Override
-    public DefaultAzienda creaNuovaAzienda(CreazioneAziendaDTO dati) {
+    public DefaultAzienda creaNuovaAzienda(DefaultAzienda azienda) {
 
-        aziendaRepository.findByPartitaIva(dati.partitaIva()).ifPresent(a -> {
+        aziendaRepository.findByPartitaIva(azienda.getPartitaIva()).ifPresent(a -> {
             throw new IllegalArgumentException("Un'azienda con questa Partita IVA è già registrata.");
         });
 
+        aziendaRepository.save(azienda);
+        System.out.println("INFO: Nuova azienda registrata con ID: " + azienda.getId() + ": " + azienda.getRagioneSociale());
 
-        DefaultCoordinate coordinate = new DefaultCoordinate(
-                dati.coordinate().latitude(),
-                dati.coordinate().longitude()
-        );
-
-        DefaultAzienda nuovaAzienda = new DefaultAzienda(
-                dati.ragioneSociale(),
-                dati.partitaIva(),
-                dati.indirizzo(),
-                dati.email(),
-                dati.numeroTelefono(),
-                dati.sitoWeb(),
-                coordinate
-        );
-
-        if (dati.tipiAzienda() != null) {
-            dati.tipiAzienda().forEach(nuovaAzienda::aggiungiTipoAzienda);
-        }
-
-        aziendaRepository.save(nuovaAzienda);
-        System.out.println("INFO: Nuova azienda registrata con ID: " + nuovaAzienda.getId() + ": " + nuovaAzienda.getRagioneSociale());
-
-        return nuovaAzienda;
+        return azienda;
     }
 
     @Override
