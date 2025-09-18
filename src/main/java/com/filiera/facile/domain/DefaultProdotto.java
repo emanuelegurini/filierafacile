@@ -66,6 +66,7 @@ public class DefaultProdotto extends ArticoloCatalogo {
         return dati;
     }
 
+
     /**
      * Aggiunge un ingrediente a questo prodotto. Può essere qualsiasi {@link ArticoloCatalogo},
      * permettendo una tracciabilità complessa.
