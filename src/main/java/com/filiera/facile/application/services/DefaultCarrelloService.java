@@ -5,14 +5,16 @@ import com.filiera.facile.model.interfaces.ArticoloVendibile;
 import com.filiera.facile.repositories.CarrelloRepository;
 import com.filiera.facile.model.interfaces.CarrelloService;
 import com.filiera.facile.repositories.ProdottoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
-
+@Service
 public class DefaultCarrelloService implements CarrelloService {
 
     private final CarrelloRepository carrelloRepository;
     private final ProdottoRepository prodottoRepository;
 
+    @Autowired
     public DefaultCarrelloService(CarrelloRepository carrelloRepository, ProdottoRepository prodottoRepository) {
         this.carrelloRepository = carrelloRepository;
         this.prodottoRepository = prodottoRepository;

@@ -4,16 +4,20 @@ import com.filiera.facile.entities.DefaultAssegnatoreAutomatico;
 import com.filiera.facile.entities.DefaultPraticaValidazione;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class DefaultValidazioneService implements ValidazioneService {
     private final CodaValidazione codaValidazione;
     private final CuratoreStatusTracker statusTracker;
     private final DefaultAssegnatoreAutomatico assegnatore;
     private final Map<Long, DefaultPraticaValidazione> praticheInCorso;
 
+    @Autowired
     public DefaultValidazioneService(CodaValidazione codaValidazione, CuratoreStatusTracker statusTracker) {
         this.codaValidazione = Objects.requireNonNull(codaValidazione, "La coda di validazione non può essere null");
         this.statusTracker = Objects.requireNonNull(statusTracker, "Il tracker degli stati non può essere null");

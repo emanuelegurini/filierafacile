@@ -27,9 +27,10 @@ public class EventoController {
             @Valid @RequestBody CreaEventoRequest request,
             @RequestParam Long organizzatoreId) {
 
-        // TODO: Implementare creazione evento con parametri completi dal DTO
-        // Per ora ritorniamo un placeholder per la compilazione
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        // TODO: Implementare creazione completa una volta rifattorizzato il service
+        // Il costruttore di DefaultEvento richiede DefaultUtente organizzatore che deve essere caricato dal DB
+        // Per ora restituiamo un errore controllato
+        throw new UnsupportedOperationException("Creazione eventi non ancora supportata - in fase di sviluppo");
     }
 
     @PostMapping("/{eventoId}/aziende/{aziendaId}")

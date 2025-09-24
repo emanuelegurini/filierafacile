@@ -8,16 +8,19 @@ import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.repositories.EventoRepository;
 import com.filiera.facile.model.interfaces.EventoService;
 import com.filiera.facile.repositories.UtenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class DefaultEventoService implements EventoService {
 
     private final EventoRepository eventoRepository;
     private final UtenteRepository utenteRepository;
     private final AziendaRepository aziendaRepository;
 
+    @Autowired
     public DefaultEventoService(EventoRepository er, UtenteRepository ur, AziendaRepository ar) {
         this.eventoRepository = er;
         this.utenteRepository = ur;
