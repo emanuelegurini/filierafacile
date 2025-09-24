@@ -1,7 +1,7 @@
 package application.services;
 
 import com.filiera.facile.application.services.DefaultProdottoService;
-import com.filiera.facile.domain.*;
+import com.filiera.facile.entities.*;
 import com.filiera.facile.model.enums.*;
 import com.filiera.facile.repository.DefaultAziendaRepository;
 import com.filiera.facile.repository.DefaultProdottoRepository;

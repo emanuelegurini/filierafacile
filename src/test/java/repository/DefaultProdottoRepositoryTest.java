@@ -1,8 +1,8 @@
 package repository;
 
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultCoordinate;
-import com.filiera.facile.domain.DefaultProdotto;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultCoordinate;
+import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.model.enums.CategoriaProdotto;
 import com.filiera.facile.model.enums.TipoProdotto;
 import com.filiera.facile.model.enums.UnitaMisura;

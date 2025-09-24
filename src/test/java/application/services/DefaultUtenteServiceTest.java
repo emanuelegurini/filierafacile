@@ -1,10 +1,10 @@
 package application.services;
 
 import com.filiera.facile.application.services.DefaultUtenteService;
-import com.filiera.facile.domain.DefaultAffiliazione;
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultCoordinate;
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultAffiliazione;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultCoordinate;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
 import com.filiera.facile.repository.DefaultAziendaRepository;
 import com.filiera.facile.repository.DefaultUtenteRepository;

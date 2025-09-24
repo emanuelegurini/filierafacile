@@ -1,6 +1,6 @@
 package repository;
 
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.repository.DefaultUtenteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
