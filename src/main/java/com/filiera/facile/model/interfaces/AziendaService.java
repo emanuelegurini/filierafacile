@@ -9,6 +9,6 @@ public interface AziendaService {
 
     DefaultAzienda creaNuovaAzienda(DefaultAzienda azienda);
 
-    void aggiungiTipoAzienda(UUID aziendaId, TipoAzienda tipoAzienda);
+    void aggiungiTipoAzienda(Long aziendaId, TipoAzienda tipoAzienda);
 }
 

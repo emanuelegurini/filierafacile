@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public interface TracciabilitaService {
 
-    List<DefaultProdotto> calcolaFilieraCompleta(UUID prodottoId);
+    List<DefaultProdotto> calcolaFilieraCompleta(Long prodottoId);
 
-    List<DefaultAzienda> getAziendeCoinvolte(UUID prodottoId);
+    List<DefaultAzienda> getAziendeCoinvolte(Long prodottoId);
 
-    List<DefaultProdotto> getProdottiOrigine(UUID prodottoId);
+    List<DefaultProdotto> getProdottiOrigine(Long prodottoId);
 
-    boolean isMateriaPrima(UUID prodottoId);
+    boolean isMateriaPrima(Long prodottoId);
 
-    int getProfonditaFiliera(UUID prodottoId);
+    int getProfonditaFiliera(Long prodottoId);
 }

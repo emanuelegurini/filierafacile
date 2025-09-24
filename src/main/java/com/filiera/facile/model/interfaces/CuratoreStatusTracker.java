@@ -4,29 +4,28 @@ import com.filiera.facile.model.enums.StatoCuratore;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CuratoreStatusTracker {
 
-    void registraCuratore(UUID curatoreId);
+    void registraCuratore(Long curatoreId);
 
-    void rimuoviCuratore(UUID curatoreId);
+    void rimuoviCuratore(Long curatoreId);
 
-    void setCuratoreOccupato(UUID curatoreId);
+    void setCuratoreOccupato(Long curatoreId);
 
-    void setCuratoreLibero(UUID curatoreId);
+    void setCuratoreLibero(Long curatoreId);
 
-    void setCuratoreNonDisponibile(UUID curatoreId);
+    void setCuratoreNonDisponibile(Long curatoreId);
 
-    StatoCuratore getStatoCuratore(UUID curatoreId);
+    StatoCuratore getStatoCuratore(Long curatoreId);
 
-    List<UUID> getCuratoriLiberi();
+    List<Long> getCuratoriLiberi();
 
-    Optional<UUID> getPrimoCuratoreLibero();
+    Optional<Long> getPrimoCuratoreLibero();
 
-    List<UUID> getCuratoriOccupati();
+    List<Long> getCuratoriOccupati();
 
-    boolean isCuratoreLibero(UUID curatoreId);
+    boolean isCuratoreLibero(Long curatoreId);
 
     boolean hasCuratoriLiberi();
 

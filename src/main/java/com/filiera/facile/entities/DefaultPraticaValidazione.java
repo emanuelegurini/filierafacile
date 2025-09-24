@@ -8,27 +8,27 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class DefaultPraticaValidazione {
-    private final UUID id;
+    private final Long id;
     private final Validabile contenutoSottomesso;
-    private final UUID richiedenteId;
+    private final Long richiedenteId;
     private final LocalDateTime dataCreazione;
 
-    private UUID curatoreAssegnato;
+    private Long curatoreAssegnato;
     private LocalDateTime dataAssegnazione;
     private LocalDateTime dataCompletamento;
     private String noteValutazione;
     private String motivazioneRifiuto;
     private StatoValidazione statoCorrente;
 
-    public DefaultPraticaValidazione(Validabile contenutoSottomesso, UUID richiedenteId) {
-        this.id = UUID.randomUUID();
+    public DefaultPraticaValidazione(Validabile contenutoSottomesso, Long richiedenteId) {
+        this.id = null;
         this.contenutoSottomesso = Objects.requireNonNull(contenutoSottomesso, "Il contenuto da validare non può essere null");
         this.richiedenteId = Objects.requireNonNull(richiedenteId, "L'ID del richiedente non può essere null");
         this.dataCreazione = LocalDateTime.now();
         this.statoCorrente = StatoValidazione.IN_ATTESA_DI_APPROVAZIONE;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
@@ -36,7 +36,7 @@ public class DefaultPraticaValidazione {
         return contenutoSottomesso;
     }
 
-    public UUID getRichiedenteId() {
+    public Long getRichiedenteId() {
         return richiedenteId;
     }
 
@@ -44,11 +44,11 @@ public class DefaultPraticaValidazione {
         return dataCreazione;
     }
 
-    public UUID getCuratoreAssegnato() {
+    public Long getCuratoreAssegnato() {
         return curatoreAssegnato;
     }
 
-    public void assegnaCuratore(UUID curatoreId) {
+    public void assegnaCuratore(Long curatoreId) {
         this.curatoreAssegnato = Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
         this.dataAssegnazione = LocalDateTime.now();
         this.statoCorrente = StatoValidazione.IN_REVISIONE;

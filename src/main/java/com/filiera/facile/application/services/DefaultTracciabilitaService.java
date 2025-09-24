@@ -18,7 +18,7 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
     }
 
     @Override
-    public List<DefaultProdotto> calcolaFilieraCompleta(UUID prodottoId) {
+    public List<DefaultProdotto> calcolaFilieraCompleta(Long prodottoId) {
         Objects.requireNonNull(prodottoId, "L'ID del prodotto non può essere null");
 
         DefaultProdotto prodotto = prodottoRepository.findById(prodottoId)
@@ -28,7 +28,7 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
     }
 
     @Override
-    public List<DefaultAzienda> getAziendeCoinvolte(UUID prodottoId) {
+    public List<DefaultAzienda> getAziendeCoinvolte(Long prodottoId) {
         List<DefaultProdotto> filiera = calcolaFilieraCompleta(prodottoId);
 
         return filiera.stream()
@@ -38,7 +38,7 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
     }
 
     @Override
-    public List<DefaultProdotto> getProdottiOrigine(UUID prodottoId) {
+    public List<DefaultProdotto> getProdottiOrigine(Long prodottoId) {
         List<DefaultProdotto> filiera = calcolaFilieraCompleta(prodottoId);
 
         return filiera.stream()
@@ -47,7 +47,7 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
     }
 
     @Override
-    public boolean isMateriaPrima(UUID prodottoId) {
+    public boolean isMateriaPrima(Long prodottoId) {
         Objects.requireNonNull(prodottoId, "L'ID del prodotto non può essere null");
 
         DefaultProdotto prodotto = prodottoRepository.findById(prodottoId)
@@ -57,7 +57,7 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
     }
 
     @Override
-    public int getProfonditaFiliera(UUID prodottoId) {
+    public int getProfonditaFiliera(Long prodottoId) {
         Objects.requireNonNull(prodottoId, "L'ID del prodotto non può essere null");
 
         DefaultProdotto prodotto = prodottoRepository.findById(prodottoId)
@@ -68,14 +68,14 @@ public class DefaultTracciabilitaService implements TracciabilitaService {
 
     private List<DefaultProdotto> calcolaFilieraCompleta(DefaultProdotto prodotto) {
         List<DefaultProdotto> filiera = new ArrayList<>();
-        Set<UUID> prodottiVisitati = new HashSet<>();
+        Set<Long> prodottiVisitati = new HashSet<>();
 
         raccogliFilieraRicorsiva(prodotto, filiera, prodottiVisitati);
 
         return filiera;
     }
 
-    private void raccogliFilieraRicorsiva(DefaultProdotto prodotto, List<DefaultProdotto> filiera, Set<UUID> prodottiVisitati) {
+    private void raccogliFilieraRicorsiva(DefaultProdotto prodotto, List<DefaultProdotto> filiera, Set<Long> prodottiVisitati) {
         if (prodotto == null || prodottiVisitati.contains(prodotto.getId())) {
             return;
         }

@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DefaultCodaValidazione implements CodaValidazione {
     private final Queue<DefaultPraticaValidazione> codaPendenti;
-    private final Map<UUID, DefaultPraticaValidazione> indicePerID;
+    private final Map<Long, DefaultPraticaValidazione> indicePerID;
 
     public DefaultCodaValidazione() {
         this.codaPendenti = new ConcurrentLinkedQueue<>();
@@ -35,7 +35,7 @@ public class DefaultCodaValidazione implements CodaValidazione {
     }
 
     @Override
-    public synchronized void rimuoviPratica(UUID praticaId) {
+    public synchronized void rimuoviPratica(Long praticaId) {
         Objects.requireNonNull(praticaId, "L'ID della pratica non può essere null");
         DefaultPraticaValidazione pratica = indicePerID.remove(praticaId);
         if (pratica != null) {
@@ -59,7 +59,7 @@ public class DefaultCodaValidazione implements CodaValidazione {
     }
 
     @Override
-    public Optional<DefaultPraticaValidazione> getPraticaById(UUID praticaId) {
+    public Optional<DefaultPraticaValidazione> getPraticaById(Long praticaId) {
         return Optional.ofNullable(indicePerID.get(praticaId));
     }
 }

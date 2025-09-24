@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+
 
 //@Service
 @Transactional
@@ -35,7 +35,7 @@ public class DefaultAziendaService implements AziendaService {
     }
 
     @Override
-    public void aggiungiTipoAzienda(UUID aziendaId, TipoAzienda tipoAzienda) {
+    public void aggiungiTipoAzienda(Long aziendaId, TipoAzienda tipoAzienda) {
         DefaultAzienda azienda = aziendaRepository.findById(aziendaId)
                 .orElseThrow(() -> new RuntimeException("Azienda non trovata con ID: " + aziendaId));
 

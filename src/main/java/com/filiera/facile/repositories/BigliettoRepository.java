@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface BigliettoRepository extends JpaRepository<DefaultBiglietto, UUID> {
+public interface BigliettoRepository extends JpaRepository<DefaultBiglietto, Long> {
 
     /**
      * Trova biglietti per evento.
      */
-    List<DefaultBiglietto> findByEventoId(UUID eventoId);
+    List<DefaultBiglietto> findByEventoId(Long eventoId);
 
     /**
      * Trova biglietti per utente.
      */
-    List<DefaultBiglietto> findByUtenteId(UUID utenteId);
+    List<DefaultBiglietto> findByUtenteId(Long utenteId);
 
     /**
      * Conta biglietti per evento.
      */
-    long countByEventoId(UUID eventoId);
+    long countByEventoId(Long eventoId);
 }

@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultEvento extends PuntoMappabile implements Validabile {
-    private final UUID id;
+    private final Long id;
     private final String nome;
     private String descrizione;
 
@@ -33,7 +33,7 @@ public class DefaultEvento extends PuntoMappabile implements Validabile {
             DefaultCoordinate coordinate
     ) {
         super(indirizzo, coordinate);
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.nome = Objects.requireNonNull(nome, "Il nome dell'evento non può essere nullo.");;
         this.descrizione = descrizione;
         this.dataOraInizio = Objects.requireNonNull(dataOraInizio, "La data di inizio non può essere nulla.");
@@ -46,7 +46,7 @@ public class DefaultEvento extends PuntoMappabile implements Validabile {
         this.costoPartecipazione = 0.0;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

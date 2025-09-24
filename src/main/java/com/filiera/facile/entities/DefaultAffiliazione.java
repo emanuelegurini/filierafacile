@@ -11,8 +11,9 @@ import java.util.UUID;
 @Table(name = "affiliazione")
 public class DefaultAffiliazione {
     @Id
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    private final UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private final Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utente_id", nullable = false)
@@ -34,14 +35,14 @@ public class DefaultAffiliazione {
             DefaultAzienda defaultAzienda,
             RuoloAziendale ruoloAziendale
     ) {
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.defaultUtente = Objects.requireNonNull(defaultUtente, "L'utente non può essere nullo.");
         this.defaultAzienda = Objects.requireNonNull(defaultAzienda, "L'azienda non può essere nulla.");
         this.ruoloAziendale = Objects.requireNonNull(ruoloAziendale, "Il ruolo aziendale non può essere nullo.");
         this.dataAffiliazione = LocalDateTime.now();
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

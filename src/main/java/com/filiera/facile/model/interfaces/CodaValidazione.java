@@ -4,7 +4,6 @@ import com.filiera.facile.entities.DefaultPraticaValidazione;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CodaValidazione {
 
@@ -12,7 +11,7 @@ public interface CodaValidazione {
 
     Optional<DefaultPraticaValidazione> ottieniProssimaPratica();
 
-    void rimuoviPratica(UUID praticaId);
+    void rimuoviPratica(Long praticaId);
 
     List<DefaultPraticaValidazione> getPratichePendenti();
 
@@ -20,5 +19,5 @@ public interface CodaValidazione {
 
     boolean isEmpty();
 
-    Optional<DefaultPraticaValidazione> getPraticaById(UUID praticaId);
+    Optional<DefaultPraticaValidazione> getPraticaById(Long praticaId);
 }

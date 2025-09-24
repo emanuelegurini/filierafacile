@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+
 
 //@Service
 @Transactional
@@ -45,7 +45,7 @@ public class DefaultUtenteService implements UserService {
     }
 
     @Override
-    public void aggiungiAffiliazione(UUID utenteId, UUID aziendaId, RuoloAziendale ruolo){
+    public void aggiungiAffiliazione(Long utenteId, Long aziendaId, RuoloAziendale ruolo){
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + utenteId));
 
@@ -64,7 +64,7 @@ public class DefaultUtenteService implements UserService {
      * Con questo metodo recuperiamo le affiliazioni da un utete, cerchiamo l'affiliazione a una determinata azienda
      * e la modifichiamo aggiornando il ruolo dello user per quella determinata azienda.
      */
-    public void aggiornaRuoloAffiliazione(UUID utenteId, UUID aziendaId, RuoloAziendale nuovoRuolo) {
+    public void aggiornaRuoloAffiliazione(Long utenteId, Long aziendaId, RuoloAziendale nuovoRuolo) {
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + utenteId));
 

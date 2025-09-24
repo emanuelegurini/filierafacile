@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface EventoRepository extends JpaRepository<DefaultEvento, UUID> {
+public interface EventoRepository extends JpaRepository<DefaultEvento, Long> {
 
     /**
      * Trova eventi per azienda organizzatrice.
      */
-    List<DefaultEvento> findByAziendaOrganizzatriceId(UUID aziendaId);
+    List<DefaultEvento> findByAziendaOrganizzatriceId(Long aziendaId);
 
     /**
      * Trova eventi futuri.
@@ -28,4 +28,10 @@ public interface EventoRepository extends JpaRepository<DefaultEvento, UUID> {
      * Trova eventi per nome (ricerca parziale).
      */
     List<DefaultEvento> findByNomeContainingIgnoreCase(String nome);
+
+    /**
+     * Trova eventi dove l'azienda partecipa.
+     */
+    @Query("SELECT e FROM DefaultEvento e JOIN e.aziendePartecipanti a WHERE a.id = :aziendaId")
+    List<DefaultEvento> findByAziendaPartecipante(@Param("aziendaId") Long aziendaId);
 }

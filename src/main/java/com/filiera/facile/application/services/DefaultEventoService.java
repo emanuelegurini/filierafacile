@@ -10,7 +10,7 @@ import com.filiera.facile.model.interfaces.EventoService;
 import com.filiera.facile.repositories.UtenteRepository;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public class DefaultEventoService implements EventoService {
 
@@ -25,7 +25,7 @@ public class DefaultEventoService implements EventoService {
     }
 
     @Override
-    public DefaultEvento creaNuovoEvento(UUID organizzatoreId, DefaultEvento evento) {
+    public DefaultEvento creaNuovoEvento(Long organizzatoreId, DefaultEvento evento) {
         DefaultUtente organizzatore = utenteRepository.findById(organizzatoreId)
                 .orElseThrow(() -> new RuntimeException("Utente organizzatore non trovato."));
 
@@ -38,7 +38,7 @@ public class DefaultEventoService implements EventoService {
     }
 
     @Override
-    public void aggiungiAziendaAdEvento(UUID eventoId, UUID aziendaId) {
+    public void aggiungiAziendaAdEvento(Long eventoId, Long aziendaId) {
         DefaultEvento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new RuntimeException("Evento non trovato."));
         DefaultAzienda azienda = aziendaRepository.findById(aziendaId)
@@ -49,7 +49,7 @@ public class DefaultEventoService implements EventoService {
     }
 
     @Override
-    public void rimuoviAziendaDaEvento(UUID eventoId, UUID aziendaId) {
+    public void rimuoviAziendaDaEvento(Long eventoId, Long aziendaId) {
         DefaultEvento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new RuntimeException("Evento non trovato."));
         DefaultAzienda azienda = aziendaRepository.findById(aziendaId)
@@ -60,7 +60,7 @@ public class DefaultEventoService implements EventoService {
     }
 
     @Override
-    public List<DefaultEvento> trovaEventiPerAzienda(UUID aziendaId) {
+    public List<DefaultEvento> trovaEventiPerAzienda(Long aziendaId) {
         return eventoRepository.findByAziendaPartecipante(aziendaId);
     }
 }

@@ -13,7 +13,7 @@ import com.filiera.facile.utils.ScorteInsufficientiException;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class DefaultPacchettoProdottiService {
 
@@ -23,10 +23,10 @@ public class DefaultPacchettoProdottiService {
     private final AziendaRepository aziendaRepository;
 
     public DefaultPacchettoProdottiService(
-            DefaultPacchettoProdottiRepository pacchettoRepository,
-            DefaultProdottoRepository prodottoRepository,
-            DefaultUtenteRepository utenteRepository,
-            DefaultAziendaRepository aziendaRepository
+            PacchettoProdottiRepository pacchettoRepository,
+            ProdottoRepository prodottoRepository,
+            UtenteRepository utenteRepository,
+            AziendaRepository aziendaRepository
     ) {
         this.pacchettoRepository = Objects.requireNonNull(pacchettoRepository);
         this.prodottoRepository = Objects.requireNonNull(prodottoRepository);
@@ -37,7 +37,7 @@ public class DefaultPacchettoProdottiService {
     /**
      * Crea un nuovo pacchetto vuoto associato a un'azienda.
      */
-    public DefaultPacchettoProdotti creaNuovoPacchetto(UUID utenteId, UUID aziendaId, String nome, String descrizione) {
+    public DefaultPacchettoProdotti creaNuovoPacchetto(Long utenteId, Long aziendaId, String nome, String descrizione) {
         DefaultAzienda azienda = checkUserPermissionAndGetAzienda(utenteId, aziendaId);
         DefaultPacchettoProdotti nuovoPacchetto = new DefaultPacchettoProdotti(nome, descrizione, azienda);
         return pacchettoRepository.save(nuovoPacchetto);
@@ -47,7 +47,7 @@ public class DefaultPacchettoProdottiService {
      * Aggiunge una data quantità di un prodotto a un pacchetto.
      * Controlla la disponibilità nel magazzino e aggiorna le scorte dell'azienda.
      */
-    public DefaultPacchettoProdotti aggiungiProdottoAlPacchetto(UUID utenteId, UUID pacchettoId, UUID prodottoId, int quantita) {
+    public DefaultPacchettoProdotti aggiungiProdottoAlPacchetto(Long utenteId, Long pacchettoId, Long prodottoId, int quantita) {
         if (quantita <= 0) {
             throw new IllegalArgumentException("La quantità deve essere positiva.");
         }
@@ -78,7 +78,7 @@ public class DefaultPacchettoProdottiService {
     /**
      * Rimuove un prodotto da un pacchetto e restituisce le scorte al magazzino dell'azienda.
      */
-    public DefaultPacchettoProdotti rimuoviProdottoDalPacchetto(UUID utenteId, UUID pacchettoId, UUID prodottoId) {
+    public DefaultPacchettoProdotti rimuoviProdottoDalPacchetto(Long utenteId, Long pacchettoId, Long prodottoId) {
         DefaultPacchettoProdotti pacchetto = pacchettoRepository.findById(pacchettoId)
                 .orElseThrow(() -> new NoSuchElementException("Pacchetto non trovato con ID: " + pacchettoId));
 
@@ -104,7 +104,7 @@ public class DefaultPacchettoProdottiService {
     /**
      * Controlla che l'utente abbia il ruolo GESTORE_PRODOTTI per l'azienda specificata.
      */
-    private DefaultAzienda checkUserPermissionAndGetAzienda(UUID utenteId, UUID aziendaId) {
+    private DefaultAzienda checkUserPermissionAndGetAzienda(Long utenteId, Long aziendaId) {
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new SecurityException("Utente non trovato con ID: " + utenteId));
 

@@ -5,5 +5,5 @@ import com.filiera.facile.entities.DefaultProdotto;
 import java.util.UUID;
 
 public interface ProdottoService {
-    DefaultProdotto creaNuovoProdotto(UUID idUtente, UUID idAzienda, DefaultProdotto prodotto);
+    DefaultProdotto creaNuovoProdotto(Long idUtente, Long idAzienda, DefaultProdotto prodotto);
 }

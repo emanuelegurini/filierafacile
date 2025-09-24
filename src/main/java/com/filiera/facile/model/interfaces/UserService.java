@@ -9,5 +9,5 @@ public interface UserService {
 
     DefaultUtente registraNuovoUtente(DefaultUtente utente);
 
-    void aggiungiAffiliazione(UUID utenteId, UUID aziendaId, RuoloAziendale ruolo);
+    void aggiungiAffiliazione(Long utenteId, Long aziendaId, RuoloAziendale ruolo);
 }

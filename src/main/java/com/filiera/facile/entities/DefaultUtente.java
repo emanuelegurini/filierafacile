@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 

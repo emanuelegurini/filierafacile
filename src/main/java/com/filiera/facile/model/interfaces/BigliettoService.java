@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public interface BigliettoService {
 
-    DefaultBiglietto acquistaBiglietto(UUID utenteId, UUID eventoId);
+    DefaultBiglietto acquistaBiglietto(Long utenteId, Long eventoId);
 
-    void annullaBiglietto(UUID bigliettoId);
+    void annullaBiglietto(Long bigliettoId);
 
-    List<DefaultBiglietto> trovaBigliettiPerEvento(UUID eventoId);
+    List<DefaultBiglietto> trovaBigliettiPerEvento(Long eventoId);
 }

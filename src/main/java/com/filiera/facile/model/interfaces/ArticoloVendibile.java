@@ -14,7 +14,7 @@ public interface ArticoloVendibile {
 
     /**
      */
-    UUID getId();
+    Long getId();
 
     /**
      * Restituisce il nome dell'articolo da mostrare all'utente.

@@ -16,8 +16,9 @@ import java.util.UUID;
 public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile {
 
     @Id
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    protected final UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    protected final Long id;
 
     @Column(name = "nome", nullable = false, length = 255)
     protected String nome;
@@ -40,7 +41,7 @@ public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile 
     protected StatoValidazione stato;
 
     public ArticoloCatalogo(String nome, String descrizione, double prezzoUnitario, DefaultAzienda azienda) {
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.nome = Objects.requireNonNull(nome, "Il nome non può essere nullo.");
         this.descrizione = descrizione;
         this.prezzoUnitario = prezzoUnitario;
@@ -80,7 +81,7 @@ public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile 
     }
 
     @Override
-    public UUID getId() { return id; }
+    public Long getId() { return id; }
 
     public double getQuantitaDisponibile() {
         return quantitaDisponibile;

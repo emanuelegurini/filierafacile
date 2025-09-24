@@ -10,7 +10,7 @@ import com.filiera.facile.repositories.EventoRepository;
 import com.filiera.facile.repositories.UtenteRepository;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public class DefaultBigliettoService implements BigliettoService {
 
@@ -25,7 +25,7 @@ public class DefaultBigliettoService implements BigliettoService {
     }
 
     @Override
-    public DefaultBiglietto acquistaBiglietto(UUID utenteId, UUID eventoId) {
+    public DefaultBiglietto acquistaBiglietto(Long utenteId, Long eventoId) {
         // 1. Recupera le entità necessarie dai repository
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + utenteId));
@@ -51,7 +51,7 @@ public class DefaultBigliettoService implements BigliettoService {
     }
 
     @Override
-    public void annullaBiglietto(UUID bigliettoId) {
+    public void annullaBiglietto(Long bigliettoId) {
         DefaultBiglietto biglietto = bigliettoRepository.findById(bigliettoId)
                 .orElseThrow(() -> new RuntimeException("Biglietto non trovato con ID: " + bigliettoId));
 
@@ -64,7 +64,7 @@ public class DefaultBigliettoService implements BigliettoService {
     }
 
     @Override
-    public List<DefaultBiglietto> trovaBigliettiPerEvento(UUID eventoId) {
+    public List<DefaultBiglietto> trovaBigliettiPerEvento(Long eventoId) {
         // Delega la logica di ricerca al repository, come da nostro design
         return bigliettoRepository.findByEventoId(eventoId);
     }

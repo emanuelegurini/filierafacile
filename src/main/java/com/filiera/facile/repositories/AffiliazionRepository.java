@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AffiliazionRepository extends JpaRepository<DefaultAffiliazione, UUID> {
+public interface AffiliazionRepository extends JpaRepository<DefaultAffiliazione, Long> {
 
     /**
      * Trova affiliazioni per utente.
