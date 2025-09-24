@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PacchettoProdottiJpaRepository extends JpaRepository<DefaultPacchettoProdotti, UUID> {
+public interface PacchettoProdottiRepository extends JpaRepository<DefaultPacchettoProdotti, UUID> {
 
     /**
      * Trova pacchetti per azienda distributrice.

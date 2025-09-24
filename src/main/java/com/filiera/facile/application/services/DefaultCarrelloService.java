@@ -2,9 +2,9 @@ package com.filiera.facile.application.services;
 
 import com.filiera.facile.entities.DefaultCarrello;
 import com.filiera.facile.model.interfaces.ArticoloVendibile;
-import com.filiera.facile.model.interfaces.CarrelloRepository;
+import com.filiera.facile.repositories.CarrelloRepository;
 import com.filiera.facile.model.interfaces.CarrelloService;
-import com.filiera.facile.model.interfaces.ProdottoRepository;
+import com.filiera.facile.repositories.ProdottoRepository;
 
 import java.util.UUID;
 

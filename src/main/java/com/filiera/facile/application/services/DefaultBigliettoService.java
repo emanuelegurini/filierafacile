@@ -4,10 +4,10 @@ import com.filiera.facile.entities.DefaultBiglietto;
 import com.filiera.facile.entities.DefaultEvento;
 import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.StatoBiglietto;
-import com.filiera.facile.model.interfaces.BigliettoRepository;
+import com.filiera.facile.repositories.BigliettoRepository;
 import com.filiera.facile.model.interfaces.BigliettoService;
-import com.filiera.facile.model.interfaces.EventoRepository;
-import com.filiera.facile.model.interfaces.UtenteRepository;
+import com.filiera.facile.repositories.EventoRepository;
+import com.filiera.facile.repositories.UtenteRepository;
 
 import java.util.List;
 import java.util.UUID;

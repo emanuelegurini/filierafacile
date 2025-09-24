@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ProdottoJpaRepository extends JpaRepository<DefaultProdotto, UUID> {
+public interface ProdottoRepository extends JpaRepository<DefaultProdotto, UUID> {
 
     /**
      * Trova prodotti per azienda produttrice.
