@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: filierafacile
+  datasource:
+    url: jdbc:mysql://localhost:3306/filierafacile?createDatabaseIfNotExist=true
+    username: root
+    password: Lmlyraa200kh!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # ATTENZIONE: Solo per sviluppo! Usa 'update' in produzione
+    show-sql: true # Mostra le query SQL nel log (utile per debug)
+    format-sql: true # Formatta le query SQL per leggibilità
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    enabled: false # Disabilitato per ora, useremo Hibernate per creare il schema
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Log dei parametri delle query
