@@ -5,29 +5,28 @@ import com.filiera.facile.model.interfaces.Validabile;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ValidazioneService {
 
-    UUID sottomettiPerValidazione(Validabile contenuto, UUID richiedenteId);
+    Long sottomettiPerValidazione(Validabile contenuto, Long richiedenteId);
 
-    void registraCuratore(UUID curatoreId);
+    void registraCuratore(Long curatoreId);
 
-    void rimuoviCuratore(UUID curatoreId);
+    void rimuoviCuratore(Long curatoreId);
 
-    void approvaPratica(UUID praticaId, UUID curatoreId, String noteValutazione);
+    void approvaPratica(Long praticaId, Long curatoreId, String noteValutazione);
 
-    void respingiPratica(UUID praticaId, UUID curatoreId, String motivazioneRifiuto);
+    void respingiPratica(Long praticaId, Long curatoreId, String motivazioneRifiuto);
 
-    void richiedeModifiche(UUID praticaId, UUID curatoreId, String noteModifiche);
+    void richiedeModifiche(Long praticaId, Long curatoreId, String noteModifiche);
 
-    Optional<DefaultPraticaValidazione> getPraticaById(UUID praticaId);
+    Optional<DefaultPraticaValidazione> getPraticaById(Long praticaId);
 
     List<DefaultPraticaValidazione> getPratichePendenti();
 
-    List<DefaultPraticaValidazione> getPratichePerCuratore(UUID curatoreId);
+    List<DefaultPraticaValidazione> getPratichePerCuratore(Long curatoreId);
 
-    List<UUID> getCuratoriLiberi();
+    List<Long> getCuratoriLiberi();
 
-    void liberaCuratore(UUID curatoreId);
+    void liberaCuratore(Long curatoreId);
 }

@@ -11,8 +11,9 @@ import java.util.UUID;
 public class DefaultCoordinate implements Coordinate {
 
     @Id
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "latitude", nullable = false)
     private Float latitude;
@@ -21,7 +22,7 @@ public class DefaultCoordinate implements Coordinate {
     private Float longitude;
 
     public DefaultCoordinate(Float latitude, Float longitude) {
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.latitude = Objects.requireNonNull(latitude,"La latitudine non può essere lasciata vuota");
         this.longitude = Objects.requireNonNull(longitude,"La longitudine non può essere lasciata vuota ");
     }

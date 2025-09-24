@@ -6,7 +6,7 @@ import com.filiera.facile.repositories.CarrelloRepository;
 import com.filiera.facile.model.interfaces.CarrelloService;
 import com.filiera.facile.repositories.ProdottoRepository;
 
-import java.util.UUID;
+
 
 public class DefaultCarrelloService implements CarrelloService {
 
@@ -19,7 +19,7 @@ public class DefaultCarrelloService implements CarrelloService {
     }
 
     @Override
-    public DefaultCarrello getCarrelloPerUtente(UUID utenteId) {
+    public DefaultCarrello getCarrelloPerUtente(Long utenteId) {
         return carrelloRepository.findByUtenteId(utenteId)
                 .orElseGet(() -> {
                     DefaultCarrello nuovoCarrello = new DefaultCarrello(utenteId);
@@ -29,7 +29,7 @@ public class DefaultCarrelloService implements CarrelloService {
     }
 
     @Override
-    public void aggiungiArticoloAlCarrello(UUID utenteId, UUID articoloId, int quantita) {
+    public void aggiungiArticoloAlCarrello(Long utenteId, Long articoloId, int quantita) {
         DefaultCarrello carrello = getCarrelloPerUtente(utenteId);
         ArticoloVendibile articoloDaAggiungere = trovaArticoloVendibile(articoloId);
 
@@ -39,20 +39,20 @@ public class DefaultCarrelloService implements CarrelloService {
     }
 
     @Override
-    public void rimuoviArticoloDalCarrello(UUID utenteId, UUID articoloId) {
+    public void rimuoviArticoloDalCarrello(Long utenteId, Long articoloId) {
         DefaultCarrello carrello = getCarrelloPerUtente(utenteId);
         carrello.rimuoviArticolo(articoloId);
         carrelloRepository.save(carrello);
     }
 
     @Override
-    public void svuotaCarrello(UUID utenteId) {
+    public void svuotaCarrello(Long utenteId) {
         DefaultCarrello carrello = getCarrelloPerUtente(utenteId);
         carrello.svuota();
         carrelloRepository.save(carrello);
     }
 
-    private ArticoloVendibile trovaArticoloVendibile(UUID articoloId) {
+    private ArticoloVendibile trovaArticoloVendibile(Long articoloId) {
         return prodottoRepository.findById(articoloId)
                 .orElseThrow(() -> new RuntimeException("Nessun articolo vendibile trovato con ID: " + articoloId));
     }

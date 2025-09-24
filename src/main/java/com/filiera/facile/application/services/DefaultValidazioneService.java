@@ -12,7 +12,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     private final CodaValidazione codaValidazione;
     private final CuratoreStatusTracker statusTracker;
     private final DefaultAssegnatoreAutomatico assegnatore;
-    private final Map<UUID, DefaultPraticaValidazione> praticheInCorso;
+    private final Map<Long, DefaultPraticaValidazione> praticheInCorso;
 
     public DefaultValidazioneService(CodaValidazione codaValidazione, CuratoreStatusTracker statusTracker) {
         this.codaValidazione = Objects.requireNonNull(codaValidazione, "La coda di validazione non può essere null");
@@ -22,7 +22,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public UUID sottomettiPerValidazione(Validabile contenuto, UUID richiedenteId) {
+    public Long sottomettiPerValidazione(Validabile contenuto, Long richiedenteId) {
         Objects.requireNonNull(contenuto, "Il contenuto da validare non può essere null");
         Objects.requireNonNull(richiedenteId, "L'ID del richiedente non può essere null");
 
@@ -35,19 +35,19 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public void registraCuratore(UUID curatoreId) {
+    public void registraCuratore(Long curatoreId) {
         Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
         statusTracker.registraCuratore(curatoreId);
     }
 
     @Override
-    public void rimuoviCuratore(UUID curatoreId) {
+    public void rimuoviCuratore(Long curatoreId) {
         Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
         statusTracker.rimuoviCuratore(curatoreId);
     }
 
     @Override
-    public void approvaPratica(UUID praticaId, UUID curatoreId, String noteValutazione) {
+    public void approvaPratica(Long praticaId, Long curatoreId, String noteValutazione) {
         DefaultPraticaValidazione pratica = validaEOttieniPratica(praticaId, curatoreId);
 
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
@@ -58,7 +58,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public void respingiPratica(UUID praticaId, UUID curatoreId, String motivazioneRifiuto) {
+    public void respingiPratica(Long praticaId, Long curatoreId, String motivazioneRifiuto) {
         DefaultPraticaValidazione pratica = validaEOttieniPratica(praticaId, curatoreId);
 
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
@@ -69,7 +69,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public void richiedeModifiche(UUID praticaId, UUID curatoreId, String noteModifiche) {
+    public void richiedeModifiche(Long praticaId, Long curatoreId, String noteModifiche) {
         DefaultPraticaValidazione pratica = validaEOttieniPratica(praticaId, curatoreId);
 
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
@@ -80,7 +80,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public Optional<DefaultPraticaValidazione> getPraticaById(UUID praticaId) {
+    public Optional<DefaultPraticaValidazione> getPraticaById(Long praticaId) {
         DefaultPraticaValidazione pratica = praticheInCorso.get(praticaId);
         if (pratica != null) {
             return Optional.of(pratica);
@@ -94,7 +94,7 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public List<DefaultPraticaValidazione> getPratichePerCuratore(UUID curatoreId) {
+    public List<DefaultPraticaValidazione> getPratichePerCuratore(Long curatoreId) {
         Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
 
         return praticheInCorso.values().stream()
@@ -104,17 +104,17 @@ public class DefaultValidazioneService implements ValidazioneService {
     }
 
     @Override
-    public List<UUID> getCuratoriLiberi() {
+    public List<Long> getCuratoriLiberi() {
         return statusTracker.getCuratoriLiberi();
     }
 
     @Override
-    public void liberaCuratore(UUID curatoreId) {
+    public void liberaCuratore(Long curatoreId) {
         Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
         assegnatore.onCuratoreLibero(curatoreId);
     }
 
-    private DefaultPraticaValidazione validaEOttieniPratica(UUID praticaId, UUID curatoreId) {
+    private DefaultPraticaValidazione validaEOttieniPratica(Long praticaId, Long curatoreId) {
         Objects.requireNonNull(praticaId, "L'ID della pratica non può essere null");
         Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
 
@@ -130,7 +130,7 @@ public class DefaultValidazioneService implements ValidazioneService {
         return pratica;
     }
 
-    private void rimuoviPraticaCompletata(UUID praticaId) {
+    private void rimuoviPraticaCompletata(Long praticaId) {
         praticheInCorso.remove(praticaId);
     }
 }

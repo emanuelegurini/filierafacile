@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface EventoService {
 
-    DefaultEvento creaNuovoEvento(UUID organizzatoreId, DefaultEvento evento);
+    DefaultEvento creaNuovoEvento(Long organizzatoreId, DefaultEvento evento);
 
-    void aggiungiAziendaAdEvento(UUID eventoId, UUID aziendaId);
+    void aggiungiAziendaAdEvento(Long eventoId, Long aziendaId);
 
-    void rimuoviAziendaDaEvento(UUID eventoId, UUID aziendaId);
+    void rimuoviAziendaDaEvento(Long eventoId, Long aziendaId);
 
-    List<DefaultEvento> trovaEventiPerAzienda(UUID aziendaId);
+    List<DefaultEvento> trovaEventiPerAzienda(Long aziendaId);
 }

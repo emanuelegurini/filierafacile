@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class DefaultBiglietto {
-    private final UUID id;
+    private final Long id;
     private final DefaultEvento evento;
     private final DefaultUtente intestatario;
     private final LocalDateTime dataEmissione;
@@ -15,7 +15,7 @@ public class DefaultBiglietto {
     private StatoBiglietto stato;
 
     public DefaultBiglietto(DefaultEvento evento, DefaultUtente intestatario) {
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.evento = Objects.requireNonNull(evento, "L'evento non può essere nullo.");
         this.intestatario = Objects.requireNonNull(intestatario, "L'intestatario non può essere nullo.");
 
@@ -24,7 +24,7 @@ public class DefaultBiglietto {
         this.stato = StatoBiglietto.VALIDO;
     }
 
-    public UUID getId() { return id; }
+    public Long getId() { return id; }
     public DefaultEvento getEvento() { return evento; }
     public DefaultUtente getIntestatario() { return intestatario; }
     public LocalDateTime getDataEmissione() { return dataEmissione; }

@@ -10,16 +10,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CarrelloRepository extends JpaRepository<DefaultCarrello, UUID> {
+public interface CarrelloRepository extends JpaRepository<DefaultCarrello, Long> {
 
     /**
      * Trova carrello attivo per utente.
      */
-    Optional<DefaultCarrello> findByUtenteId(UUID utenteId);
+    Optional<DefaultCarrello> findByUtenteId(Long utenteId);
 
     /**
      * Calcola il totale del carrello con una query custom.
      */
     @Query("SELECT SUM(r.quantita * p.prezzo) FROM DefaultCarrello c JOIN c.righeCarrello r JOIN r.prodotto p WHERE c.id = :carrelloId")
-    Double calcolaTotaleCarrello(@Param("carrelloId") UUID carrelloId);
+    Double calcolaTotaleCarrello(@Param("carrelloId") Long carrelloId);
 }

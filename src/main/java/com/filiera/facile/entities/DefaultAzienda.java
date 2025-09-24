@@ -13,8 +13,9 @@ import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 @Table(name = "azienda")
 public class DefaultAzienda {
     @Id
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    protected UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    protected Long id;
 
     @Column(name = "ragione_sociale", nullable = false, length = 255)
     protected String ragioneSociale;
@@ -69,7 +70,7 @@ public class DefaultAzienda {
             String sitoWeb,
             DefaultCoordinate coordinate
     ) {
-        this.id = UUID.randomUUID();
+        this.id = null;
         this.ragioneSociale = Objects.requireNonNull(ragioneSociale,"Company name cannot be null");
         this.partitaIva = Objects.requireNonNull(partitaIva, "VAT number cannot be null");
         this.indirizzo = Objects.requireNonNull(indirizzo, "Address cannot be null");
@@ -81,7 +82,7 @@ public class DefaultAzienda {
         this.magazzino = new HashMap<>();
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

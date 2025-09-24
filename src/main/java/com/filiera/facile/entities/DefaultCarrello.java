@@ -8,22 +8,22 @@ import java.util.UUID;
 
 public class DefaultCarrello {
 
-    private final UUID id;
-    private final UUID utenteId;
-    private final Map<UUID, DefaultRigaCarrello> righe;
+    private final Long id;
+    private final Long utenteId;
+    private final Map<Long, DefaultRigaCarrello> righe;
 
-    public DefaultCarrello(UUID utenteId) {
-        this.id = UUID.randomUUID();
+    public DefaultCarrello(Long utenteId) {
+        this.id = null;
         this.utenteId = utenteId;
         this.righe = new HashMap<>();
     }
 
-    public UUID getUtenteId() {
+    public Long getUtenteId() {
         return this.utenteId;
     }
 
     public void aggiungiArticolo(ArticoloVendibile articolo, int quantita) {
-        UUID articoloId = articolo.getId();
+        Long articoloId = articolo.getId();
 
         if (righe.containsKey(articoloId)) {
             righe.get(articoloId).incrementaQuantita(quantita);
@@ -32,11 +32,11 @@ public class DefaultCarrello {
         }
     }
 
-    public void rimuoviArticolo(UUID articoloId) {
+    public void rimuoviArticolo(Long articoloId) {
         righe.remove(articoloId);
     }
 
-    public void aggiornaQuantita(UUID articoloId, int nuovaQuantita) {
+    public void aggiornaQuantita(Long articoloId, int nuovaQuantita) {
         if (righe.containsKey(articoloId)) {
             righe.get(articoloId).setQuantita(nuovaQuantita);
         }
@@ -48,7 +48,7 @@ public class DefaultCarrello {
                 .sum();
     }
 
-    public Map<UUID, DefaultRigaCarrello> getRighe() {
+    public Map<Long, DefaultRigaCarrello> getRighe() {
         return righe;
     }
 
