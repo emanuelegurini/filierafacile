@@ -1,6 +1,6 @@
 package com.filiera.facile.model.interfaces;
 
-import com.filiera.facile.domain.DefaultCarrello;
+import com.filiera.facile.entities.DefaultCarrello;
 
 import java.util.UUID;
 

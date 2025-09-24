@@ -1,6 +1,6 @@
 package com.filiera.facile.repository;
 
-import com.filiera.facile.domain.DefaultBiglietto;
+import com.filiera.facile.entities.DefaultBiglietto;
 import com.filiera.facile.model.interfaces.BigliettoRepository;
 
 import java.util.List;

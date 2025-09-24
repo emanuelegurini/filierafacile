@@ -1,6 +1,6 @@
 package com.filiera.facile.model.interfaces;
 
-import com.filiera.facile.domain.DefaultPraticaValidazione;
+import com.filiera.facile.entities.DefaultPraticaValidazione;
 
 import java.util.List;
 import java.util.Optional;

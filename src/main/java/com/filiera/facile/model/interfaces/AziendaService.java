@@ -1,6 +1,6 @@
 package com.filiera.facile.model.interfaces;
 
-import com.filiera.facile.domain.DefaultAzienda;
+import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.model.enums.TipoAzienda;
 
 import java.util.UUID;

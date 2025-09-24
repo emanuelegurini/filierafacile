@@ -1,6 +1,6 @@
 package com.filiera.facile.repository;
 
-import com.filiera.facile.domain.DefaultCarrello;
+import com.filiera.facile.entities.DefaultCarrello;
 import com.filiera.facile.model.interfaces.CarrelloRepository;
 
 import java.util.Map;

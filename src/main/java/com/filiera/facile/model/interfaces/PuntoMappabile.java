@@ -1,6 +1,6 @@
 package com.filiera.facile.model.interfaces;
 
-import com.filiera.facile.domain.DefaultCoordinate;
+import com.filiera.facile.entities.DefaultCoordinate;
 import java.util.Objects;
 
 public abstract class PuntoMappabile {
