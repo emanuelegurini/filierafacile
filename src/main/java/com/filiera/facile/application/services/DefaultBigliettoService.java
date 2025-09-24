@@ -1,8 +1,8 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultBiglietto;
-import com.filiera.facile.domain.DefaultEvento;
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultBiglietto;
+import com.filiera.facile.entities.DefaultEvento;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.StatoBiglietto;
 import com.filiera.facile.model.interfaces.BigliettoRepository;
 import com.filiera.facile.model.interfaces.BigliettoService;

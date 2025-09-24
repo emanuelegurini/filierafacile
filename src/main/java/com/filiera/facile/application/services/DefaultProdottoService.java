@@ -1,22 +1,28 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultProdotto;
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultProdotto;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
 import com.filiera.facile.model.interfaces.AziendaRepository;
 import com.filiera.facile.model.interfaces.ProdottoRepository;
 import com.filiera.facile.model.interfaces.ProdottoService;
 import com.filiera.facile.model.interfaces.UtenteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+//@Service
+@Transactional
 public class DefaultProdottoService implements ProdottoService {
 
     private final ProdottoRepository prodottoRepository;
     private final UtenteRepository utenteRepository;
     private final AziendaRepository aziendaRepository;
 
+    @Autowired
     public DefaultProdottoService(
             ProdottoRepository pr,
             UtenteRepository ur,

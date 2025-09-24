@@ -1,9 +1,9 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultPacchettoProdotti;
-import com.filiera.facile.domain.DefaultProdotto;
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultPacchettoProdotti;
+import com.filiera.facile.entities.DefaultProdotto;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
 import com.filiera.facile.repository.DefaultAziendaRepository;
 import com.filiera.facile.repository.DefaultPacchettoProdottiRepository;

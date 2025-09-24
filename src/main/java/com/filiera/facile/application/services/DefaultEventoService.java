@@ -1,8 +1,8 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultEvento;
-import com.filiera.facile.domain.DefaultUtente;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultEvento;
+import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloPiattaforma;
 import com.filiera.facile.model.interfaces.AziendaRepository;
 import com.filiera.facile.model.interfaces.EventoRepository;

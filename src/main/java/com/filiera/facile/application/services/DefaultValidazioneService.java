@@ -1,7 +1,7 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultAssegnatoreAutomatico;
-import com.filiera.facile.domain.DefaultPraticaValidazione;
+import com.filiera.facile.entities.DefaultAssegnatoreAutomatico;
+import com.filiera.facile.entities.DefaultPraticaValidazione;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.*;
 

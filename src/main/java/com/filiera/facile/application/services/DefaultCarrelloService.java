@@ -1,6 +1,6 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultCarrello;
+import com.filiera.facile.entities.DefaultCarrello;
 import com.filiera.facile.model.interfaces.ArticoloVendibile;
 import com.filiera.facile.model.interfaces.CarrelloRepository;
 import com.filiera.facile.model.interfaces.CarrelloService;
