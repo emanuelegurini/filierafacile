@@ -1,51 +1,38 @@
 package com.filiera.facile.repository;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.filiera.facile.domain.DefaultProdotto;
+import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.model.interfaces.ProdottoRepository;
+import com.filiera.facile.repositories.ProdottoJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
-        import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-// TODO: elimina prodotto dal db. In questo caso il prodotto dovrebbe essere eliminato o solamente reso non disponibile con un flag?
-
-/*
- * Questa classe implementa il DB in memory.
- * In futuro la struttura dati in memory verrà sostituita con la connessione al DB vera e propria.
- * Per simulare una vera tabella del DB, che può ricevere accessi multipli nello stesso momento,
- * stiamo implementando una ConcurrentHashMap. Questa struttura dati ci permetterà di simulare
- * un DB prima di procedere con l'implementazione di SpringBoot, che avverra solo quando avremo
- * definito correttamente tutte le varie componenti dell'applicativo.
- *
- * Per approfondire meglio questa struttura dati: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html
- */
+@Repository
 public class DefaultProdottoRepository implements ProdottoRepository {
-    /*
-     * Questa Map rappresenta la tabella prodotti che implementeremo successivamente nel DB.
-     * L'ID di ogni prodotto è l'ID che si trova tra le proprietà del Prodotto stesso.
-     *
-     * Per ottenere l'ID di ogni prodotto:
-     * Prodotto prod1 = new Prodotto()
-     * prod1.getId()
-     */
-    private final Map<UUID, DefaultProdotto> database = new ConcurrentHashMap<>();
+
+    private final ProdottoJpaRepository prodottoJpaRepository;
+
+    @Autowired
+    public DefaultProdottoRepository(ProdottoJpaRepository prodottoJpaRepository) {
+        this.prodottoJpaRepository = prodottoJpaRepository;
+    }
 
     @Override
     public void save(DefaultProdotto defaultProdotto) {
-        System.out.println("INFO: Salvataggio del prodotto '" + defaultProdotto.getNomeArticolo() + "' in memoria.");
-        database.put(defaultProdotto.getId(), defaultProdotto);
+        System.out.println("INFO: Salvataggio del prodotto '" + defaultProdotto.getNomeArticolo() + "' nel database.");
+        prodottoJpaRepository.save(defaultProdotto);
     }
 
     @Override
     public Optional<DefaultProdotto> findById(UUID id) {
-        return Optional.ofNullable(database.get(id));
+        return prodottoJpaRepository.findById(id);
     }
 
     @Override
     public List<DefaultProdotto> findAll() {
-        return new ArrayList<>(database.values());
+        return prodottoJpaRepository.findAll();
     }
-
 }

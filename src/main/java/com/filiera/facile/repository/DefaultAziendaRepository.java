@@ -1,32 +1,37 @@
 package com.filiera.facile.repository;
 
-import com.filiera.facile.domain.DefaultAzienda;
+import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.model.interfaces.AziendaRepository;
+import com.filiera.facile.repositories.AziendaJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class DefaultAziendaRepository implements AziendaRepository {
 
-    private final Map<UUID, DefaultAzienda> database = new ConcurrentHashMap<>();
+    private final AziendaJpaRepository aziendaJpaRepository;
+
+    @Autowired
+    public DefaultAziendaRepository(AziendaJpaRepository aziendaJpaRepository) {
+        this.aziendaJpaRepository = aziendaJpaRepository;
+    }
 
     @Override
     public void save (DefaultAzienda defaultAzienda) {
-        System.out.println("INFO: Salvataggio del azienda '" + defaultAzienda.getRagioneSociale() + "' in memoria.");
-        database.put(defaultAzienda.getId(), defaultAzienda);
+        System.out.println("INFO: Salvataggio dell'azienda '" + defaultAzienda.getRagioneSociale() + "' nel database.");
+        aziendaJpaRepository.save(defaultAzienda);
     }
 
     @Override
     public Optional<DefaultAzienda> findById(UUID id) {
-        return Optional.ofNullable(database.get(id));
+        return aziendaJpaRepository.findById(id);
     }
 
     @Override
     public Optional<DefaultAzienda> findByPartitaIva(String partitaIva) {
-        return database.values().stream()
-                .filter(azienda -> azienda.getPartitaIva().equalsIgnoreCase(partitaIva))
-                .findFirst();
+        return aziendaJpaRepository.findByPartitaIva(partitaIva);
     }
 }

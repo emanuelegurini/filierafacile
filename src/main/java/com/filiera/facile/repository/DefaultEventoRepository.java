@@ -1,6 +1,6 @@
 package com.filiera.facile.repository;
 
-import com.filiera.facile.domain.DefaultEvento;
+import com.filiera.facile.entities.DefaultEvento;
 import com.filiera.facile.model.interfaces.EventoRepository;
 
 import java.util.List;
