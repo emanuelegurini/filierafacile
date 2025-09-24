@@ -1,29 +1,63 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.TipoAzienda;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 
+@Entity
+@Table(name = "azienda")
 public class DefaultAzienda {
+    @Id
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
     protected UUID id;
-    protected String ragioneSociale;
-    protected String partitaIva;
-    protected String indirizzo;
-    protected String email;
-    protected String numeroTelefono;
-    protected String sitoWeb;
-    protected LocalDateTime registrationDate;
-    protected DefaultCoordinate coordinate;
-    private final Map<DefaultProdotto, Integer> magazzino;
 
+    @Column(name = "ragione_sociale", nullable = false, length = 255)
+    protected String ragioneSociale;
+
+    @Column(name = "partita_iva", nullable = false, unique = true, length = 20)
+    protected String partitaIva;
+
+    @Column(name = "indirizzo", nullable = false, length = 500)
+    protected String indirizzo;
+
+    @Column(name = "email", nullable = false, length = 255)
+    protected String email;
+
+    @Column(name = "numero_telefono", nullable = false, length = 20)
+    protected String numeroTelefono;
+
+    @Column(name = "sito_web", length = 255)
+    protected String sitoWeb;
+
+    @Column(name = "registration_date")
+    protected LocalDateTime registrationDate;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "coordinate_id")
+    protected DefaultCoordinate coordinate;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "azienda_magazzino",
+                     joinColumns = @JoinColumn(name = "azienda_id"))
+    @MapKeyJoinColumn(name = "prodotto_id")
+    @Column(name = "quantita")
+    @JsonIgnore
+    private final Map<DefaultProdotto, Integer> magazzino;
 
     /**
      * Insieme dei ruoli che l'azienda ricopre nella filiera.
      * Determina le funzionalità a cui ha accesso (es. creare prodotti trasformati).
      */
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "azienda_tipi",
+                     joinColumns = @JoinColumn(name = "azienda_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
     private final Set<TipoAzienda> tipiAzienda;
 
     public DefaultAzienda(

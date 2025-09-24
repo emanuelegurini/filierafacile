@@ -1,19 +1,42 @@
-package com.filiera.facile.model.interfaces;
+package com.filiera.facile.entities;
 
-import com.filiera.facile.domain.DefaultAzienda;
+import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.model.enums.StatoValidazione;
+import com.filiera.facile.model.interfaces.ArticoloVendibile;
+import com.filiera.facile.model.interfaces.Validabile;
 
+import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "articolo_catalogo")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile {
 
+    @Id
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
     protected final UUID id;
+
+    @Column(name = "nome", nullable = false, length = 255)
     protected String nome;
+
+    @Column(name = "descrizione", columnDefinition = "TEXT")
     protected String descrizione;
+
+    @Column(name = "prezzo_unitario")
     private double prezzoUnitario;
+
+    @Column(name = "quantita_disponibile")
     protected double quantitaDisponibile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "azienda_id", nullable = false)
     protected final DefaultAzienda aziendaDiRiferimento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stato", length = 50)
     protected StatoValidazione stato;
 
     public ArticoloCatalogo(String nome, String descrizione, double prezzoUnitario, DefaultAzienda azienda) {

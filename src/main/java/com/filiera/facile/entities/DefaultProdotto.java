@@ -1,18 +1,46 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.*;
-import com.filiera.facile.model.interfaces.ArticoloCatalogo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "prodotto")
+@DiscriminatorValue("Prodotto")
 public class DefaultProdotto extends ArticoloCatalogo {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unita_misura", length = 50)
     private UnitaMisura unitaDiMisura;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria_prodotto", length = 50)
     private CategoriaProdotto categoriaProdotto;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "prodotto_certificazioni",
+                     joinColumns = @JoinColumn(name = "prodotto_id"))
+    @Column(name = "certificazione")
     private List<String> certificazioni;
-    private final List<ArticoloCatalogo> ingredienti; // <<< MODIFICA APPLICATA
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "prodotto_ingredienti",
+               joinColumns = @JoinColumn(name = "prodotto_id"),
+               inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+    @JsonIgnore
+    private final List<ArticoloCatalogo> ingredienti;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_prodotto", length = 50, nullable = false)
     private final TipoProdotto tipoProdotto;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_coltivazione", length = 50)
     private MetodoColtivazione metodoColtivazione;
+
+    @Column(name = "metodo_trasformazione", length = 255)
     private String metodoTrasformazione;
 
     public DefaultProdotto(
@@ -55,7 +83,7 @@ public class DefaultProdotto extends ArticoloCatalogo {
             String listaIngredienti = this.ingredienti.isEmpty()
                     ? "Nessuno specificato"
                     : this.ingredienti.stream()
-                    .map(ArticoloCatalogo::getNomeArticolo) // Usa il metodo dell'astrazione
+                    .map(ArticoloCatalogo::getNomeArticolo)
                     .collect(Collectors.joining(", "));
             dati.put("Ingredienti", listaIngredienti);
         }
@@ -72,7 +100,7 @@ public class DefaultProdotto extends ArticoloCatalogo {
      * permettendo una tracciabilità complessa.
      * @param ingrediente L'articolo da aggiungere come ingrediente.
      */
-    public void aggiungiIngrediente(ArticoloCatalogo ingrediente) { // <<< MODIFICA APPLICATA
+    public void aggiungiIngrediente(ArticoloCatalogo ingrediente) {
         if (this.tipoProdotto == TipoProdotto.MATERIA_PRIMA) {
             throw new IllegalStateException("Non è possibile aggiungere ingredienti a una materia prima.");
         }
@@ -81,7 +109,7 @@ public class DefaultProdotto extends ArticoloCatalogo {
         }
     }
 
-    public List<ArticoloCatalogo> getIngredienti() { // <<< MODIFICA APPLICATA
+    public List<ArticoloCatalogo> getIngredienti() {
         return Collections.unmodifiableList(this.ingredienti);
     }
 

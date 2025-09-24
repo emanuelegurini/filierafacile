@@ -1,7 +1,7 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
-import com.filiera.facile.model.interfaces.ArticoloCatalogo;
-
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,8 +13,17 @@ import java.util.stream.Collectors;
  * Tipicamente creato da un Distributore, raggruppa più {@link ArticoloCatalogo}.
  * Il suo prezzo è calcolato dinamicamente sulla base dei prodotti contenuti.
  */
+@Entity
+@Table(name = "pacchetto_prodotti")
+@DiscriminatorValue("PacchettoProdotti")
 public class DefaultPacchettoProdotti extends ArticoloCatalogo {
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "pacchetto_prodotti_inclusi",
+                     joinColumns = @JoinColumn(name = "pacchetto_id"))
+    @MapKeyJoinColumn(name = "articolo_id")
+    @Column(name = "quantita")
+    @JsonIgnore
     private Map<ArticoloCatalogo, Integer> prodottiInclusi;
 
     public DefaultPacchettoProdotti(
