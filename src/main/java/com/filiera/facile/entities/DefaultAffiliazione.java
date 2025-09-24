@@ -1,16 +1,32 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.RuoloAziendale;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "affiliazione")
 public class DefaultAffiliazione {
+    @Id
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
     private final UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "utente_id", nullable = false)
     private final DefaultUtente defaultUtente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "azienda_id", nullable = false)
     private final DefaultAzienda defaultAzienda;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ruolo_aziendale", length = 50, nullable = false)
     private RuoloAziendale ruoloAziendale;
+
+    @Column(name = "data_affiliazione", nullable = false)
     private final LocalDateTime dataAffiliazione;
 
     public DefaultAffiliazione(
@@ -62,4 +78,3 @@ public class DefaultAffiliazione {
         return Objects.hash(defaultUtente, defaultAzienda);
     }
 }
-

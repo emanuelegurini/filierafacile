@@ -1,4 +1,4 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.PuntoMappabile;

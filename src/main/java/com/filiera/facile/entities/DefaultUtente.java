@@ -1,28 +1,58 @@
-package com.filiera.facile.domain;
+package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.RuoloPiattaforma;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 
+@Entity
+@Table(name = "utente")
 public class DefaultUtente {
-    private final UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "nome", nullable = false, length = 100)
     private String nome;
+
+    @Column(name = "cognome", nullable = false, length = 100)
     private String cognome;
+
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
+
+    @Column(name = "address", nullable = false, length = 500)
     private String address;
+
+    @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
+
+    @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    private final Set<RuoloPiattaforma> ruoli;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "utente_ruoli",
+                     joinColumns = @JoinColumn(name = "utente_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ruolo")
+    private Set<RuoloPiattaforma> ruoli;
 
-    private final Set<DefaultAffiliazione> affiliazioni;
+    @OneToMany(mappedBy = "defaultUtente", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<DefaultAffiliazione> affiliazioni;
+
+    protected DefaultUtente() {
+        this.ruoli = new HashSet<>();
+        this.affiliazioni = new HashSet<>();
+    }
 
     public DefaultUtente(
             String nome,
@@ -32,7 +62,6 @@ public class DefaultUtente {
             String phoneNumber,
             String password
     ) {
-        this.id = UUID.randomUUID();
         this.nome = Objects.requireNonNull(nome, "Nome non può essere null");
         this.cognome = Objects.requireNonNull(cognome, "Cognome non può essere null");
         this.address = Objects.requireNonNull(address, "L'indirizzo non può essere null");
@@ -46,7 +75,7 @@ public class DefaultUtente {
         this.affiliazioni = new HashSet<>();
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
