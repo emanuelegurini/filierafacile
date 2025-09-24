@@ -1,5 +1,9 @@
 package com.filiera.facile.dto.request;
 
+import com.filiera.facile.model.enums.CategoriaProdotto;
+import com.filiera.facile.model.enums.TipoProdotto;
+import com.filiera.facile.model.enums.UnitaMisura;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,19 +21,21 @@ public class CreaProdottoRequest {
 
     @NotNull(message = "Il prezzo è obbligatorio")
     @Positive(message = "Il prezzo deve essere positivo")
-    private BigDecimal prezzo;
+    private Double prezzo;
 
     @NotNull(message = "L'ID dell'azienda è obbligatorio")
     private Long aziendaId;
 
-    public CreaProdottoRequest() {}
+    @NotNull(message = "L'unità di misura è obbligatoria")
+    private UnitaMisura unitaDiMisura;
 
-    public CreaProdottoRequest(String nome, String descrizione, BigDecimal prezzo, Long aziendaId) {
-        this.nome = nome;
-        this.descrizione = descrizione;
-        this.prezzo = prezzo;
-        this.aziendaId = aziendaId;
-    }
+    @NotNull(message = "Il tipo di prodotto è obbligatorio")
+    private TipoProdotto tipoProdotto;
+
+    @NotNull(message = "La categoria del prodotto è obbligatoria")
+    private CategoriaProdotto categoriaProdotto;
+
+    public CreaProdottoRequest() {}
 
     public String getNome() {
         return nome;
@@ -47,11 +53,11 @@ public class CreaProdottoRequest {
         this.descrizione = descrizione;
     }
 
-    public BigDecimal getPrezzo() {
+    public Double getPrezzo() {
         return prezzo;
     }
 
-    public void setPrezzo(BigDecimal prezzo) {
+    public void setPrezzo(Double prezzo) {
         this.prezzo = prezzo;
     }
 
@@ -61,5 +67,29 @@ public class CreaProdottoRequest {
 
     public void setAziendaId(Long aziendaId) {
         this.aziendaId = aziendaId;
+    }
+
+    public UnitaMisura getUnitaDiMisura() {
+        return unitaDiMisura;
+    }
+
+    public void setUnitaDiMisura(UnitaMisura unitaDiMisura) {
+        this.unitaDiMisura = unitaDiMisura;
+    }
+
+    public TipoProdotto getTipoProdotto() {
+        return tipoProdotto;
+    }
+
+    public void setTipoProdotto(TipoProdotto tipoProdotto) {
+        this.tipoProdotto = tipoProdotto;
+    }
+
+    public CategoriaProdotto getCategoriaProdotto() {
+        return categoriaProdotto;
+    }
+
+    public void setCategoriaProdotto(CategoriaProdotto categoriaProdotto) {
+        this.categoriaProdotto = categoriaProdotto;
     }
 }
