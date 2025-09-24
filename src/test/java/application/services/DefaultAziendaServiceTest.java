@@ -1,8 +1,8 @@
 package application.services;
 
 import com.filiera.facile.application.services.DefaultAziendaService;
-import com.filiera.facile.domain.DefaultAzienda;
-import com.filiera.facile.domain.DefaultCoordinate;
+import com.filiera.facile.entities.DefaultAzienda;
+import com.filiera.facile.entities.DefaultCoordinate;
 import com.filiera.facile.repository.DefaultAziendaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

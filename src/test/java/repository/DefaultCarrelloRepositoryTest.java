@@ -1,6 +1,6 @@
 package repository;
 
-import com.filiera.facile.domain.DefaultCarrello;
+import com.filiera.facile.entities.DefaultCarrello;
 import com.filiera.facile.repository.DefaultCarrelloRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

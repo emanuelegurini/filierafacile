@@ -1,8 +1,8 @@
 package com.filiera.facile.application.services;
 
-import com.filiera.facile.domain.DefaultCodaValidazione;
-import com.filiera.facile.domain.DefaultCuratoreStatusTracker;
-import com.filiera.facile.domain.DefaultPraticaValidazione;
+import com.filiera.facile.entities.DefaultCodaValidazione;
+import com.filiera.facile.entities.DefaultCuratoreStatusTracker;
+import com.filiera.facile.entities.DefaultPraticaValidazione;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.Validabile;
 import org.junit.jupiter.api.BeforeEach;
