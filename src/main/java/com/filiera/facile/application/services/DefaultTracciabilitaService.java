@@ -4,7 +4,7 @@ import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.model.enums.TipoProdotto;
 import com.filiera.facile.entities.ArticoloCatalogo;
-import com.filiera.facile.model.interfaces.ProdottoRepository;
+import com.filiera.facile.repositories.ProdottoRepository;
 import com.filiera.facile.model.interfaces.TracciabilitaService;
 
 import java.util.*;

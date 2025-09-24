@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ArticoloCatalogoJpaRepository extends JpaRepository<ArticoloCatalogo, UUID> {
+public interface ArticoloCatalogoRepository extends JpaRepository<ArticoloCatalogo, UUID> {
 
     /**
      * Trova tutti gli articoli (prodotti + pacchetti) per azienda.

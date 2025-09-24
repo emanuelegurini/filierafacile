@@ -5,10 +5,10 @@ import com.filiera.facile.entities.DefaultPacchettoProdotti;
 import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
-import com.filiera.facile.repository.DefaultAziendaRepository;
-import com.filiera.facile.repository.DefaultPacchettoProdottiRepository;
-import com.filiera.facile.repository.DefaultProdottoRepository;
-import com.filiera.facile.repository.DefaultUtenteRepository;
+import com.filiera.facile.repositories.AziendaRepository;
+import com.filiera.facile.repositories.PacchettoProdottiRepository;
+import com.filiera.facile.repositories.ProdottoRepository;
+import com.filiera.facile.repositories.UtenteRepository;
 import com.filiera.facile.utils.ScorteInsufficientiException;
 
 import java.util.NoSuchElementException;
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 public class DefaultPacchettoProdottiService {
 
-    private final DefaultPacchettoProdottiRepository pacchettoRepository;
-    private final DefaultProdottoRepository prodottoRepository;
-    private final DefaultUtenteRepository utenteRepository;
-    private final DefaultAziendaRepository aziendaRepository;
+    private final PacchettoProdottiRepository pacchettoRepository;
+    private final ProdottoRepository prodottoRepository;
+    private final UtenteRepository utenteRepository;
+    private final AziendaRepository aziendaRepository;
 
     public DefaultPacchettoProdottiService(
             DefaultPacchettoProdottiRepository pacchettoRepository,

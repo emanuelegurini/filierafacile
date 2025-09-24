@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UtenteJpaRepository extends JpaRepository<DefaultUtente, Long> {
+public interface UtenteRepository extends JpaRepository<DefaultUtente, Long> {
 
     /**
      * Trova un utente per email.

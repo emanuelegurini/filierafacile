@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AziendaJpaRepository extends JpaRepository<DefaultAzienda, UUID> {
+public interface AziendaRepository extends JpaRepository<DefaultAzienda, UUID> {
 
     /**
      * Trova un'azienda per partita IVA.

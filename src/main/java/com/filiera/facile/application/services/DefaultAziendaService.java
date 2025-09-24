@@ -2,7 +2,7 @@ package com.filiera.facile.application.services;
 
 import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.model.enums.TipoAzienda;
-import com.filiera.facile.model.interfaces.AziendaRepository;
+import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.model.interfaces.AziendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
