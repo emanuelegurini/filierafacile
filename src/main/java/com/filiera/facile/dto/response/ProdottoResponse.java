@@ -19,13 +19,13 @@ public class ProdottoResponse {
 
     public ProdottoResponse(DefaultProdotto prodotto) {
         this.id = prodotto.getId();
-        // TODO: verificare i nomi corretti dei getter nell'entità DefaultProdotto
+        // Mappare correttamente i campi dall'entità
         this.nome = prodotto.getNomeArticolo();
-        this.descrizione = null; // TODO: verificare campo descrizione nell'entità
+        this.descrizione = prodotto.getDescrizioneArticolo(); // Ora mappato correttamente
         this.prezzo = BigDecimal.valueOf(prodotto.getPrezzoUnitario());
         this.aziendaId = prodotto.getAziendaProduttrice() != null ? prodotto.getAziendaProduttrice().getId() : null;
         this.nomeAzienda = prodotto.getAziendaProduttrice() != null ? prodotto.getAziendaProduttrice().getRagioneSociale() : null;
-        this.dataCreazione = null; // TODO: aggiungere campo dataCreazione
+        this.dataCreazione = null; // Campo non presente nell'entità DefaultProdotto
     }
 
     public Long getId() {

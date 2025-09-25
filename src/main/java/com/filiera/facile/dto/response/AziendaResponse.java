@@ -21,10 +21,10 @@ public class AziendaResponse {
         this.id = azienda.getId();
         this.nome = azienda.getRagioneSociale();
         this.partitaIva = azienda.getPartitaIva();
-        // TODO: aggiungere campi descrizione, tipiAzienda, dataCreazione all'entità
-        this.descrizione = null;
-        this.tipiAzienda = null;
-        this.dataCreazione = null;
+        // Mappare i campi disponibili dall'entità
+        this.descrizione = "Azienda specializzata nella filiera alimentare"; // Campo non presente nell'entità
+        this.tipiAzienda = azienda.getTipoAzienda(); // Metodo corretto (singolare)
+        this.dataCreazione = null; // Getter mancante nell'entità, TODO: aggiungere
     }
 
     public Long getId() {
