@@ -9,15 +9,21 @@ import com.filiera.facile.model.interfaces.BigliettoService;
 import com.filiera.facile.repositories.EventoRepository;
 import com.filiera.facile.repositories.UtenteRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
-
+@Service
+@Transactional
 public class DefaultBigliettoService implements BigliettoService {
 
     private final BigliettoRepository bigliettoRepository;
     private final UtenteRepository utenteRepository;
     private final EventoRepository eventoRepository;
 
+    @Autowired
     public DefaultBigliettoService(BigliettoRepository bigliettoRepository, UtenteRepository utenteRepository, EventoRepository eventoRepository) {
         this.bigliettoRepository = bigliettoRepository;
         this.utenteRepository = utenteRepository;

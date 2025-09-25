@@ -45,4 +45,14 @@ public class DefaultAziendaService implements AziendaService {
         System.out.println("INFO: Aggiunto tipo " + tipoAzienda + " ad azienda " + aziendaId);
     }
 
+    public void rimuoviTipoAzienda(Long aziendaId, TipoAzienda tipoAzienda) {
+        DefaultAzienda azienda = aziendaRepository.findById(aziendaId)
+                .orElseThrow(() -> new RuntimeException("Azienda non trovata con ID: " + aziendaId));
+
+        azienda.removeTipoAzienda(tipoAzienda);
+
+        aziendaRepository.save(azienda);
+        System.out.println("INFO: Rimosso tipo " + tipoAzienda + " da azienda " + aziendaId);
+    }
+
 }

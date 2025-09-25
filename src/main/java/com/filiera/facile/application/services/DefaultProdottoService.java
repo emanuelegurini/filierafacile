@@ -49,6 +49,30 @@ public class DefaultProdottoService implements ProdottoService {
         return prodotto;
     }
 
+    // Metodo semplificato per creare prodotti senza autenticazione
+    public DefaultProdotto creaNuovoProdotto(
+            Long idAzienda,
+            com.filiera.facile.dto.request.CreaProdottoRequest request
+    ) {
+
+        DefaultAzienda azienda = aziendaRepository.findById(idAzienda).orElseThrow(() -> new RuntimeException("Azienda non trovata"));
+
+        // Crea il prodotto con l'azienda corretta
+        DefaultProdotto prodotto = new DefaultProdotto(
+                request.getNome(),
+                request.getDescrizione(),
+                request.getPrezzo(),
+                request.getUnitaDiMisura(),
+                azienda, // Ora l'azienda è correttamente assegnata
+                request.getTipoProdotto(),
+                request.getCategoriaProdotto()
+        );
+
+        prodottoRepository.save(prodotto);
+        System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
+        return prodotto;
+    }
+
 
     /*
      * Questa funzione verifica se l'utente ha effettivamente i permessi per creare un prodotto.
