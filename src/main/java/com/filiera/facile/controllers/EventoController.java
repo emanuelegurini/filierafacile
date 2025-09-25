@@ -5,12 +5,10 @@ import com.filiera.facile.entities.DefaultEvento;
 import com.filiera.facile.model.interfaces.EventoService;
 import com.filiera.facile.repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -74,10 +72,7 @@ public class EventoController {
         return ResponseEntity.ok(eventi);
     }
 
-    // TODO: I seguenti endpoints dipendono da metodi repository non ancora implementati
-    // @GetMapping("/futuri")
-    // @GetMapping("/passati")
-    // @GetMapping("/search")
+    // TODO: implementare il controller per prendere tutti gli eventi di un determinato organizzatore
     // @GetMapping("/organizzatore/{organizzatoreId}")
 
     @PutMapping("/{id}")
@@ -119,6 +114,4 @@ public class EventoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // TODO: Endpoint periodo - dipende da repository method non implementato
-    // @GetMapping("/periodo")
 }

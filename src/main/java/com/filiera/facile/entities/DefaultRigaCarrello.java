@@ -1,6 +1,5 @@
 package com.filiera.facile.entities;
 
-import com.filiera.facile.model.interfaces.ArticoloVendibile;
 import jakarta.persistence.*;
 
 import java.util.Objects;

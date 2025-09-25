@@ -3,7 +3,6 @@ package com.filiera.facile.controllers;
 import com.filiera.facile.dto.request.AggiungiAlCarrelloRequest;
 import com.filiera.facile.dto.response.CarrelloResponse;
 import com.filiera.facile.entities.DefaultCarrello;
-import com.filiera.facile.entities.DefaultRigaCarrello;
 import com.filiera.facile.model.interfaces.CarrelloService;
 import com.filiera.facile.repositories.CarrelloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController

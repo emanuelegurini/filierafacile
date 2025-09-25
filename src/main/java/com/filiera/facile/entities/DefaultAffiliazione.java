@@ -5,7 +5,6 @@ import com.filiera.facile.model.enums.RuoloAziendale;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "affiliazione")
@@ -30,7 +29,6 @@ public class DefaultAffiliazione {
     @Column(name = "data_affiliazione", nullable = false)
     private LocalDateTime dataAffiliazione;
 
-    // Costruttore vuoto richiesto da JPA
     protected DefaultAffiliazione() {}
 
     public DefaultAffiliazione(
@@ -68,7 +66,6 @@ public class DefaultAffiliazione {
         return dataAffiliazione;
     }
 
-    // Setter per JPA
     protected void setId(Long id) {
         this.id = id;
     }

@@ -4,7 +4,6 @@ import com.filiera.facile.model.interfaces.Coordinate;
 
 import jakarta.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "coordinate")
@@ -21,7 +20,6 @@ public class DefaultCoordinate implements Coordinate {
     @Column(name = "longitude", nullable = false)
     private Float longitude;
 
-    // Costruttore vuoto per JPA
     protected DefaultCoordinate() {}
 
     public DefaultCoordinate(Float latitude, Float longitude) {

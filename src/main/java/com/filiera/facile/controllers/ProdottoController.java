@@ -30,7 +30,6 @@ public class ProdottoController {
             @Valid @RequestBody CreaProdottoRequest request) {
 
         try {
-            // Usiamo il metodo semplificato senza autenticazione
             DefaultProdotto prodottoCreato = ((com.filiera.facile.application.services.DefaultProdottoService) prodottoService)
                 .creaNuovoProdotto(request.getAziendaId(), request);
 
@@ -56,10 +55,9 @@ public class ProdottoController {
         return ResponseEntity.ok(prodotti);
     }
 
-    // TODO: I seguenti endpoints dipendono da metodi repository non ancora implementati
+    // TODO: Mancano da implementare tutti questi endpoint?!!!!
     // @GetMapping("/azienda/{aziendaId}")
     // @GetMapping("/categoria/{categoria}")
-    // @GetMapping("/search")
     // @PutMapping("/{id}")
 
     @DeleteMapping("/{id}")

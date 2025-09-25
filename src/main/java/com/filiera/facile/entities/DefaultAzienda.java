@@ -50,10 +50,6 @@ public class DefaultAzienda {
     @JsonIgnore
     private Map<DefaultProdotto, Integer> magazzino;
 
-    /**
-     * Insieme dei ruoli che l'azienda ricopre nella filiera.
-     * Determina le funzionalità a cui ha accesso (es. creare prodotti trasformati).
-     */
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "azienda_tipi",
                      joinColumns = @JoinColumn(name = "azienda_id"))
@@ -61,7 +57,6 @@ public class DefaultAzienda {
     @Column(name = "tipo")
     private Set<TipoAzienda> tipiAzienda;
 
-    // Costruttore vuoto per JPA
     protected DefaultAzienda() {
         this.magazzino = new HashMap<>();
         this.tipiAzienda = new HashSet<>();

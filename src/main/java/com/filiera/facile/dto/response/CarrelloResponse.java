@@ -30,7 +30,6 @@ public class CarrelloResponse {
         );
     }
 
-    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -60,7 +59,6 @@ public class CarrelloResponse {
             this.prezzoTotaleRiga = BigDecimal.valueOf(riga.getPrezzoTotaleRiga());
         }
 
-        // Getters and setters
         public Long getArticoloId() { return articoloId; }
         public void setArticoloId(Long articoloId) { this.articoloId = articoloId; }
 

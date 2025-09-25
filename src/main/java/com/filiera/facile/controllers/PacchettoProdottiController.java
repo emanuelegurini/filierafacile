@@ -114,7 +114,7 @@ public class PacchettoProdottiController {
         return ResponseEntity.ok(pacchetti);
     }
 
-    // TODO: Endpoint pacchetti per azienda - dipende da repository method non implementato
+    // TODO: implementare l'endpoint per ottenere tutti pacchetti in base all'azienda
     // @GetMapping("/azienda/{aziendaId}")
 
     @DeleteMapping("/{id}")
@@ -123,11 +123,10 @@ public class PacchettoProdottiController {
             @RequestParam Long utenteId) {
 
         try {
-            // First check if pacchetto exists and user has permission
+            // TODO: terminare di implementare questa delete, in base all'id dei pacchetti
             DefaultPacchettoProdotti pacchetto = pacchettoRepository.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("Pacchetto non trovato con ID: " + id));
 
-            // For now, simple delete - in a real scenario you'd check permissions
             pacchettoRepository.deleteById(id);
 
             return ResponseEntity.noContent().build();
@@ -137,7 +136,4 @@ public class PacchettoProdottiController {
             throw new RuntimeException("Errore durante l'eliminazione del pacchetto: " + e.getMessage());
         }
     }
-
-    // TODO: Endpoint ricerca pacchetti - dipende da repository method non implementato
-    // @GetMapping("/search")
 }

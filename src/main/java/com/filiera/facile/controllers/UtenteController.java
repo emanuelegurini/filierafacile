@@ -120,7 +120,4 @@ public class UtenteController {
             throw new RuntimeException("Errore durante l'aggiornamento del ruolo: " + e.getMessage());
         }
     }
-
-    // TODO: Endpoint ricerca utenti - dipende da repository method non implementato
-    // @GetMapping("/cerca")
 }

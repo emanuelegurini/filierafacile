@@ -26,7 +26,6 @@ public class DefaultPacchettoProdotti extends ArticoloCatalogo {
     @JsonIgnore
     private Map<ArticoloCatalogo, Integer> prodottiInclusi;
 
-    // Costruttore vuoto richiesto da JPA
     protected DefaultPacchettoProdotti() {
         super();
         this.prodottiInclusi = new HashMap<>();
@@ -37,17 +36,10 @@ public class DefaultPacchettoProdotti extends ArticoloCatalogo {
             String descrizione,
             DefaultAzienda aziendaDistributrice
     ) {
-        // Il prezzo di un pacchetto è calcolato dinamicamente, quindi si inizializza a 0.
         super(nome, descrizione, 0, aziendaDistributrice);
         this.prodottiInclusi = new HashMap<>();
     }
 
-    /**
-     * Calcola dinamicamente il prezzo di vendita del pacchetto.
-     * È dato dalla somma dei prezzi dei singoli prodotti inclusi,
-     * a cui viene eventualmente applicato uno sconto percentuale.
-     * @return Il prezzo finale di vendita del pacchetto.
-     */
     @Override
     public double getPrezzoVendita() {
         double prezzoTotale = prodottiInclusi.entrySet().stream()

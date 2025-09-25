@@ -53,7 +53,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleRuntimeException(
             RuntimeException ex) {
 
-        // Log dell'errore per debugging
         ex.printStackTrace();
 
         Map<String, Object> response = new HashMap<>();

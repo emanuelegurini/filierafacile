@@ -1,13 +1,11 @@
 package com.filiera.facile.entities;
 
-import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.ArticoloVendibile;
 import com.filiera.facile.model.interfaces.Validabile;
 
 import jakarta.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "articolo_catalogo")
@@ -40,7 +38,6 @@ public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile 
     @Column(name = "stato", length = 50)
     protected StatoValidazione stato;
 
-    // Costruttore vuoto per JPA
     protected ArticoloCatalogo() {}
 
     public ArticoloCatalogo(String nome, String descrizione, double prezzoUnitario, DefaultAzienda azienda) {

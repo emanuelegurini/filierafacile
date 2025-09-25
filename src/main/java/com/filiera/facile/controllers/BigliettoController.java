@@ -57,7 +57,7 @@ public class BigliettoController {
         return ResponseEntity.ok(biglietti);
     }
 
-    // TODO: Endpoint biglietti per utente - dipende da repository method e entity getUtente() non implementati
+    // TODO: implementare la chiamata per ottenere tutti i biglietti di un determinato utente
     // @GetMapping("/utente/{utenteId}")
 
     @GetMapping("/evento/{eventoId}")
@@ -97,7 +97,6 @@ public class BigliettoController {
     public ResponseEntity<Boolean> verificaDisponibilita(@PathVariable Long eventoId) {
         try {
             List<DefaultBiglietto> biglietti = bigliettoService.trovaBigliettiPerEvento(eventoId);
-            // Logic to check availability - for simplicity returning true if less than 100 tickets
             boolean disponibile = biglietti.size() < 100;
             return ResponseEntity.ok(disponibile);
         } catch (RuntimeException e) {

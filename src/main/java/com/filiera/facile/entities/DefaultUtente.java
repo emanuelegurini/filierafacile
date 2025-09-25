@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import static com.filiera.facile.utils.UtilsValidazione.validateEmail;
 
@@ -141,12 +140,6 @@ public class DefaultUtente {
         return this.ruoli.add(ruolo);
     }
 
-    /**
-     * Aggiunge una nuova affiliazione all'utente.
-     * Grazie a equals/hashCode, impedisce di aggiungere una seconda affiliazione
-     * per la stessa azienda.
-     * @param defaultAffiliazione L'affiliazione da aggiungere.
-     */
     public void addAffiliazione(DefaultAffiliazione defaultAffiliazione) {
         // Controlla che l'affiliazione riguardi questo specifico utente
         if (!defaultAffiliazione.getUtente().equals(this)) {
@@ -155,18 +148,10 @@ public class DefaultUtente {
         this.affiliazioni.add(defaultAffiliazione);
     }
 
-    /**
-     * Rimuove un'affiliazione (es. l'utente non lavora più per quell'azienda).
-     * @param defaultAffiliazione L'affiliazione da rimuovere.
-     */
     public void removeAffiliazione(DefaultAffiliazione defaultAffiliazione) {
         this.affiliazioni.remove(defaultAffiliazione);
     }
 
-    /**
-     * Restituisce una vista non modificabile delle affiliazioni dell'utente.
-     * @return Un Set non modificabile di Affiliazione.
-     */
     public Set<DefaultAffiliazione> getAffiliazioni() {
         return Collections.unmodifiableSet(this.affiliazioni);
     }

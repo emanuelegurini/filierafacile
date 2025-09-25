@@ -4,7 +4,6 @@ import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.entities.DefaultProdotto;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface TracciabilitaService {
 

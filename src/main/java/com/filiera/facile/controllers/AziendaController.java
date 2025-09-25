@@ -36,7 +36,6 @@ public class AziendaController {
     @PostMapping
     public ResponseEntity<AziendaResponse> creaAzienda(@Valid @RequestBody CreaAziendaRequest request) {
         try {
-            // Crea coordinate con valori forniti o default
             Float lat = request.getLatitudine() != null ? request.getLatitudine() : 0.0f;
             Float lon = request.getLongitudine() != null ? request.getLongitudine() : 0.0f;
             DefaultCoordinate coordinate = new DefaultCoordinate(lat, lon);
@@ -53,7 +52,6 @@ public class AziendaController {
 
             DefaultAzienda aziendaCreata = aziendaService.creaNuovaAzienda(nuovaAzienda);
 
-            // Aggiungi i tipi azienda
             if (request.getTipiAzienda() != null) {
                 for (TipoAzienda tipo : request.getTipiAzienda()) {
                     aziendaService.aggiungiTipoAzienda(aziendaCreata.getId(), tipo);
@@ -93,11 +91,8 @@ public class AziendaController {
         return ResponseEntity.ok(aziende);
     }
 
-    // TODO: Endpoint per tipo azienda - dipende da repository method non implementato
-    // @GetMapping("/tipo/{tipo}")
-
-    // TODO: Endpoint ricerca aziende - dipende da repository method non implementato
-    // @GetMapping("/search")
+    // TODO: implementare l'endpoint per ottenere aziende in base al tipo
+    // @GetMapping("/tipo/{tipo}"
 
     @PutMapping("/{id}")
     public ResponseEntity<AziendaResponse> aggiornaAzienda(
@@ -106,7 +101,6 @@ public class AziendaController {
         try {
             return aziendaRepository.findById(id)
                     .map(azienda -> {
-                        // Update fields
                         azienda.setRagioneSociale(request.getRagioneSociale());
                         azienda.setEmail(request.getEmail());
                         azienda.setNumeroTelefono(request.getNumeroTelefono());
@@ -144,7 +138,6 @@ public class AziendaController {
             @RequestParam TipoAzienda tipo) {
 
         try {
-            // Cast to concrete class to access rimuoviTipoAzienda method
             if (aziendaService instanceof com.filiera.facile.application.services.DefaultAziendaService defaultService) {
                 defaultService.rimuoviTipoAzienda(aziendaId, tipo);
                 return ResponseEntity.ok().build();
@@ -166,8 +159,6 @@ public class AziendaController {
     public ResponseEntity<Map<String, Integer>> getMagazzino(@PathVariable Long id) {
         return aziendaRepository.findById(id)
                 .map(azienda -> {
-                    // This would need proper implementation in the entity
-                    // For now return empty map
                     Map<String, Integer> magazzino = new java.util.HashMap<>();
                     return ResponseEntity.ok(magazzino);
                 })

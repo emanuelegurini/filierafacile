@@ -43,7 +43,6 @@ public class DefaultProdotto extends ArticoloCatalogo {
     @Column(name = "metodo_trasformazione", length = 255)
     private String metodoTrasformazione;
 
-    // Costruttore vuoto per JPA
     protected DefaultProdotto() {
         this.ingredienti = new ArrayList<>();
         this.certificazioni = new ArrayList<>();
@@ -101,11 +100,6 @@ public class DefaultProdotto extends ArticoloCatalogo {
     }
 
 
-    /**
-     * Aggiunge un ingrediente a questo prodotto. Può essere qualsiasi {@link ArticoloCatalogo},
-     * permettendo una tracciabilità complessa.
-     * @param ingrediente L'articolo da aggiungere come ingrediente.
-     */
     public void aggiungiIngrediente(ArticoloCatalogo ingrediente) {
         if (this.tipoProdotto == TipoProdotto.MATERIA_PRIMA) {
             throw new IllegalStateException("Non è possibile aggiungere ingredienti a una materia prima.");

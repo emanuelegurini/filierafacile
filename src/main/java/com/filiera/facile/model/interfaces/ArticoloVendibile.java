@@ -1,6 +1,5 @@
 package com.filiera.facile.model.interfaces;
 
-import java.util.UUID;
 
 /**
  * Definisce il contratto per qualsiasi oggetto che possa essere venduto
