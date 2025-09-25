@@ -53,11 +53,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleRuntimeException(
             RuntimeException ex) {
 
+        // Log dell'errore per debugging
+        ex.printStackTrace();
+
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("error", "Internal Server Error");
-        response.put("message", "Si è verificato un errore interno");
+        response.put("message", ex.getMessage()); // Mostra il messaggio reale
+        response.put("details", ex.getClass().getSimpleName()); // Tipo di eccezione
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
