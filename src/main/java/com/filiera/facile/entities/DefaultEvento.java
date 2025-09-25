@@ -3,25 +3,47 @@ package com.filiera.facile.entities;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.PuntoMappabile;
 import com.filiera.facile.model.interfaces.Validabile;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "evento")
 public class DefaultEvento extends PuntoMappabile implements Validabile {
-    private final Long id;
-    private final String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String nome;
+
     private String descrizione;
 
     private LocalDateTime dataOraInizio;
     private LocalDateTime dataOraFine;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizzatore_id")
     private DefaultUtente organizzatore;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "evento_aziende",
+        joinColumns = @JoinColumn(name = "evento_id"),
+        inverseJoinColumns = @JoinColumn(name = "azienda_id")
+    )
     private Set<DefaultAzienda> aziendePartecipanti;
 
     private int postiDisponibili;
     private double costoPartecipazione;
     private StatoValidazione statoValidazione;
+
+    public DefaultEvento() {
+        super("", new DefaultCoordinate(0.0f, 0.0f));
+        this.aziendePartecipanti = new HashSet<>();
+    }
 
     public DefaultEvento(
             String nome,
@@ -33,7 +55,6 @@ public class DefaultEvento extends PuntoMappabile implements Validabile {
             DefaultCoordinate coordinate
     ) {
         super(indirizzo, coordinate);
-        this.id = null;
         this.nome = Objects.requireNonNull(nome, "Il nome dell'evento non può essere nullo.");;
         this.descrizione = descrizione;
         this.dataOraInizio = Objects.requireNonNull(dataOraInizio, "La data di inizio non può essere nulla.");

@@ -1,26 +1,46 @@
 package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.StatoBiglietto;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "biglietto")
 public class DefaultBiglietto {
-    private final Long id;
-    private final DefaultEvento evento;
-    private final DefaultUtente intestatario;
-    private final LocalDateTime dataEmissione;
-    private final double prezzoPagato;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evento_id", nullable = false)
+    private DefaultEvento evento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "intestatario_id", nullable = false)
+    private DefaultUtente intestatario;
+
+    @Column(nullable = false)
+    private LocalDateTime dataEmissione;
+
+    @Column(nullable = false)
+    private double prezzoPagato;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private StatoBiglietto stato;
 
+    public DefaultBiglietto() {
+    }
+
     public DefaultBiglietto(DefaultEvento evento, DefaultUtente intestatario) {
-        this.id = null;
         this.evento = Objects.requireNonNull(evento, "L'evento non può essere nullo.");
         this.intestatario = Objects.requireNonNull(intestatario, "L'intestatario non può essere nullo.");
 
         this.dataEmissione = LocalDateTime.now();
-        this.prezzoPagato = evento.getCostoPartecipazione(); // Prende il prezzo dall'evento
+        this.prezzoPagato = evento.getCostoPartecipazione();
         this.stato = StatoBiglietto.VALIDO;
     }
 

@@ -1,10 +1,12 @@
 package com.filiera.facile.entities;
 
 import com.filiera.facile.model.interfaces.CodaValidazione;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Service
 public class DefaultCodaValidazione implements CodaValidazione {
     private final Queue<DefaultPraticaValidazione> codaPendenti;
     private final Map<Long, DefaultPraticaValidazione> indicePerID;

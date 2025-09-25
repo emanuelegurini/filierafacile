@@ -30,11 +30,11 @@ public class DefaultProdotto extends ArticoloCatalogo {
                joinColumns = @JoinColumn(name = "prodotto_id"),
                inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
     @JsonIgnore
-    private final List<ArticoloCatalogo> ingredienti;
+    private List<ArticoloCatalogo> ingredienti;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_prodotto", length = 50, nullable = false)
-    private final TipoProdotto tipoProdotto;
+    private TipoProdotto tipoProdotto;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "metodo_coltivazione", length = 50)
@@ -42,6 +42,12 @@ public class DefaultProdotto extends ArticoloCatalogo {
 
     @Column(name = "metodo_trasformazione", length = 255)
     private String metodoTrasformazione;
+
+    // Costruttore vuoto per JPA
+    protected DefaultProdotto() {
+        this.ingredienti = new ArrayList<>();
+        this.certificazioni = new ArrayList<>();
+    }
 
     public DefaultProdotto(
             String nome,

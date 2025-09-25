@@ -2,6 +2,7 @@ package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.StatoCuratore;
 import com.filiera.facile.model.interfaces.CuratoreStatusTracker;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Service
 public class DefaultCuratoreStatusTracker implements CuratoreStatusTracker {
     private final Map<Long, StatoCuratore> statoCuratori;
 

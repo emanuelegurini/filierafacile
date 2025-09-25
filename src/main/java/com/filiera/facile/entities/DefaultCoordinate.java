@@ -21,6 +21,9 @@ public class DefaultCoordinate implements Coordinate {
     @Column(name = "longitude", nullable = false)
     private Float longitude;
 
+    // Costruttore vuoto per JPA
+    protected DefaultCoordinate() {}
+
     public DefaultCoordinate(Float latitude, Float longitude) {
         this.id = null;
         this.latitude = Objects.requireNonNull(latitude,"La latitudine non può essere lasciata vuota");

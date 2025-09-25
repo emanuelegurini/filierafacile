@@ -18,7 +18,7 @@ public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    protected final Long id;
+    protected Long id;
 
     @Column(name = "nome", nullable = false, length = 255)
     protected String nome;
@@ -34,11 +34,14 @@ public abstract class ArticoloCatalogo implements ArticoloVendibile, Validabile 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "azienda_id", nullable = false)
-    protected final DefaultAzienda aziendaDiRiferimento;
+    protected DefaultAzienda aziendaDiRiferimento;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "stato", length = 50)
     protected StatoValidazione stato;
+
+    // Costruttore vuoto per JPA
+    protected ArticoloCatalogo() {}
 
     public ArticoloCatalogo(String nome, String descrizione, double prezzoUnitario, DefaultAzienda azienda) {
         this.id = null;
