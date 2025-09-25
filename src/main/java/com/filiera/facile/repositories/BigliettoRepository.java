@@ -20,7 +20,7 @@ public interface BigliettoRepository extends JpaRepository<DefaultBiglietto, Lon
     /**
      * Trova biglietti per utente.
      */
-    List<DefaultBiglietto> findByUtenteId(Long utenteId);
+    List<DefaultBiglietto> findByIntestatarioId(Long intestatarioId);
 
     /**
      * Conta biglietti per evento.

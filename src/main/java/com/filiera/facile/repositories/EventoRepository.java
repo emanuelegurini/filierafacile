@@ -16,12 +16,12 @@ public interface EventoRepository extends JpaRepository<DefaultEvento, Long> {
     /**
      * Trova eventi per azienda organizzatrice.
      */
-    List<DefaultEvento> findByAziendaOrganizzatriceId(Long aziendaId);
+    List<DefaultEvento> findByOrganizzatoreId(Long organizzatoreId);
 
     /**
      * Trova eventi futuri.
      */
-    @Query("SELECT e FROM DefaultEvento e WHERE e.dataInizio > :now")
+    @Query("SELECT e FROM DefaultEvento e WHERE e.dataOraInizio > :now")
     List<DefaultEvento> findEventiInProgramma(@Param("now") LocalDateTime now);
 
     /**
