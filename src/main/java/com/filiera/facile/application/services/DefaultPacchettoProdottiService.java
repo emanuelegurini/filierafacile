@@ -1,37 +1,48 @@
 package com.filiera.facile.application.services;
 
+import com.filiera.facile.entities.DefaultAffiliazione;
 import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.entities.DefaultPacchettoProdotti;
 import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
+import com.filiera.facile.repositories.AffiliazionRepository;
 import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.repositories.PacchettoProdottiRepository;
 import com.filiera.facile.repositories.ProdottoRepository;
 import com.filiera.facile.repositories.UtenteRepository;
 import com.filiera.facile.utils.ScorteInsufficientiException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-
+@Service
+@Transactional
 public class DefaultPacchettoProdottiService {
 
     private final PacchettoProdottiRepository pacchettoRepository;
     private final ProdottoRepository prodottoRepository;
     private final UtenteRepository utenteRepository;
     private final AziendaRepository aziendaRepository;
+    private final AffiliazionRepository affiliazionRepository;
 
+    @Autowired
     public DefaultPacchettoProdottiService(
             PacchettoProdottiRepository pacchettoRepository,
             ProdottoRepository prodottoRepository,
             UtenteRepository utenteRepository,
-            AziendaRepository aziendaRepository
+            AziendaRepository aziendaRepository,
+            AffiliazionRepository affiliazionRepository
     ) {
         this.pacchettoRepository = Objects.requireNonNull(pacchettoRepository);
         this.prodottoRepository = Objects.requireNonNull(prodottoRepository);
         this.utenteRepository = Objects.requireNonNull(utenteRepository);
         this.aziendaRepository = Objects.requireNonNull(aziendaRepository);
+        this.affiliazionRepository = Objects.requireNonNull(affiliazionRepository);
     }
 
     /**
@@ -108,15 +119,18 @@ public class DefaultPacchettoProdottiService {
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new SecurityException("Utente non trovato con ID: " + utenteId));
 
-        boolean isAuthorized = utente.getAffiliazioni().stream()
-                .anyMatch(aff -> aff.getAzienda().getId().equals(aziendaId) &&
-                        (aff.getRuoloAziendale() == RuoloAziendale.GESTORE_PRODOTTI || aff.getRuoloAziendale() == RuoloAziendale.ADMIN));
+        DefaultAzienda azienda = aziendaRepository.findById(aziendaId)
+                .orElseThrow(() -> new NoSuchElementException("Azienda non trovata con ID: " + aziendaId));
+
+        // Controlla direttamente nel repository delle affiliazioni invece che nell'entità utente
+        boolean isAuthorized = affiliazionRepository.findByDefaultUtenteAndDefaultAzienda(utente, azienda)
+                .map(aff -> aff.getRuoloAziendale() == RuoloAziendale.GESTORE_PRODOTTI || aff.getRuoloAziendale() == RuoloAziendale.ADMIN)
+                .orElse(false);
 
         if (!isAuthorized) {
             throw new SecurityException("L'utente " + utenteId + " non ha i permessi per gestire i prodotti dell'azienda " + aziendaId);
         }
 
-        return aziendaRepository.findById(aziendaId)
-                .orElseThrow(() -> new NoSuchElementException("Azienda non trovata con ID: " + aziendaId));
+        return azienda;
     }
 }

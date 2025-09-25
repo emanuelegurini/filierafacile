@@ -26,6 +26,12 @@ public class DefaultPacchettoProdotti extends ArticoloCatalogo {
     @JsonIgnore
     private Map<ArticoloCatalogo, Integer> prodottiInclusi;
 
+    // Costruttore vuoto richiesto da JPA
+    protected DefaultPacchettoProdotti() {
+        super();
+        this.prodottiInclusi = new HashMap<>();
+    }
+
     public DefaultPacchettoProdotti(
             String nome,
             String descrizione,

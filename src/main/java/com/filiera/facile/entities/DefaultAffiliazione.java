@@ -13,29 +13,31 @@ public class DefaultAffiliazione {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private final Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utente_id", nullable = false)
-    private final DefaultUtente defaultUtente;
+    private DefaultUtente defaultUtente;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "azienda_id", nullable = false)
-    private final DefaultAzienda defaultAzienda;
+    private DefaultAzienda defaultAzienda;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ruolo_aziendale", length = 50, nullable = false)
     private RuoloAziendale ruoloAziendale;
 
     @Column(name = "data_affiliazione", nullable = false)
-    private final LocalDateTime dataAffiliazione;
+    private LocalDateTime dataAffiliazione;
+
+    // Costruttore vuoto richiesto da JPA
+    protected DefaultAffiliazione() {}
 
     public DefaultAffiliazione(
             DefaultUtente defaultUtente,
             DefaultAzienda defaultAzienda,
             RuoloAziendale ruoloAziendale
     ) {
-        this.id = null;
         this.defaultUtente = Objects.requireNonNull(defaultUtente, "L'utente non può essere nullo.");
         this.defaultAzienda = Objects.requireNonNull(defaultAzienda, "L'azienda non può essere nulla.");
         this.ruoloAziendale = Objects.requireNonNull(ruoloAziendale, "Il ruolo aziendale non può essere nullo.");
@@ -64,6 +66,23 @@ public class DefaultAffiliazione {
 
     public LocalDateTime getDataAffiliazione() {
         return dataAffiliazione;
+    }
+
+    // Setter per JPA
+    protected void setId(Long id) {
+        this.id = id;
+    }
+
+    protected void setUtente(DefaultUtente defaultUtente) {
+        this.defaultUtente = defaultUtente;
+    }
+
+    protected void setAzienda(DefaultAzienda defaultAzienda) {
+        this.defaultAzienda = defaultAzienda;
+    }
+
+    protected void setDataAffiliazione(LocalDateTime dataAffiliazione) {
+        this.dataAffiliazione = dataAffiliazione;
     }
 
     @Override

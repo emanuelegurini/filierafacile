@@ -48,7 +48,7 @@ public class DefaultAzienda {
     @MapKeyJoinColumn(name = "prodotto_id")
     @Column(name = "quantita")
     @JsonIgnore
-    private final Map<DefaultProdotto, Integer> magazzino;
+    private Map<DefaultProdotto, Integer> magazzino;
 
     /**
      * Insieme dei ruoli che l'azienda ricopre nella filiera.
@@ -59,7 +59,13 @@ public class DefaultAzienda {
                      joinColumns = @JoinColumn(name = "azienda_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
-    private final Set<TipoAzienda> tipiAzienda;
+    private Set<TipoAzienda> tipiAzienda;
+
+    // Costruttore vuoto per JPA
+    protected DefaultAzienda() {
+        this.magazzino = new HashMap<>();
+        this.tipiAzienda = new HashSet<>();
+    }
 
     public DefaultAzienda(
             String ragioneSociale,

@@ -4,6 +4,7 @@ import com.filiera.facile.entities.DefaultAffiliazione;
 import com.filiera.facile.entities.DefaultAzienda;
 import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
+import com.filiera.facile.repositories.AffiliazionRepository;
 import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.model.interfaces.UserService;
 import com.filiera.facile.repositories.UtenteRepository;
@@ -19,11 +20,13 @@ public class DefaultUtenteService implements UserService {
 
     private final UtenteRepository utenteRepository;
     private final AziendaRepository aziendaRepository;
+    private final AffiliazionRepository affiliazionRepository;
 
     @Autowired
-    public DefaultUtenteService(UtenteRepository utenteRepository, AziendaRepository aziendaRepository) {
+    public DefaultUtenteService(UtenteRepository utenteRepository, AziendaRepository aziendaRepository, AffiliazionRepository affiliazionRepository) {
         this.utenteRepository = utenteRepository;
         this.aziendaRepository = aziendaRepository;
+        this.affiliazionRepository = affiliazionRepository;
     }
 
     @Override
@@ -54,9 +57,13 @@ public class DefaultUtenteService implements UserService {
 
 
         DefaultAffiliazione affiliazione = new DefaultAffiliazione(utente, azienda, ruolo);
+
+        // Salva l'affiliazione direttamente nel repository
+        affiliazionRepository.save(affiliazione);
+
+        // Aggiorna anche la collezione dell'utente per la sessione corrente
         utente.addAffiliazione(affiliazione);
 
-        utenteRepository.save(utente);
         System.out.println("INFO: Aggiunta affiliazione per utente " + utenteId + " ad azienda " + aziendaId);
     }
 
