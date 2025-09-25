@@ -13,13 +13,14 @@ import java.util.UUID;
 public interface CarrelloRepository extends JpaRepository<DefaultCarrello, Long> {
 
     /**
-     * Trova carrello attivo per utente.
+     * Trova carrello attivo per utente con righe.
      */
-    Optional<DefaultCarrello> findByUtenteId(Long utenteId);
+    @Query("SELECT c FROM DefaultCarrello c LEFT JOIN FETCH c.righeLista WHERE c.utenteId = :utenteId")
+    Optional<DefaultCarrello> findByUtenteId(@Param("utenteId") Long utenteId);
 
     /**
      * Calcola il totale del carrello con una query custom.
      */
-    @Query("SELECT SUM(r.quantita * p.prezzo) FROM DefaultCarrello c JOIN c.righeCarrello r JOIN r.prodotto p WHERE c.id = :carrelloId")
+    @Query("SELECT SUM(r.quantita * r.articolo.prezzoUnitario) FROM DefaultCarrello c JOIN c.righeLista r WHERE c.id = :carrelloId")
     Double calcolaTotaleCarrello(@Param("carrelloId") Long carrelloId);
 }

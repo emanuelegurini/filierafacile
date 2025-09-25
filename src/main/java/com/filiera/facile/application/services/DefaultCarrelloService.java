@@ -1,23 +1,24 @@
 package com.filiera.facile.application.services;
 
 import com.filiera.facile.entities.DefaultCarrello;
-import com.filiera.facile.model.interfaces.ArticoloVendibile;
+import com.filiera.facile.entities.ArticoloCatalogo;
 import com.filiera.facile.repositories.CarrelloRepository;
 import com.filiera.facile.model.interfaces.CarrelloService;
-import com.filiera.facile.repositories.ProdottoRepository;
+import com.filiera.facile.repositories.ArticoloCatalogoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DefaultCarrelloService implements CarrelloService {
 
     private final CarrelloRepository carrelloRepository;
-    private final ProdottoRepository prodottoRepository;
+    private final ArticoloCatalogoRepository articoloCatalogoRepository;
 
     @Autowired
-    public DefaultCarrelloService(CarrelloRepository carrelloRepository, ProdottoRepository prodottoRepository) {
+    public DefaultCarrelloService(CarrelloRepository carrelloRepository, ArticoloCatalogoRepository articoloCatalogoRepository) {
         this.carrelloRepository = carrelloRepository;
-        this.prodottoRepository = prodottoRepository;
+        this.articoloCatalogoRepository = articoloCatalogoRepository;
     }
 
     @Override
@@ -31,13 +32,12 @@ public class DefaultCarrelloService implements CarrelloService {
     }
 
     @Override
+    @Transactional
     public void aggiungiArticoloAlCarrello(Long utenteId, Long articoloId, int quantita) {
-        DefaultCarrello carrello = getCarrelloPerUtente(utenteId);
-        ArticoloVendibile articoloDaAggiungere = trovaArticoloVendibile(articoloId);
-
-        carrello.aggiungiArticolo(articoloDaAggiungere, quantita);
-
-        carrelloRepository.save(carrello);
+        DefaultCarrello cart = getCarrelloPerUtente(utenteId);
+        ArticoloCatalogo item = trovaArticoloCatalogo(articoloId);
+        cart.aggiungiArticolo(item, quantita);
+        carrelloRepository.save(cart);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class DefaultCarrelloService implements CarrelloService {
         carrelloRepository.save(carrello);
     }
 
-    private ArticoloVendibile trovaArticoloVendibile(Long articoloId) {
-        return prodottoRepository.findById(articoloId)
-                .orElseThrow(() -> new RuntimeException("Nessun articolo vendibile trovato con ID: " + articoloId));
+    private ArticoloCatalogo trovaArticoloCatalogo(Long articoloId) {
+        return articoloCatalogoRepository.findById(articoloId)
+                .orElseThrow(() -> new RuntimeException("Nessun articolo trovato con ID: " + articoloId));
     }
 }

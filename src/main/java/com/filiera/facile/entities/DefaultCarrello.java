@@ -1,58 +1,81 @@
 package com.filiera.facile.entities;
 
 import com.filiera.facile.model.interfaces.ArticoloVendibile;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
+@Entity
+@Table(name = "carrello")
 public class DefaultCarrello {
 
-    private final Long id;
-    private final Long utenteId;
-    private final Map<Long, DefaultRigaCarrello> righe;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "utente_id", nullable = false)
+    private Long utenteId;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "carrello", orphanRemoval = true)
+    public List<DefaultRigaCarrello> righeLista;
+
+    public DefaultCarrello() {
+        this.righeLista = new ArrayList<>();
+    }
 
     public DefaultCarrello(Long utenteId) {
-        this.id = null;
         this.utenteId = utenteId;
-        this.righe = new HashMap<>();
+        this.righeLista = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Long getUtenteId() {
         return this.utenteId;
     }
 
-    public void aggiungiArticolo(ArticoloVendibile articolo, int quantita) {
-        Long articoloId = articolo.getId();
+    public void aggiungiArticolo(ArticoloCatalogo articolo, int quantita) {
+        Long id = articolo.getId();
+        DefaultRigaCarrello existing = righeLista.stream()
+                .filter(r -> r.getArticolo().getId().equals(id))
+                .findFirst().orElse(null);
 
-        if (righe.containsKey(articoloId)) {
-            righe.get(articoloId).incrementaQuantita(quantita);
+        if (existing != null) {
+            existing.incrementaQuantita(quantita);
         } else {
-            righe.put(articoloId, new DefaultRigaCarrello(articolo, quantita));
+            DefaultRigaCarrello newRow = new DefaultRigaCarrello(articolo, quantita);
+            newRow.setCarrello(this);
+            righeLista.add(newRow);
         }
     }
 
     public void rimuoviArticolo(Long articoloId) {
-        righe.remove(articoloId);
+        righeLista.removeIf(r -> r.getArticolo().getId().equals(articoloId));
     }
 
     public void aggiornaQuantita(Long articoloId, int nuovaQuantita) {
-        if (righe.containsKey(articoloId)) {
-            righe.get(articoloId).setQuantita(nuovaQuantita);
-        }
+        righeLista.stream()
+                .filter(r -> r.getArticolo().getId().equals(articoloId))
+                .findFirst()
+                .ifPresent(r -> r.setQuantita(nuovaQuantita));
     }
 
     public double getTotaleComplessivo() {
-        return righe.values().stream()
+        return righeLista.stream()
                 .mapToDouble(DefaultRigaCarrello::getPrezzoTotaleRiga)
                 .sum();
     }
 
-    public Map<Long, DefaultRigaCarrello> getRighe() {
-        return righe;
+    public void svuota() {
+        righeLista.clear();
     }
 
-    public void svuota() {
-        righe.clear();
+    public List<DefaultRigaCarrello> getRigheLista() {
+        return righeLista;
     }
 }
