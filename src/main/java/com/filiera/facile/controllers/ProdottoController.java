@@ -27,27 +27,12 @@ public class ProdottoController {
 
     @PostMapping
     public ResponseEntity<ProdottoResponse> creaProdotto(
-            @Valid @RequestBody CreaProdottoRequest request,
-            @RequestParam Long utenteId) {
+            @Valid @RequestBody CreaProdottoRequest request) {
 
         try {
-            // Creiamo un prodotto temporaneo con parametri di base
-            // Il service caricherà l'azienda dal DB e completerà la creazione
-            DefaultProdotto nuovoProdotto = new DefaultProdotto(
-                request.getNome(),
-                request.getDescrizione(),
-                request.getPrezzo(),
-                request.getUnitaDiMisura(),
-                null, // L'azienda sarà caricata dal service
-                request.getTipoProdotto(),
-                request.getCategoriaProdotto()
-            );
-
-            DefaultProdotto prodottoCreato = prodottoService.creaNuovoProdotto(
-                utenteId,
-                request.getAziendaId(),
-                nuovoProdotto
-            );
+            // Usiamo il metodo semplificato senza autenticazione
+            DefaultProdotto prodottoCreato = ((com.filiera.facile.application.services.DefaultProdottoService) prodottoService)
+                .creaNuovoProdotto(request.getAziendaId(), request);
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ProdottoResponse(prodottoCreato));
@@ -70,4 +55,27 @@ public class ProdottoController {
                 .collect(java.util.stream.Collectors.toList());
         return ResponseEntity.ok(prodotti);
     }
+
+    // TODO: I seguenti endpoints dipendono da metodi repository non ancora implementati
+    // @GetMapping("/azienda/{aziendaId}")
+    // @GetMapping("/categoria/{categoria}")
+    // @GetMapping("/search")
+    // @PutMapping("/{id}")
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminaProdotto(@PathVariable Long id) {
+        try {
+            if (prodottoRepository.existsById(id)) {
+                prodottoRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Errore durante l'eliminazione del prodotto: " + e.getMessage());
+        }
+    }
+
+    // TODO: Endpoint per tipo prodotto - dipende da repository method non implementato
+    // @GetMapping("/tipo/{tipo}")
 }

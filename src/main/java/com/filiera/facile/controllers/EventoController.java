@@ -3,12 +3,14 @@ package com.filiera.facile.controllers;
 import com.filiera.facile.dto.request.CreaEventoRequest;
 import com.filiera.facile.entities.DefaultEvento;
 import com.filiera.facile.model.interfaces.EventoService;
+import com.filiera.facile.repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -16,10 +18,12 @@ import java.util.List;
 public class EventoController {
 
     private final EventoService eventoService;
+    private final EventoRepository eventoRepository;
 
     @Autowired
-    public EventoController(EventoService eventoService) {
+    public EventoController(EventoService eventoService, EventoRepository eventoRepository) {
         this.eventoService = eventoService;
+        this.eventoRepository = eventoRepository;
     }
 
     @PostMapping
@@ -56,4 +60,65 @@ public class EventoController {
         List<DefaultEvento> eventi = eventoService.trovaEventiPerAzienda(aziendaId);
         return ResponseEntity.ok(eventi);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DefaultEvento> getEvento(@PathVariable Long id) {
+        return eventoRepository.findById(id)
+                .map(evento -> ResponseEntity.ok(evento))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DefaultEvento>> getAllEventi() {
+        List<DefaultEvento> eventi = eventoRepository.findAll();
+        return ResponseEntity.ok(eventi);
+    }
+
+    // TODO: I seguenti endpoints dipendono da metodi repository non ancora implementati
+    // @GetMapping("/futuri")
+    // @GetMapping("/passati")
+    // @GetMapping("/search")
+    // @GetMapping("/organizzatore/{organizzatoreId}")
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DefaultEvento> aggiornaEvento(
+            @PathVariable Long id,
+            @Valid @RequestBody CreaEventoRequest request) {
+        return eventoRepository.findById(id)
+                .map(evento -> {
+                    // Update basic fields that are safe to update
+                    if (request.getDescrizione() != null) {
+                        evento.setDescrizione(request.getDescrizione());
+                    }
+                    // Note: Other fields like date, location need more careful validation
+
+                    DefaultEvento eventoAggiornato = eventoRepository.save(evento);
+                    return ResponseEntity.ok(eventoAggiornato);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminaEvento(@PathVariable Long id) {
+        try {
+            if (eventoRepository.existsById(id)) {
+                eventoRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Errore durante l'eliminazione dell'evento: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/posti-disponibili")
+    public ResponseEntity<Integer> getPostiDisponibili(@PathVariable Long id) {
+        return eventoRepository.findById(id)
+                .map(evento -> ResponseEntity.ok(evento.getPostiDisponibili()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // TODO: Endpoint periodo - dipende da repository method non implementato
+    // @GetMapping("/periodo")
 }
