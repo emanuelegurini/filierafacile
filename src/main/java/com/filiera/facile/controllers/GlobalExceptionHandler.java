@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+//@RestControllerAdvice  // Temporaneamente disabilitato per compatibilità con Swagger
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -69,11 +69,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGenericException(
             Exception ex) {
 
+        ex.printStackTrace(); // Stampa lo stack trace per debug
+
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now());
         response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.put("error", "Internal Server Error");
-        response.put("message", "Si è verificato un errore imprevisto");
+        response.put("message", ex.getMessage()); // Mostra il messaggio reale
+        response.put("details", ex.getClass().getSimpleName()); // Tipo di eccezione
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

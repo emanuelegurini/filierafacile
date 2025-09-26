@@ -9,11 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/prodotti")
+@Tag(name = "Prodotti", description = "API per la gestione dei prodotti")
 public class ProdottoController {
 
     private final ProdottoService prodottoService;
@@ -26,8 +32,14 @@ public class ProdottoController {
     }
 
     @PostMapping
+    @Operation(summary = "Crea un nuovo prodotto", description = "Crea un nuovo prodotto per un'azienda")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Prodotto creato con successo"),
+        @ApiResponse(responseCode = "400", description = "Dati richiesta non validi"),
+        @ApiResponse(responseCode = "500", description = "Errore interno del server")
+    })
     public ResponseEntity<ProdottoResponse> creaProdotto(
-            @Valid @RequestBody CreaProdottoRequest request) {
+            @Valid @RequestBody @Parameter(description = "Dati per la creazione del prodotto") CreaProdottoRequest request) {
 
         try {
             DefaultProdotto prodottoCreato = ((com.filiera.facile.application.services.DefaultProdottoService) prodottoService)
@@ -41,13 +53,21 @@ public class ProdottoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdottoResponse> getProdotto(@PathVariable Long id) {
+    @Operation(summary = "Dettagli prodotto", description = "Recupera i dettagli di un prodotto specifico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Prodotto trovato"),
+        @ApiResponse(responseCode = "404", description = "Prodotto non trovato")
+    })
+    public ResponseEntity<ProdottoResponse> getProdotto(
+            @PathVariable @Parameter(description = "ID del prodotto") Long id) {
         return prodottoRepository.findById(id)
                 .map(prodotto -> ResponseEntity.ok(new ProdottoResponse(prodotto)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @Operation(summary = "Lista tutti i prodotti", description = "Recupera la lista di tutti i prodotti disponibili")
+    @ApiResponse(responseCode = "200", description = "Lista prodotti recuperata con successo")
     public ResponseEntity<java.util.List<ProdottoResponse>> getAllProdotti() {
         java.util.List<ProdottoResponse> prodotti = prodottoRepository.findAll().stream()
                 .map(ProdottoResponse::new)
@@ -61,7 +81,13 @@ public class ProdottoController {
     // @PutMapping("/{id}")
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminaProdotto(@PathVariable Long id) {
+    @Operation(summary = "Elimina prodotto", description = "Elimina un prodotto dal sistema")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Prodotto eliminato con successo"),
+        @ApiResponse(responseCode = "404", description = "Prodotto non trovato")
+    })
+    public ResponseEntity<Void> eliminaProdotto(
+            @PathVariable @Parameter(description = "ID del prodotto da eliminare") Long id) {
         try {
             if (prodottoRepository.existsById(id)) {
                 prodottoRepository.deleteById(id);

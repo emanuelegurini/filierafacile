@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -18,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/utenti")
+@Tag(name = "Utenti", description = "API per la gestione degli utenti")
 public class UtenteController {
 
     private final UserService userService;
@@ -30,7 +36,14 @@ public class UtenteController {
     }
 
     @PostMapping("/registrazione")
-    public ResponseEntity<UtenteResponse> registraUtente(@Valid @RequestBody RegistraUtenteRequest request) {
+    @Operation(summary = "Registra nuovo utente", description = "Registra un nuovo utente nel sistema")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Utente registrato con successo"),
+        @ApiResponse(responseCode = "400", description = "Dati richiesta non validi"),
+        @ApiResponse(responseCode = "500", description = "Errore interno del server")
+    })
+    public ResponseEntity<UtenteResponse> registraUtente(
+            @Valid @RequestBody @Parameter(description = "Dati per la registrazione dell'utente") RegistraUtenteRequest request) {
         try {
             DefaultUtente nuovoUtente = new DefaultUtente(
                 request.getNome(),
@@ -51,13 +64,21 @@ public class UtenteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UtenteResponse> getUtente(@PathVariable Long id) {
+    @Operation(summary = "Dettagli utente", description = "Recupera i dettagli di un utente specifico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Utente trovato"),
+        @ApiResponse(responseCode = "404", description = "Utente non trovato")
+    })
+    public ResponseEntity<UtenteResponse> getUtente(
+            @PathVariable @Parameter(description = "ID dell'utente") Long id) {
         return utenteRepository.findById(id)
                 .map(utente -> ResponseEntity.ok(new UtenteResponse(utente)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @Operation(summary = "Lista tutti gli utenti", description = "Recupera la lista di tutti gli utenti registrati")
+    @ApiResponse(responseCode = "200", description = "Lista utenti recuperata con successo")
     public ResponseEntity<List<UtenteResponse>> getAllUtenti() {
         List<UtenteResponse> utenti = utenteRepository.findAll().stream()
                 .map(UtenteResponse::new)

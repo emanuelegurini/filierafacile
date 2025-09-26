@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -20,6 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/aziende")
+@Tag(name = "Aziende", description = "API per la gestione delle aziende")
 public class AziendaController {
 
     private final AziendaService aziendaService;
@@ -34,7 +40,14 @@ public class AziendaController {
     }
 
     @PostMapping
-    public ResponseEntity<AziendaResponse> creaAzienda(@Valid @RequestBody CreaAziendaRequest request) {
+    @Operation(summary = "Crea una nuova azienda", description = "Crea una nuova azienda con i dettagli forniti")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Azienda creata con successo"),
+        @ApiResponse(responseCode = "400", description = "Dati richiesta non validi"),
+        @ApiResponse(responseCode = "500", description = "Errore interno del server")
+    })
+    public ResponseEntity<AziendaResponse> creaAzienda(
+            @Valid @RequestBody @Parameter(description = "Dati per la creazione dell'azienda") CreaAziendaRequest request) {
         try {
             Float lat = request.getLatitudine() != null ? request.getLatitudine() : 0.0f;
             Float lon = request.getLongitudine() != null ? request.getLongitudine() : 0.0f;
@@ -77,13 +90,21 @@ public class AziendaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AziendaResponse> getAzienda(@PathVariable Long id) {
+    @Operation(summary = "Dettagli azienda", description = "Recupera i dettagli di un'azienda specifica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Azienda trovata"),
+        @ApiResponse(responseCode = "404", description = "Azienda non trovata")
+    })
+    public ResponseEntity<AziendaResponse> getAzienda(
+            @PathVariable @Parameter(description = "ID dell'azienda") Long id) {
         return aziendaRepository.findById(id)
                 .map(azienda -> ResponseEntity.ok(new AziendaResponse(azienda)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @Operation(summary = "Lista tutte le aziende", description = "Recupera la lista di tutte le aziende registrate")
+    @ApiResponse(responseCode = "200", description = "Lista aziende recuperata con successo")
     public ResponseEntity<List<AziendaResponse>> getAllAziende() {
         List<AziendaResponse> aziende = aziendaRepository.findAll().stream()
                 .map(AziendaResponse::new)

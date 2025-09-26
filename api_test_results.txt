@@ -1,0 +1,190 @@
+=======================================================
+RISULTATI TEST API - FILIERA FACILE
+Data test: 2025-09-26
+=======================================================
+
+✅ API FUNZIONANTI E TESTATE CON SUCCESSO:
+
+=======================================================
+1. API UTENTI (/api/utenti/*)
+=======================================================
+
+✅ POST /api/utenti/registrazione - Registrazione nuovo utente
+curl -X POST http://localhost:8081/api/utenti/registrazione \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "Mario",
+    "cognome": "Rossi",
+    "email": "mario.rossi@email.com",
+    "address": "Via Roma 1, Milano",
+    "phoneNumber": "3331234567",
+    "password": "password123"
+  }'
+
+✅ GET /api/utenti/{id} - Recupera utente per ID
+curl -X GET http://localhost:8081/api/utenti/2
+
+✅ GET /api/utenti - Lista tutti gli utenti
+curl -X GET http://localhost:8081/api/utenti
+
+✅ PUT /api/utenti/{id}/ruoli?ruolo={ruolo} - Aggiunge ruolo piattaforma
+curl -X PUT "http://localhost:8081/api/utenti/2/ruoli?ruolo=CURATORE"
+
+=======================================================
+2. API AZIENDE (/api/aziende/*)
+=======================================================
+
+✅ POST /api/aziende - Creazione nuova azienda
+curl -X POST http://localhost:8081/api/aziende \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ragioneSociale": "Azienda Agricola Bianchi",
+    "partitaIva": "09876543210",
+    "indirizzo": "Via Campagna 15, Brescia",
+    "email": "info@aziendabianchi.com",
+    "numeroTelefono": "0303334999",
+    "sitoWeb": "www.aziendabianchi.com",
+    "latitudine": 45.5416,
+    "longitudine": 10.2118,
+    "tipiAzienda": ["PRODUTTORE"]
+  }'
+
+✅ GET /api/aziende - Lista tutte le aziende
+curl -X GET http://localhost:8081/api/aziende
+
+✅ GET /api/aziende/{id} - Recupera azienda per ID
+curl -X GET http://localhost:8081/api/aziende/2
+
+NOTA: Include validazione partita IVA duplicata ✅
+
+=======================================================
+3. API PRODOTTI (/api/prodotti/*)
+=======================================================
+
+✅ POST /api/prodotti - Creazione nuovo prodotto
+curl -X POST http://localhost:8081/api/prodotti \
+  -H "Content-Type: application/json" \
+  -d '{
+    "aziendaId": 2,
+    "nome": "Pomodori San Marzano",
+    "descrizione": "Pomodori San Marzano DOP coltivati biologicamente",
+    "prezzo": 4.50,
+    "unitaDiMisura": "KG",
+    "tipoProdotto": "MATERIA_PRIMA",
+    "categoriaProdotto": "ORTOFRUTTA"
+  }'
+
+✅ GET /api/prodotti - Lista tutti i prodotti
+curl -X GET http://localhost:8081/api/prodotti
+
+✅ GET /api/prodotti/{id} - Recupera prodotto per ID
+curl -X GET http://localhost:8081/api/prodotti/4
+
+=======================================================
+4. API EVENTI (/api/eventi/*)
+=======================================================
+
+✅ POST /api/eventi?organizzatoreId={id} - Creazione nuovo evento
+curl -X POST "http://localhost:8081/api/eventi?organizzatoreId=2" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "Fiera dei Prodotti Biologici",
+    "descrizione": "Evento per la promozione dei prodotti biologici locali",
+    "dataInizio": "2025-12-15T10:00:00",
+    "dataFine": "2025-12-15T18:00:00",
+    "luogo": "Piazza del Mercato, Brescia"
+  }'
+
+⚠️  GET /api/eventi - PROBLEMA: Errore serializzazione Hibernate proxy
+⚠️  GET /api/eventi/{id} - PROBLEMA: Errore serializzazione Hibernate proxy
+
+NOTA: POST funziona, GET ha problemi di serializzazione
+
+=======================================================
+5. API CARRELLI (/api/carrelli/*)
+=======================================================
+
+✅ GET /api/carrelli/{utenteId} - Recupera carrello utente
+curl -X GET http://localhost:8081/api/carrelli/2
+
+✅ POST /api/carrelli/{utenteId}/articoli - Aggiungi articolo al carrello
+curl -X POST http://localhost:8081/api/carrelli/2/articoli \
+  -H "Content-Type: application/json" \
+  -d '{
+    "articoloId": 4,
+    "quantita": 2
+  }'
+
+NOTA: Calcolo totale funzionante ✅
+
+=======================================================
+6. API BIGLIETTI (/api/biglietti/*)
+=======================================================
+
+✅ POST /api/biglietti - Acquisto biglietto evento
+curl -X POST http://localhost:8081/api/biglietti \
+  -H "Content-Type: application/json" \
+  -d '{
+    "utenteId": 2,
+    "eventoId": 2
+  }'
+
+✅ GET /api/biglietti - Lista tutti i biglietti
+curl -X GET http://localhost:8081/api/biglietti
+
+=======================================================
+7. API PACCHETTI (/api/pacchetti/*)
+=======================================================
+
+⚠️  POST /api/pacchetti - PROBLEMA: Errore 500 interno
+curl -X POST http://localhost:8081/api/pacchetti \
+  -H "Content-Type: application/json" \
+  -d '{
+    "utenteId": 2,
+    "aziendaId": 2,
+    "nome": "Pacchetto Sapori Biologici",
+    "descrizione": "Una selezione dei migliori prodotti biologici locali"
+  }'
+
+NOTA: Richiede debug
+
+=======================================================
+RIEPILOGO STATO API
+=======================================================
+
+✅ FUNZIONANTI AL 100%:
+- /api/utenti/* (4/4 endpoint testati)
+- /api/aziende/* (3/3 endpoint testati)
+- /api/prodotti/* (3/3 endpoint testati)
+- /api/carrelli/* (2/2 endpoint testati)
+- /api/biglietti/* (2/2 endpoint testati)
+
+⚠️  FUNZIONANTI PARZIALMENTE:
+- /api/eventi/* (1/3 endpoint funzionanti - problemi serializzazione GET)
+
+❌ NON FUNZIONANTI:
+- /api/pacchetti/* (0/1 endpoint testati - errore 500)
+
+=======================================================
+PROBLEMI IDENTIFICATI DA RISOLVERE:
+=======================================================
+
+1. 🔴 EVENTI - Errore serializzazione Hibernate proxy nei GET
+   - Causa: Lazy loading e oggetti proxy non serializzabili
+   - Soluzione: @JsonIgnore o DTO appropriati
+
+2. 🔴 PACCHETTI - Errore 500 nella creazione
+   - Causa: Da investigare log specifici
+   - Soluzione: Debug service layer
+
+3. 🟡 VALIDAZIONE - Alcune validazioni molto rigide
+   - Esempio: @Future per date eventi
+   - Soluzione: Rivedere validazioni
+
+=======================================================
+INTEGRAZIONE DATABASE: ✅ FUNZIONANTE
+- MySQL connesso correttamente
+- JPA/Hibernate operativo
+- Creazione/aggiornamento tabelle automatico
+- Transazioni gestite correttamente
+=======================================================
