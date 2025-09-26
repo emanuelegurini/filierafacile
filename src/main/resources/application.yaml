@@ -24,6 +24,15 @@ spring:
   flyway:
     enabled: false
 
+  # DevTools Configuration for hot reload
+  devtools:
+    restart:
+      enabled: true
+      exclude: static/**,public/**
+    livereload:
+      enabled: true
+      port: 35729
+
 # Swagger/OpenAPI Configuration
 springdoc:
   api-docs:

@@ -141,4 +141,10 @@ public class UtenteController {
             throw new RuntimeException("Errore durante l'aggiornamento del ruolo: " + e.getMessage());
         }
     }
+
+    @GetMapping("/test-hot-reload")
+    @Operation(summary = "Test hot reload", description = "Endpoint di test per verificare l'hot reload di DevTools")
+    public ResponseEntity<String> testHotReload() {
+        return ResponseEntity.ok("🔥 Hot reload funziona! Timestamp: " + System.currentTimeMillis());
+    }
 }
