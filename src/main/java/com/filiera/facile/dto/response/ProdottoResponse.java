@@ -1,6 +1,7 @@
 package com.filiera.facile.dto.response;
 
 import com.filiera.facile.entities.DefaultProdotto;
+import com.filiera.facile.model.enums.StatoValidazione;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class ProdottoResponse {
     private Long aziendaId;
     private String nomeAzienda;
     private LocalDateTime dataCreazione;
+    private StatoValidazione statoValidazione;
 
     public ProdottoResponse() {}
 
@@ -26,6 +28,7 @@ public class ProdottoResponse {
         this.aziendaId = prodotto.getAziendaProduttrice() != null ? prodotto.getAziendaProduttrice().getId() : null;
         this.nomeAzienda = prodotto.getAziendaProduttrice() != null ? prodotto.getAziendaProduttrice().getRagioneSociale() : null;
         this.dataCreazione = null; // Campo non presente nell'entità DefaultProdotto
+        this.statoValidazione = prodotto.getStatoValidazione();
     }
 
     public Long getId() {
@@ -82,5 +85,13 @@ public class ProdottoResponse {
 
     public void setDataCreazione(LocalDateTime dataCreazione) {
         this.dataCreazione = dataCreazione;
+    }
+
+    public StatoValidazione getStatoValidazione() {
+        return statoValidazione;
+    }
+
+    public void setStatoValidazione(StatoValidazione statoValidazione) {
+        this.statoValidazione = statoValidazione;
     }
 }

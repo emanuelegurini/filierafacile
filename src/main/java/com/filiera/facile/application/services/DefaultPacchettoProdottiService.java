@@ -6,6 +6,7 @@ import com.filiera.facile.entities.DefaultPacchettoProdotti;
 import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.entities.DefaultUtente;
 import com.filiera.facile.model.enums.RuoloAziendale;
+import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.repositories.AffiliazionRepository;
 import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.repositories.PacchettoProdottiRepository;
@@ -70,6 +71,15 @@ public class DefaultPacchettoProdottiService {
 
         DefaultProdotto prodottoDaAggiungere = prodottoRepository.findById(prodottoId)
                 .orElseThrow(() -> new NoSuchElementException("Prodotto non trovato con ID: " + prodottoId));
+
+        // Validazione: solo prodotti approvati possono essere aggiunti ai pacchetti
+        if (prodottoDaAggiungere.getStatoValidazione() != StatoValidazione.APPROVATO) {
+            throw new IllegalStateException(
+                "Impossibile aggiungere il prodotto '" + prodottoDaAggiungere.getNomeArticolo() +
+                "' al pacchetto. Il prodotto deve essere approvato da un curatore prima di poter essere incluso in un pacchetto. " +
+                "Stato attuale: " + prodottoDaAggiungere.getStatoValidazione()
+            );
+        }
 
         // Temporary: disable stock check for testing
         // if (azienda.getDisponibilita(prodottoDaAggiungere) < quantita) {

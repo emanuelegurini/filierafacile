@@ -7,6 +7,7 @@ import com.filiera.facile.model.enums.RuoloAziendale;
 import com.filiera.facile.repositories.AziendaRepository;
 import com.filiera.facile.repositories.ProdottoRepository;
 import com.filiera.facile.model.interfaces.ProdottoService;
+import com.filiera.facile.model.interfaces.ValidazioneService;
 import com.filiera.facile.repositories.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,19 @@ public class DefaultProdottoService implements ProdottoService {
     private final ProdottoRepository prodottoRepository;
     private final UtenteRepository utenteRepository;
     private final AziendaRepository aziendaRepository;
+    private final ValidazioneService validazioneService;
 
     @Autowired
     public DefaultProdottoService(
             ProdottoRepository pr,
             UtenteRepository ur,
-            AziendaRepository ar
+            AziendaRepository ar,
+            ValidazioneService validazioneService
     ) {
         this.prodottoRepository = pr;
         this.utenteRepository = ur;
         this.aziendaRepository = ar;
+        this.validazioneService = validazioneService;
     }
 
     @Override
@@ -45,7 +49,12 @@ public class DefaultProdottoService implements ProdottoService {
         verificaPermessoCreazione(utente, azienda);
 
         prodottoRepository.save(prodotto);
+
+        // Sottometti automaticamente il prodotto per validazione
+        Long praticaId = validazioneService.sottomettiPerValidazione(prodotto, idUtente);
         System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
+        System.out.println("INFO: Prodotto sottomesso per validazione con ID pratica: " + praticaId);
+
         return prodotto;
     }
 
@@ -69,7 +78,13 @@ public class DefaultProdottoService implements ProdottoService {
         );
 
         prodottoRepository.save(prodotto);
+
+        // Sottometti automaticamente il prodotto per validazione
+        // Usa l'ID dell'azienda come richiedente per ora (TODO: migliorare con utente reale)
+        Long praticaId = validazioneService.sottomettiPerValidazione(prodotto, idAzienda);
         System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
+        System.out.println("INFO: Prodotto sottomesso per validazione con ID pratica: " + praticaId);
+
         return prodotto;
     }
 

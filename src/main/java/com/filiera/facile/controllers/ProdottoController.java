@@ -3,6 +3,7 @@ package com.filiera.facile.controllers;
 import com.filiera.facile.dto.request.CreaProdottoRequest;
 import com.filiera.facile.dto.response.ProdottoResponse;
 import com.filiera.facile.entities.DefaultProdotto;
+import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.ProdottoService;
 import com.filiera.facile.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,17 @@ public class ProdottoController {
         } catch (Exception e) {
             throw new RuntimeException("Errore durante la creazione del prodotto: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/approvati")
+    @Operation(summary = "Lista prodotti approvati", description = "Recupera solo i prodotti con stato APPROVATO")
+    @ApiResponse(responseCode = "200", description = "Lista prodotti approvati recuperata con successo")
+    public ResponseEntity<java.util.List<ProdottoResponse>> getProdottiApprovati() {
+        java.util.List<ProdottoResponse> prodottiApprovati = prodottoRepository.findAll().stream()
+                .filter(prodotto -> prodotto.getStatoValidazione() == StatoValidazione.APPROVATO)
+                .map(ProdottoResponse::new)
+                .collect(java.util.stream.Collectors.toList());
+        return ResponseEntity.ok(prodottiApprovati);
     }
 
     @GetMapping("/{id}")
