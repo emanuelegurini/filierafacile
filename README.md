@@ -21,7 +21,7 @@ export DB_URL=jdbc:mysql://localhost:3306/filierafacile?createDatabaseIfNotExist
 ## Installation
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/emanuelegurini/filierafacile.git
 cd filierafacile
 mvn clean install
 ```
