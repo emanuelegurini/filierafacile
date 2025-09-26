@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -18,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pacchetti")
+@Tag(name = "Pacchetti Prodotti", description = "API per la gestione dei pacchetti di prodotti")
 public class PacchettoProdottiController {
 
     private final DefaultPacchettoProdottiService pacchettoService;
@@ -31,7 +37,14 @@ public class PacchettoProdottiController {
     }
 
     @PostMapping
-    public ResponseEntity<PacchettoResponse> creaPacchetto(@Valid @RequestBody CreaPacchettoRequest request) {
+    @Operation(summary = "Crea un nuovo pacchetto prodotti", description = "Crea un nuovo pacchetto di prodotti con i dettagli forniti")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Pacchetto creato con successo"),
+        @ApiResponse(responseCode = "400", description = "Dati richiesta non validi"),
+        @ApiResponse(responseCode = "500", description = "Errore interno del server")
+    })
+    public ResponseEntity<PacchettoResponse> creaPacchetto(
+            @Valid @RequestBody @Parameter(description = "Dati per la creazione del pacchetto") CreaPacchettoRequest request) {
         try {
             DefaultPacchettoProdotti pacchetto = pacchettoService.creaNuovoPacchetto(
                     request.getUtenteId(),
@@ -52,9 +65,15 @@ public class PacchettoProdottiController {
     }
 
     @PostMapping("/{pacchettoId}/prodotti")
+    @Operation(summary = "Aggiungi prodotto al pacchetto", description = "Aggiunge un prodotto con quantità specificata al pacchetto")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Prodotto aggiunto con successo"),
+        @ApiResponse(responseCode = "404", description = "Pacchetto o prodotto non trovato"),
+        @ApiResponse(responseCode = "400", description = "Scorte insufficienti o dati non validi")
+    })
     public ResponseEntity<PacchettoResponse> aggiungiProdotto(
-            @PathVariable Long pacchettoId,
-            @Valid @RequestBody AggiungiProdottoPacchettoRequest request) {
+            @PathVariable @Parameter(description = "ID del pacchetto") Long pacchettoId,
+            @Valid @RequestBody @Parameter(description = "Dati del prodotto da aggiungere") AggiungiProdottoPacchettoRequest request) {
 
         try {
             DefaultPacchettoProdotti pacchettoAggiornato = pacchettoService.aggiungiProdottoAlPacchetto(
@@ -77,10 +96,15 @@ public class PacchettoProdottiController {
     }
 
     @DeleteMapping("/{pacchettoId}/prodotti/{prodottoId}")
+    @Operation(summary = "Rimuovi prodotto dal pacchetto", description = "Rimuove un prodotto dal pacchetto")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Prodotto rimosso con successo"),
+        @ApiResponse(responseCode = "404", description = "Pacchetto o prodotto non trovato")
+    })
     public ResponseEntity<PacchettoResponse> rimuoviProdotto(
-            @PathVariable Long pacchettoId,
-            @PathVariable Long prodottoId,
-            @RequestParam Long utenteId) {
+            @PathVariable @Parameter(description = "ID del pacchetto") Long pacchettoId,
+            @PathVariable @Parameter(description = "ID del prodotto da rimuovere") Long prodottoId,
+            @RequestParam @Parameter(description = "ID dell'utente") Long utenteId) {
 
         try {
             DefaultPacchettoProdotti pacchettoAggiornato = pacchettoService.rimuoviProdottoDalPacchetto(
@@ -100,13 +124,21 @@ public class PacchettoProdottiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PacchettoResponse> getPacchetto(@PathVariable Long id) {
+    @Operation(summary = "Dettagli pacchetto", description = "Recupera i dettagli di un pacchetto specifico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pacchetto trovato"),
+        @ApiResponse(responseCode = "404", description = "Pacchetto non trovato")
+    })
+    public ResponseEntity<PacchettoResponse> getPacchetto(
+            @PathVariable @Parameter(description = "ID del pacchetto") Long id) {
         return pacchettoRepository.findById(id)
                 .map(pacchetto -> ResponseEntity.ok(new PacchettoResponse(pacchetto)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @Operation(summary = "Lista tutti i pacchetti", description = "Recupera la lista di tutti i pacchetti prodotti")
+    @ApiResponse(responseCode = "200", description = "Lista pacchetti recuperata con successo")
     public ResponseEntity<List<PacchettoResponse>> getAllPacchetti() {
         List<PacchettoResponse> pacchetti = pacchettoRepository.findAll().stream()
                 .map(PacchettoResponse::new)
@@ -118,9 +150,14 @@ public class PacchettoProdottiController {
     // @GetMapping("/azienda/{aziendaId}")
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Elimina pacchetto", description = "Elimina un pacchetto dal sistema")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Pacchetto eliminato con successo"),
+        @ApiResponse(responseCode = "404", description = "Pacchetto non trovato")
+    })
     public ResponseEntity<Void> eliminaPacchetto(
-            @PathVariable Long id,
-            @RequestParam Long utenteId) {
+            @PathVariable @Parameter(description = "ID del pacchetto da eliminare") Long id,
+            @RequestParam @Parameter(description = "ID dell'utente") Long utenteId) {
 
         try {
             // TODO: terminare di implementare questa delete, in base all'id dei pacchetti

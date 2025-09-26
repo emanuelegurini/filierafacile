@@ -24,10 +24,10 @@ public class PacchettoResponse {
         this.aziendaId = pacchetto.getAziendaDiRiferimento().getId();
         this.nomeAzienda = pacchetto.getAziendaDiRiferimento().getRagioneSociale();
         this.prezzoTotale = java.math.BigDecimal.valueOf(pacchetto.getPrezzoVendita());
-        this.prodottiInclusi = pacchetto.getProdottiInclusi().entrySet().stream()
+        this.prodottiInclusi = pacchetto.getProdottiInclusi().stream()
                 .collect(java.util.stream.Collectors.toMap(
-                    entry -> entry.getKey().getNomeArticolo(),
-                    Map.Entry::getValue
+                    pp -> pp.getArticolo().getNomeArticolo(),
+                    pp -> pp.getQuantita()
                 ));
     }
 
