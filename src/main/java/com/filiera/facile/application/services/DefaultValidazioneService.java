@@ -2,8 +2,10 @@ package com.filiera.facile.application.services;
 
 import com.filiera.facile.entities.DefaultAssegnatoreAutomatico;
 import com.filiera.facile.entities.DefaultPraticaValidazione;
+import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.*;
+import com.filiera.facile.repositories.ProdottoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,13 @@ public class DefaultValidazioneService implements ValidazioneService {
     private final CuratoreStatusTracker statusTracker;
     private final DefaultAssegnatoreAutomatico assegnatore;
     private final Map<Long, DefaultPraticaValidazione> praticheInCorso;
+    private final ProdottoRepository prodottoRepository;
 
     @Autowired
-    public DefaultValidazioneService(CodaValidazione codaValidazione, CuratoreStatusTracker statusTracker) {
+    public DefaultValidazioneService(CodaValidazione codaValidazione, CuratoreStatusTracker statusTracker, ProdottoRepository prodottoRepository) {
         this.codaValidazione = Objects.requireNonNull(codaValidazione, "La coda di validazione non può essere null");
         this.statusTracker = Objects.requireNonNull(statusTracker, "Il tracker degli stati non può essere null");
+        this.prodottoRepository = Objects.requireNonNull(prodottoRepository, "Il repository prodotti non può essere null");
         this.assegnatore = new DefaultAssegnatoreAutomatico(codaValidazione, statusTracker);
         this.praticheInCorso = new HashMap<>();
     }
@@ -57,6 +61,11 @@ public class DefaultValidazioneService implements ValidazioneService {
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.approva(noteValutazione);
 
+        // Salva il prodotto nel database dopo l'aggiornamento dello stato
+        if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
+            prodottoRepository.save(prodotto);
+        }
+
         assegnatore.onCambioStato(pratica, vecchioStato, pratica.getStatoCorrente());
         rimuoviPraticaCompletata(praticaId);
     }
@@ -68,6 +77,11 @@ public class DefaultValidazioneService implements ValidazioneService {
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.respingi(motivazioneRifiuto);
 
+        // Salva il prodotto nel database dopo l'aggiornamento dello stato
+        if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
+            prodottoRepository.save(prodotto);
+        }
+
         assegnatore.onCambioStato(pratica, vecchioStato, pratica.getStatoCorrente());
         rimuoviPraticaCompletata(praticaId);
     }
@@ -78,6 +92,11 @@ public class DefaultValidazioneService implements ValidazioneService {
 
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.richiedeModifiche(noteModifiche);
+
+        // Salva il prodotto nel database dopo l'aggiornamento dello stato
+        if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
+            prodottoRepository.save(prodotto);
+        }
 
         assegnatore.onCambioStato(pratica, vecchioStato, pratica.getStatoCorrente());
         rimuoviPraticaCompletata(praticaId);

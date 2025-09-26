@@ -5,8 +5,11 @@ import com.filiera.facile.model.interfaces.Validabile;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DefaultPraticaValidazione {
+    private static final AtomicLong ID_GENERATOR = new AtomicLong(1);
+
     private final Long id;
     private final Validabile contenutoSottomesso;
     private final Long richiedenteId;
@@ -20,7 +23,7 @@ public class DefaultPraticaValidazione {
     private StatoValidazione statoCorrente;
 
     public DefaultPraticaValidazione(Validabile contenutoSottomesso, Long richiedenteId) {
-        this.id = null;
+        this.id = ID_GENERATOR.getAndIncrement();
         this.contenutoSottomesso = Objects.requireNonNull(contenutoSottomesso, "Il contenuto da validare non può essere null");
         this.richiedenteId = Objects.requireNonNull(richiedenteId, "L'ID del richiedente non può essere null");
         this.dataCreazione = LocalDateTime.now();

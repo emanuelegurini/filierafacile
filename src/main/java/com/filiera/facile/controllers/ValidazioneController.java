@@ -6,6 +6,11 @@ import com.filiera.facile.model.interfaces.ValidazioneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -13,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/validazione")
+@Tag(name = "Validazione", description = "API per la gestione delle pratiche di validazione")
 public class ValidazioneController {
 
     private final ValidazioneService validazioneService;
