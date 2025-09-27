@@ -6,8 +6,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Set;
 
+@Setter
+@Getter
 public class CreaAziendaRequest {
 
     @NotBlank(message = "La ragione sociale è obbligatoria")
@@ -42,75 +47,4 @@ public class CreaAziendaRequest {
 
     public CreaAziendaRequest() {}
 
-    public String getRagioneSociale() {
-        return ragioneSociale;
-    }
-
-    public void setRagioneSociale(String ragioneSociale) {
-        this.ragioneSociale = ragioneSociale;
-    }
-
-    public String getPartitaIva() {
-        return partitaIva;
-    }
-
-    public void setPartitaIva(String partitaIva) {
-        this.partitaIva = partitaIva;
-    }
-
-    public String getIndirizzo() {
-        return indirizzo;
-    }
-
-    public void setIndirizzo(String indirizzo) {
-        this.indirizzo = indirizzo;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNumeroTelefono() {
-        return numeroTelefono;
-    }
-
-    public void setNumeroTelefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
-    }
-
-    public String getSitoWeb() {
-        return sitoWeb;
-    }
-
-    public void setSitoWeb(String sitoWeb) {
-        this.sitoWeb = sitoWeb;
-    }
-
-    public Float getLatitudine() {
-        return latitudine;
-    }
-
-    public void setLatitudine(Float latitudine) {
-        this.latitudine = latitudine;
-    }
-
-    public Float getLongitudine() {
-        return longitudine;
-    }
-
-    public void setLongitudine(Float longitudine) {
-        this.longitudine = longitudine;
-    }
-
-    public Set<TipoAzienda> getTipiAzienda() {
-        return tipiAzienda;
-    }
-
-    public void setTipiAzienda(Set<TipoAzienda> tipiAzienda) {
-        this.tipiAzienda = tipiAzienda;
-    }
 }

@@ -2,9 +2,13 @@ package com.filiera.facile.dto.response;
 
 import com.filiera.facile.entities.DefaultBiglietto;
 import com.filiera.facile.model.enums.StatoBiglietto;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class BigliettoResponse {
 
     private Long id;
@@ -28,59 +32,4 @@ public class BigliettoResponse {
         this.dataEmissione = biglietto.getDataEmissione();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getEventoId() {
-        return eventoId;
-    }
-
-    public void setEventoId(Long eventoId) {
-        this.eventoId = eventoId;
-    }
-
-    public String getNomeEvento() {
-        return nomeEvento;
-    }
-
-    public void setNomeEvento(String nomeEvento) {
-        this.nomeEvento = nomeEvento;
-    }
-
-    public Long getUtenteId() {
-        return utenteId;
-    }
-
-    public void setUtenteId(Long utenteId) {
-        this.utenteId = utenteId;
-    }
-
-    public String getNomeUtente() {
-        return nomeUtente;
-    }
-
-    public void setNomeUtente(String nomeUtente) {
-        this.nomeUtente = nomeUtente;
-    }
-
-    public StatoBiglietto getStato() {
-        return stato;
-    }
-
-    public void setStato(StatoBiglietto stato) {
-        this.stato = stato;
-    }
-
-    public LocalDateTime getDataEmissione() {
-        return dataEmissione;
-    }
-
-    public void setDataEmissione(LocalDateTime dataEmissione) {
-        this.dataEmissione = dataEmissione;
-    }
 }

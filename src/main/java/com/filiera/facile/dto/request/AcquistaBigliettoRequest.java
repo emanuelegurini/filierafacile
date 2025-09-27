@@ -2,7 +2,11 @@ package com.filiera.facile.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class AcquistaBigliettoRequest {
 
     @NotNull(message = "L'ID utente è obbligatorio")
@@ -20,19 +24,4 @@ public class AcquistaBigliettoRequest {
         this.eventoId = eventoId;
     }
 
-    public Long getUtenteId() {
-        return utenteId;
-    }
-
-    public void setUtenteId(Long utenteId) {
-        this.utenteId = utenteId;
-    }
-
-    public Long getEventoId() {
-        return eventoId;
-    }
-
-    public void setEventoId(Long eventoId) {
-        this.eventoId = eventoId;
-    }
 }

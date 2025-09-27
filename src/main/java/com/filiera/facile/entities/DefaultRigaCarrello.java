@@ -2,9 +2,11 @@ package com.filiera.facile.entities;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
 
 import java.util.Objects;
 
+@Getter
 @Entity
 @Table(name = "riga_carrello")
 public class DefaultRigaCarrello {
@@ -36,24 +38,8 @@ public class DefaultRigaCarrello {
        this.quantita = quantita;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public DefaultCarrello getCarrello() {
-        return carrello;
-    }
-
     public void setCarrello(DefaultCarrello carrello) {
         this.carrello = carrello;
-    }
-
-    public ArticoloCatalogo getArticolo() {
-        return articolo;
-    }
-
-    public int getQuantita() {
-        return quantita;
     }
 
     public void setQuantita(int quantita) {

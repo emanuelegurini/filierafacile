@@ -2,11 +2,13 @@ package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.StatoValidazione;
 import com.filiera.facile.model.interfaces.Validabile;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Getter
 public class DefaultPraticaValidazione {
     private static final AtomicLong ID_GENERATOR = new AtomicLong(1);
 
@@ -30,51 +32,11 @@ public class DefaultPraticaValidazione {
         this.statoCorrente = StatoValidazione.IN_ATTESA_DI_APPROVAZIONE;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Validabile getContenutoSottomesso() {
-        return contenutoSottomesso;
-    }
-
-    public Long getRichiedenteId() {
-        return richiedenteId;
-    }
-
-    public LocalDateTime getDataCreazione() {
-        return dataCreazione;
-    }
-
-    public Long getCuratoreAssegnato() {
-        return curatoreAssegnato;
-    }
-
     public void assegnaCuratore(Long curatoreId) {
         this.curatoreAssegnato = Objects.requireNonNull(curatoreId, "L'ID del curatore non può essere null");
         this.dataAssegnazione = LocalDateTime.now();
         this.statoCorrente = StatoValidazione.IN_REVISIONE;
         this.contenutoSottomesso.setStatoValidazione(StatoValidazione.IN_REVISIONE);
-    }
-
-    public LocalDateTime getDataAssegnazione() {
-        return dataAssegnazione;
-    }
-
-    public LocalDateTime getDataCompletamento() {
-        return dataCompletamento;
-    }
-
-    public String getNoteValutazione() {
-        return noteValutazione;
-    }
-
-    public String getMotivazioneRifiuto() {
-        return motivazioneRifiuto;
-    }
-
-    public StatoValidazione getStatoCorrente() {
-        return statoCorrente;
     }
 
     public void approva(String noteValutazione) {

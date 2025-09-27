@@ -2,11 +2,15 @@ package com.filiera.facile.dto.response;
 
 import com.filiera.facile.entities.DefaultCarrello;
 import com.filiera.facile.entities.DefaultRigaCarrello;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Setter
+@Getter
 public class CarrelloResponse {
 
     private Long id;
@@ -29,18 +33,6 @@ public class CarrelloResponse {
                 .sum()
         );
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getUtenteId() { return utenteId; }
-    public void setUtenteId(Long utenteId) { this.utenteId = utenteId; }
-
-    public List<RigaCarrelloResponse> getRighe() { return righe; }
-    public void setRighe(List<RigaCarrelloResponse> righe) { this.righe = righe; }
-
-    public BigDecimal getTotaleComplessivo() { return totaleComplessivo; }
-    public void setTotaleComplessivo(BigDecimal totaleComplessivo) { this.totaleComplessivo = totaleComplessivo; }
 
     public static class RigaCarrelloResponse {
         private Long articoloId;

@@ -2,10 +2,12 @@ package com.filiera.facile.entities;
 
 import com.filiera.facile.model.enums.StatoBiglietto;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
 @Entity
 @Table(name = "biglietto")
 public class DefaultBiglietto {
@@ -42,13 +44,6 @@ public class DefaultBiglietto {
         this.prezzoPagato = evento.getCostoPartecipazione();
         this.stato = StatoBiglietto.VALIDO;
     }
-
-    public Long getId() { return id; }
-    public DefaultEvento getEvento() { return evento; }
-    public DefaultUtente getIntestatario() { return intestatario; }
-    public LocalDateTime getDataEmissione() { return dataEmissione; }
-    public double getPrezzoPagato() { return prezzoPagato; }
-    public StatoBiglietto getStato() { return stato; }
 
     public void setStato(StatoBiglietto stato) {
         this.stato = stato;

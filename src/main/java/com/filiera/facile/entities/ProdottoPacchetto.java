@@ -1,8 +1,11 @@
 package com.filiera.facile.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.Objects;
 
+@Getter
 @Entity
 @Table(name = "pacchetto_prodotti_inclusi")
 public class ProdottoPacchetto {
@@ -30,11 +33,6 @@ public class ProdottoPacchetto {
         this.articolo = Objects.requireNonNull(articolo);
         this.quantita = Objects.requireNonNull(quantita);
     }
-
-    public Long getId() { return id; }
-    public DefaultPacchettoProdotti getPacchetto() { return pacchetto; }
-    public ArticoloCatalogo getArticolo() { return articolo; }
-    public Integer getQuantita() { return quantita; }
 
     public void setQuantita(Integer quantita) {
         this.quantita = quantita;

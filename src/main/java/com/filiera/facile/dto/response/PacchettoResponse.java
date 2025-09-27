@@ -1,10 +1,14 @@
 package com.filiera.facile.dto.response;
 
 import com.filiera.facile.entities.DefaultPacchettoProdotti;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Setter
+@Getter
 public class PacchettoResponse {
 
     private Long id;
@@ -31,59 +35,4 @@ public class PacchettoResponse {
                 ));
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public Long getAziendaId() {
-        return aziendaId;
-    }
-
-    public void setAziendaId(Long aziendaId) {
-        this.aziendaId = aziendaId;
-    }
-
-    public String getNomeAzienda() {
-        return nomeAzienda;
-    }
-
-    public void setNomeAzienda(String nomeAzienda) {
-        this.nomeAzienda = nomeAzienda;
-    }
-
-    public BigDecimal getPrezzoTotale() {
-        return prezzoTotale;
-    }
-
-    public void setPrezzoTotale(BigDecimal prezzoTotale) {
-        this.prezzoTotale = prezzoTotale;
-    }
-
-    public Map<String, Integer> getProdottiInclusi() {
-        return prodottiInclusi;
-    }
-
-    public void setProdottiInclusi(Map<String, Integer> prodottiInclusi) {
-        this.prodottiInclusi = prodottiInclusi;
-    }
 }

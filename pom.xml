@@ -20,6 +20,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.args>--enable-native-access=ALL-UNNAMED</maven.compiler.args>
   </properties>
 
   <dependencyManagement>

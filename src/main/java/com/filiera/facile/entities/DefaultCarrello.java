@@ -2,10 +2,12 @@ package com.filiera.facile.entities;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "carrello")
 public class DefaultCarrello {
@@ -28,14 +30,6 @@ public class DefaultCarrello {
     public DefaultCarrello(Long utenteId) {
         this.utenteId = utenteId;
         this.righeLista = new ArrayList<>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getUtenteId() {
-        return this.utenteId;
     }
 
     public void aggiungiArticolo(ArticoloCatalogo articolo, int quantita) {
@@ -74,7 +68,4 @@ public class DefaultCarrello {
         righeLista.clear();
     }
 
-    public List<DefaultRigaCarrello> getRigheLista() {
-        return righeLista;
-    }
 }

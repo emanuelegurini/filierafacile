@@ -2,7 +2,11 @@ package com.filiera.facile.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class AggiungiAlCarrelloRequest {
 
     @NotNull(message = "L'ID dell'articolo è obbligatorio")
@@ -19,19 +23,4 @@ public class AggiungiAlCarrelloRequest {
         this.quantita = quantita;
     }
 
-    public Long getArticoloId() {
-        return articoloId;
-    }
-
-    public void setArticoloId(Long articoloId) {
-        this.articoloId = articoloId;
-    }
-
-    public Integer getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(Integer quantita) {
-        this.quantita = quantita;
-    }
 }

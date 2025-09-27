@@ -8,7 +8,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class CreaProdottoRequest {
 
     @NotBlank(message = "Il nome del prodotto è obbligatorio")
@@ -36,59 +40,4 @@ public class CreaProdottoRequest {
 
     public CreaProdottoRequest() {}
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public Double getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(Double prezzo) {
-        this.prezzo = prezzo;
-    }
-
-    public Long getAziendaId() {
-        return aziendaId;
-    }
-
-    public void setAziendaId(Long aziendaId) {
-        this.aziendaId = aziendaId;
-    }
-
-    public UnitaMisura getUnitaDiMisura() {
-        return unitaDiMisura;
-    }
-
-    public void setUnitaDiMisura(UnitaMisura unitaDiMisura) {
-        this.unitaDiMisura = unitaDiMisura;
-    }
-
-    public TipoProdotto getTipoProdotto() {
-        return tipoProdotto;
-    }
-
-    public void setTipoProdotto(TipoProdotto tipoProdotto) {
-        this.tipoProdotto = tipoProdotto;
-    }
-
-    public CategoriaProdotto getCategoriaProdotto() {
-        return categoriaProdotto;
-    }
-
-    public void setCategoriaProdotto(CategoriaProdotto categoriaProdotto) {
-        this.categoriaProdotto = categoriaProdotto;
-    }
 }

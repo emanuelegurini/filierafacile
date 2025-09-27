@@ -2,10 +2,14 @@ package com.filiera.facile.dto.response;
 
 import com.filiera.facile.entities.DefaultProdotto;
 import com.filiera.facile.model.enums.StatoValidazione;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class ProdottoResponse {
 
     private Long id;
@@ -31,67 +35,4 @@ public class ProdottoResponse {
         this.statoValidazione = prodotto.getStatoValidazione();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public BigDecimal getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(BigDecimal prezzo) {
-        this.prezzo = prezzo;
-    }
-
-    public Long getAziendaId() {
-        return aziendaId;
-    }
-
-    public void setAziendaId(Long aziendaId) {
-        this.aziendaId = aziendaId;
-    }
-
-    public String getNomeAzienda() {
-        return nomeAzienda;
-    }
-
-    public void setNomeAzienda(String nomeAzienda) {
-        this.nomeAzienda = nomeAzienda;
-    }
-
-    public LocalDateTime getDataCreazione() {
-        return dataCreazione;
-    }
-
-    public void setDataCreazione(LocalDateTime dataCreazione) {
-        this.dataCreazione = dataCreazione;
-    }
-
-    public StatoValidazione getStatoValidazione() {
-        return statoValidazione;
-    }
-
-    public void setStatoValidazione(StatoValidazione statoValidazione) {
-        this.statoValidazione = statoValidazione;
-    }
 }

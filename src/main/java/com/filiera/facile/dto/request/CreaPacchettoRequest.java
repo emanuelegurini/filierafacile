@@ -1,7 +1,11 @@
 package com.filiera.facile.dto.request;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class CreaPacchettoRequest {
 
     @NotNull(message = "L'ID utente è obbligatorio")
@@ -28,35 +32,4 @@ public class CreaPacchettoRequest {
         this.descrizione = descrizione;
     }
 
-    public Long getUtenteId() {
-        return utenteId;
-    }
-
-    public void setUtenteId(Long utenteId) {
-        this.utenteId = utenteId;
-    }
-
-    public Long getAziendaId() {
-        return aziendaId;
-    }
-
-    public void setAziendaId(Long aziendaId) {
-        this.aziendaId = aziendaId;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
 }

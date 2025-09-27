@@ -4,8 +4,13 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class CreaEventoRequest {
 
     @NotBlank(message = "Il nome dell'evento è obbligatorio")
@@ -38,43 +43,4 @@ public class CreaEventoRequest {
         this.luogo = luogo;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public LocalDateTime getDataInizio() {
-        return dataInizio;
-    }
-
-    public void setDataInizio(LocalDateTime dataInizio) {
-        this.dataInizio = dataInizio;
-    }
-
-    public LocalDateTime getDataFine() {
-        return dataFine;
-    }
-
-    public void setDataFine(LocalDateTime dataFine) {
-        this.dataFine = dataFine;
-    }
-
-    public String getLuogo() {
-        return luogo;
-    }
-
-    public void setLuogo(String luogo) {
-        this.luogo = luogo;
-    }
 }

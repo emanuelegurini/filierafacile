@@ -2,7 +2,11 @@ package com.filiera.facile.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class ValutaPraticaRequest {
 
     @NotBlank(message = "Le note di valutazione sono obbligatorie")
@@ -15,11 +19,4 @@ public class ValutaPraticaRequest {
         this.note = note;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 }
