@@ -16,7 +16,7 @@ public record CreazioneProdottoDTO(
         CategoriaProdotto categoria,
         TipoProdotto tipoProdotto,
 
-        MetodoColtivazione metodoColtivazione, // Solo per MATERIA_PRIMA
-        String metodoTrasformazione,          // Solo per TRASFORMATO
-        List<UUID> ingredientiIds             // Solo per TRASFORMATO
+        MetodoColtivazione metodoColtivazione,
+        String metodoTrasformazione,
+        List<UUID> ingredientiIds
 ) {}

@@ -146,9 +146,6 @@ public class PacchettoProdottiController {
         return ResponseEntity.ok(pacchetti);
     }
 
-    // TODO: implementare l'endpoint per ottenere tutti pacchetti in base all'azienda
-    // @GetMapping("/azienda/{aziendaId}")
-
     @DeleteMapping("/{id}")
     @Operation(summary = "Elimina pacchetto", description = "Elimina un pacchetto dal sistema")
     @ApiResponses(value = {

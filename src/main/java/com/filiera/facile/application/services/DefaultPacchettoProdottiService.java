@@ -81,17 +81,6 @@ public class DefaultPacchettoProdottiService {
             );
         }
 
-        // Temporary: disable stock check for testing
-        // if (azienda.getDisponibilita(prodottoDaAggiungere) < quantita) {
-        //     throw new ScorteInsufficientiException(
-        //             "Scorte insufficienti per il prodotto '" + prodottoDaAggiungere.getNomeArticolo() +
-        //                     "'. Richiesti: " + quantita + ", Disponibili: " + azienda.getDisponibilita(prodottoDaAggiungere)
-        //     );
-        // }
-
-        // Temporary: disable stock removal for testing
-        // azienda.rimuoviScorte(prodottoDaAggiungere, quantita);
-
         pacchetto.aggiungiProdotto(prodottoDaAggiungere, quantita);
 
         aziendaRepository.save(azienda);

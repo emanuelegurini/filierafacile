@@ -48,14 +48,11 @@ public class EventoController {
             @RequestParam @Parameter(description = "ID dell'organizzatore dell'evento") Long organizzatoreId) {
 
         try {
-            // Load the organizer from the database
             DefaultUtente organizzatore = utenteRepository.findById(organizzatoreId)
                     .orElseThrow(() -> new RuntimeException("Utente organizzatore non trovato"));
 
-            // Create coordinates (using default values for testing)
             DefaultCoordinate coordinate = new DefaultCoordinate(45.4642f, 9.1900f); // Milano coordinates as default
 
-            // Create the event
             DefaultEvento nuovoEvento = new DefaultEvento(
                     request.getNome(),
                     request.getDescrizione(),
@@ -66,7 +63,6 @@ public class EventoController {
                     coordinate
             );
 
-            // Save using the service
             DefaultEvento eventoSalvato = eventoService.creaNuovoEvento(organizzatoreId, nuovoEvento);
 
             return ResponseEntity.ok(new EventoResponse(eventoSalvato));
@@ -143,9 +139,6 @@ public class EventoController {
                 .collect(java.util.stream.Collectors.toList());
         return ResponseEntity.ok(eventiResponse);
     }
-
-    // TODO: implementare il controller per prendere tutti gli eventi di un determinato organizzatore
-    // @GetMapping("/organizzatore/{organizzatoreId}")
 
     @PutMapping("/{id}")
     public ResponseEntity<EventoResponse> aggiornaEvento(

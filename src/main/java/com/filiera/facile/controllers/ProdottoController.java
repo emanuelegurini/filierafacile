@@ -111,7 +111,4 @@ public class ProdottoController {
             throw new RuntimeException("Errore durante l'eliminazione del prodotto: " + e.getMessage());
         }
     }
-
-    // TODO: Endpoint per tipo prodotto - dipende da repository method non implementato
-    // @GetMapping("/tipo/{tipo}")
 }

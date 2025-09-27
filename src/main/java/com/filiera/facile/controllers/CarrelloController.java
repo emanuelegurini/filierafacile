@@ -60,12 +60,6 @@ public class CarrelloController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: Endpoint totale carrello - dipende da calcolaTotale() non implementato
-    // @GetMapping("/{utenteId}/totale")
-
-    // TODO: Endpoint righe carrello - dipende da getRighe().stream() non implementato
-    // @GetMapping("/{utenteId}/righe")
-
     @PutMapping("/{utenteId}/articoli/{articoloId}")
     public ResponseEntity<Void> aggiornaQuantita(
             @PathVariable Long utenteId,
@@ -82,15 +76,10 @@ public class CarrelloController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: Endpoint count articoli - dipende da getRighe().stream() non implementato
-    // @GetMapping("/{utenteId}/count")
 
     @GetMapping
     public ResponseEntity<List<DefaultCarrello>> getAllCarrelli() {
         List<DefaultCarrello> carrelli = carrelloRepository.findAll();
         return ResponseEntity.ok(carrelli);
     }
-
-    // TODO: Endpoint checkout - dipende da calcolaTotale() non implementato
-    // @PostMapping("/{utenteId}/checkout")
 }

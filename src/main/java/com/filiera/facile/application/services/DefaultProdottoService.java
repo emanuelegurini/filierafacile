@@ -50,7 +50,6 @@ public class DefaultProdottoService implements ProdottoService {
 
         prodottoRepository.save(prodotto);
 
-        // Sottometti automaticamente il prodotto per validazione
         Long praticaId = validazioneService.sottomettiPerValidazione(prodotto, idUtente);
         System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
         System.out.println("INFO: Prodotto sottomesso per validazione con ID pratica: " + praticaId);
@@ -58,7 +57,6 @@ public class DefaultProdottoService implements ProdottoService {
         return prodotto;
     }
 
-    // Metodo semplificato per creare prodotti senza autenticazione
     public DefaultProdotto creaNuovoProdotto(
             Long idAzienda,
             com.filiera.facile.dto.request.CreaProdottoRequest request
@@ -66,21 +64,18 @@ public class DefaultProdottoService implements ProdottoService {
 
         DefaultAzienda azienda = aziendaRepository.findById(idAzienda).orElseThrow(() -> new RuntimeException("Azienda non trovata"));
 
-        // Crea il prodotto con l'azienda corretta
         DefaultProdotto prodotto = new DefaultProdotto(
                 request.getNome(),
                 request.getDescrizione(),
                 request.getPrezzo(),
                 request.getUnitaDiMisura(),
-                azienda, // Ora l'azienda è correttamente assegnata
+                azienda,
                 request.getTipoProdotto(),
                 request.getCategoriaProdotto()
         );
 
         prodottoRepository.save(prodotto);
 
-        // Sottometti automaticamente il prodotto per validazione
-        // Usa l'ID dell'azienda come richiedente per ora (TODO: migliorare con utente reale)
         Long praticaId = validazioneService.sottomettiPerValidazione(prodotto, idAzienda);
         System.out.println("INFO: Creato nuovo prodotto '" + prodotto.getNomeArticolo() + "' per azienda " + azienda.getRagioneSociale());
         System.out.println("INFO: Prodotto sottomesso per validazione con ID pratica: " + praticaId);
@@ -89,10 +84,6 @@ public class DefaultProdottoService implements ProdottoService {
     }
 
 
-    /*
-     * Questa funzione verifica se l'utente ha effettivamente i permessi per creare un prodotto.
-     * Solo gli ADMIN e i GESTORE_PRODOTTI di un azienda possono creare prodotti.
-     */
     private void verificaPermessoCreazione(DefaultUtente utente, DefaultAzienda azienda) {
         boolean haPermesso = utente.getAffiliazioni().stream()
                 .anyMatch(aff ->

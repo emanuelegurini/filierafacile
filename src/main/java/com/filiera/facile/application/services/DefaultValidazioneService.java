@@ -61,7 +61,6 @@ public class DefaultValidazioneService implements ValidazioneService {
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.approva(noteValutazione);
 
-        // Salva il prodotto nel database dopo l'aggiornamento dello stato
         if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
             prodottoRepository.save(prodotto);
         }
@@ -77,7 +76,6 @@ public class DefaultValidazioneService implements ValidazioneService {
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.respingi(motivazioneRifiuto);
 
-        // Salva il prodotto nel database dopo l'aggiornamento dello stato
         if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
             prodottoRepository.save(prodotto);
         }
@@ -93,7 +91,6 @@ public class DefaultValidazioneService implements ValidazioneService {
         StatoValidazione vecchioStato = pratica.getStatoCorrente();
         pratica.richiedeModifiche(noteModifiche);
 
-        // Salva il prodotto nel database dopo l'aggiornamento dello stato
         if (pratica.getContenutoSottomesso() instanceof DefaultProdotto prodotto) {
             prodottoRepository.save(prodotto);
         }

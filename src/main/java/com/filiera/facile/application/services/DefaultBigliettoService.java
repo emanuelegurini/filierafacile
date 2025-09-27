@@ -32,23 +32,19 @@ public class DefaultBigliettoService implements BigliettoService {
 
     @Override
     public DefaultBiglietto acquistaBiglietto(Long utenteId, Long eventoId) {
-        // 1. Recupera le entità necessarie dai repository
         DefaultUtente utente = utenteRepository.findById(utenteId)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + utenteId));
         DefaultEvento evento = eventoRepository.findById(eventoId)
                 .orElseThrow(() -> new RuntimeException("Evento non trovato con ID: " + eventoId));
 
-        // 2. Logica di business: controlla la disponibilità dei posti
         int postiDisponibili = evento.getPostiDisponibili();
         if (postiDisponibili > 0) { // Un valore > 0 indica posti limitati
-            // Chiediamo al repository quanti biglietti sono già stati emessi per questo evento
             List<DefaultBiglietto> bigliettiEmessi = bigliettoRepository.findByEventoId(eventoId);
             if (bigliettiEmessi.size() >= postiDisponibili) {
                 throw new RuntimeException("L'evento è al completo. Non ci sono più posti disponibili.");
             }
         }
 
-        // 3. Se tutti i controlli passano, crea e salva il nuovo biglietto
         DefaultBiglietto nuovoBiglietto = new DefaultBiglietto(evento, utente);
         bigliettoRepository.save(nuovoBiglietto);
 
@@ -61,17 +57,14 @@ public class DefaultBigliettoService implements BigliettoService {
         DefaultBiglietto biglietto = bigliettoRepository.findById(bigliettoId)
                 .orElseThrow(() -> new RuntimeException("Biglietto non trovato con ID: " + bigliettoId));
 
-        // Modifica lo stato dell'entità
         biglietto.setStato(StatoBiglietto.ANNULLATO);
 
-        // Salva l'entità aggiornata
         bigliettoRepository.save(biglietto);
         System.out.println("INFO: Annullato biglietto " + bigliettoId);
     }
 
     @Override
     public List<DefaultBiglietto> trovaBigliettiPerEvento(Long eventoId) {
-        // Delega la logica di ricerca al repository, come da nostro design
         return bigliettoRepository.findByEventoId(eventoId);
     }
 }
