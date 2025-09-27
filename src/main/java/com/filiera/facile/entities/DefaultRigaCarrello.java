@@ -1,6 +1,7 @@
 package com.filiera.facile.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class DefaultRigaCarrello {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carrello_id", nullable = false)
+    @JsonBackReference
     private DefaultCarrello carrello;
 
     @ManyToOne(fetch = FetchType.LAZY)

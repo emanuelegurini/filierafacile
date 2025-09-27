@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/carrelli")
@@ -78,8 +79,11 @@ public class CarrelloController {
 
 
     @GetMapping
-    public ResponseEntity<List<DefaultCarrello>> getAllCarrelli() {
+    public ResponseEntity<List<CarrelloResponse>> getAllCarrelli() {
         List<DefaultCarrello> carrelli = carrelloRepository.findAll();
-        return ResponseEntity.ok(carrelli);
+        List<CarrelloResponse> carrelliResponse = carrelli.stream()
+                .map(CarrelloResponse::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(carrelliResponse);
     }
 }

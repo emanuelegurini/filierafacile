@@ -1,6 +1,7 @@
 package com.filiera.facile.entities;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class DefaultCarrello {
     private Long utenteId;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "carrello", orphanRemoval = true)
+    @JsonManagedReference
     public List<DefaultRigaCarrello> righeLista;
 
     public DefaultCarrello() {
