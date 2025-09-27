@@ -8,8 +8,6 @@ A Spring Boot application for supply chain management.
 - Maven 3.6+
 - MySQL 8.0+
 
-..
-
 ## Environment Variables
 
 Set the following environment variables:
