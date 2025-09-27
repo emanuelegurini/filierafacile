@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,9 @@ public class ValidazioneController {
                      .orElse(ResponseEntity.notFound().build());
     }
 
+    // TODO: Creare PraticaValidazioneResponse DTO per evitare lazy loading e migliorare performance
     @GetMapping("/curatori/{curatoreId}/pratiche")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<DefaultPraticaValidazione>> getPratichePerCuratore(
             @PathVariable Long curatoreId) {
         List<DefaultPraticaValidazione> pratiche = validazioneService.getPratichePerCuratore(curatoreId);
