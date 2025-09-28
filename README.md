@@ -148,9 +148,3 @@ Una volta che l'applicazione è in esecuzione, puoi accedere a:
 - `GET /api/carrelli/{utenteId}` - Ottieni carrello per utente specifico
 - `GET /api/eventi` - Ottieni tutti gli eventi
 - `GET /api/biglietti` - Ottieni tutti i biglietti
-
-## Test
-
-```bash
-mvn test
-```
