@@ -37,3 +37,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Application Configuration ###
+# Keep only example configuration, exclude real config with sensitive data
+src/main/resources/application.yaml
+src/main/resources/application.yml

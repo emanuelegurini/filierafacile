@@ -1,58 +1,79 @@
 # Filiera Facile
 
-A Spring Boot application for supply chain management.
+Applicazione Spring Boot per la gestione della filiera con migrazioni automatiche del database e API RESTful.
 
-## Prerequisites
+## Avvio Rapido
 
-- Java 21 or higher
-- Maven 3.6+
-- MySQL 8.0+ (see Database Setup section for installation instructions)
+### Prerequisiti
 
-## Environment Variables
+- **Java 21** o superiore
+- **Maven 3.6+**
+- **MySQL 8.0+** (vedi [Configurazione Database](#configurazione-database) per l'installazione)
 
-Set the following environment variables:
+### Configurazione Iniziale
+
+1. **Clona il repository**
+   ```bash
+   git clone <repository-url>
+   cd filierafacile
+   ```
+
+2. **Configura l'applicazione**
+   ```bash
+   # Copia la configurazione di esempio
+   cp src/main/resources/application-example.yaml src/main/resources/application.yaml
+   ```
+
+3. **Modifica la tua configurazione**
+   Apri `src/main/resources/application.yaml` e personalizza:
+   ```yaml
+   datasource:
+     url: jdbc:mysql://localhost:3306/YOUR_DATABASE_NAME?createDatabaseIfNotExist=true
+     username: YOUR_DB_USERNAME
+     password: YOUR_DB_PASSWORD
+   ```
+
+4. **Compila ed esegui**
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+L'applicazione si avvierà su `http://localhost:8081` con il database creato automaticamente e popolato con dati di esempio.
+
+## Configurazione Avanzata
+
+### Variabili d'Ambiente (Alternativa al file di configurazione)
+
+Invece di modificare `application.yaml`, puoi impostare variabili d'ambiente:
 
 ```bash
-export DB_PASSWORD=your_database_password
-export DB_USERNAME=root  # optional, defaults to root
-export DB_URL=jdbc:mysql://localhost:3306/filierafacile?createDatabaseIfNotExist=true  # optional
-```
+export DB_URL="jdbc:mysql://localhost:3306/your_db_name?createDatabaseIfNotExist=true"
+export DB_USERNAME="your_username"
+export DB_PASSWORD="your_password"
 
-## Installation
-
-```bash
-git clone <repository-url>
-cd filierafacile
-mvn clean install
-```
-
-## Running the Application
-
-### Development
-
-```bash
 mvn spring-boot:run
 ```
 
-### Production
+### Deployment in Produzione
 
 ```bash
+# Compila il JAR
+mvn clean package
+
+# Esegui in produzione
 java -jar target/filierafacile-*.jar
 ```
 
-### With custom environment variables
+### Sicurezza della Configurazione
 
-```bash
-DB_PASSWORD=yourpass mvn spring-boot:run
-```
+**Importante**: Il file `application.yaml` è ignorato da Git per proteggere i dati sensibili. Usa sempre il file di esempio come template.
 
-The application will start on `http://localhost:8081`
+## Configurazione Database
 
-## Database Setup
+### Installazione MySQL Server
 
-### Installing MySQL Server
-
-#### macOS (using Homebrew)
+#### macOS (usando Homebrew)
 ```bash
 brew install mysql
 brew services start mysql
@@ -67,52 +88,68 @@ sudo systemctl enable mysql
 ```
 
 #### Windows
-Download and install MySQL Server from [MySQL Downloads](https://dev.mysql.com/downloads/mysql/)
+Scarica e installa MySQL Server da [MySQL Downloads](https://dev.mysql.com/downloads/mysql/)
 
-### Database Configuration
+### Configurazione Database
 
-1. **Create a MySQL user** (optional, you can use root):
+1. **Crea un utente MySQL** (raccomandato):
 ```bash
 mysql -u root -p
-CREATE USER 'filiera_user'@'localhost' IDENTIFIED BY 'your_password';
-GRANT ALL PRIVILEGES ON filierafacile_db.* TO 'filiera_user'@'localhost';
+CREATE USER 'filiera_user'@'localhost' IDENTIFIED BY 'your_secure_password';
+GRANT ALL PRIVILEGES ON your_database_name.* TO 'filiera_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
 
-2. **Set the database password**:
-The application expects the password `Lmlyraa200kh!` by default, or set your own via environment variables.
+2. **Il database verrà creato automaticamente** quando esegui l'applicazione per la prima volta.
 
-### Database Migrations
+## Migrazioni Database
 
-The application uses **Flyway** for database migrations. Migrations run automatically on startup:
+Questa applicazione usa **Flyway** per la gestione automatica dello schema del database:
 
-- **Automatic Migration**: When you start the application, all migrations in `src/main/resources/db/migration/` are executed automatically
-- **Migration Files**: V1 through V13 create tables and insert sample data
-- **Clean Database**: If you need to reset, drop the database and restart the application
+### Cosa succede automaticamente:
+- **Creazione Database**: Il database specificato viene creato se non esiste
+- **Migrazione Schema**: Tutti i 13 file di migrazione (V1-V13) vengono eseguiti in sequenza
+- **Dati di Esempio**: I dati di test vengono caricati automaticamente per lo sviluppo
 
-#### Sample Data Included
-- Users, companies, and products
-- Sample events, shopping carts, and tickets
-- Ready-to-test data for API endpoints
+### File di Migrazione:
+- `V1__Create_base_tables.sql` - Tabelle principali (utenti, aziende, prodotti)
+- `V2__Create_additional_tables.sql` - Tabelle di supporto (carrelli, eventi)
+- `V3-V13__*` - Correzioni dati, dati di esempio e miglioramenti
 
-The database `filierafacile_db` will be created automatically if it doesn't exist.
+### Reset Database:
+Se devi resettare il database:
+```bash
+# Opzione 1: Elimina e ricrea il database
+mysql -u root -p -e "DROP DATABASE IF EXISTS your_database_name;"
+mvn spring-boot:run  # Ricreerà tutto
 
-## API Documentation
+# Opzione 2: Usa Flyway clean (se necessario)
+mvn flyway:clean flyway:migrate
+```
 
-Once the application is running, you can access:
+### Dati di Esempio Inclusi:
+- **Utenti**: Utenti di test con ruoli diversi
+- **Aziende**: Aziende di esempio della filiera
+- **Prodotti**: Vari prodotti alimentari con categorie
+- **Eventi**: Eventi e attività della filiera
+- **Carrelli e Biglietti**: Dati di transazione pronti per il test
+
+## Documentazione API
+
+Una volta che l'applicazione è in esecuzione, puoi accedere a:
 
 - **Swagger UI**: `http://localhost:8081/swagger-ui.html`
-- **API Docs**: `http://localhost:8081/api-docs`
+- **Documentazione API**: `http://localhost:8081/api-docs`
 
-### Sample API Endpoints
+### Endpoint API di Esempio
 
-- `GET /api/carrelli` - Get all shopping carts
-- `GET /api/carrelli/{utenteId}` - Get cart for specific user
-- `GET /api/eventi` - Get all events
-- `GET /api/biglietti` - Get all tickets
+- `GET /api/carrelli` - Ottieni tutti i carrelli
+- `GET /api/carrelli/{utenteId}` - Ottieni carrello per utente specifico
+- `GET /api/eventi` - Ottieni tutti gli eventi
+- `GET /api/biglietti` - Ottieni tutti i biglietti
 
-## Testing
+## Test
 
 ```bash
 mvn test
